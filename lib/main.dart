@@ -15,8 +15,8 @@ import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/left_menu_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/ing/file_picker_cross_test.dart';
+import 'package:wgs_viewer/ing/list_test.dart';
 import 'package:wgs_viewer/model/checkbox_model.dart';
-import 'package:wgs_viewer/view/widget/checkbox_list_widget.dart';
 import 'package:wgs_viewer/view/widget/time_select_widget.dart';
 import 'package:wgs_viewer/view/widget/window_btns_widget.dart';
 
@@ -27,6 +27,7 @@ void main() {
   Get.put(TimeSelectCtrl());
   Get.put(ChartCtrl());
   Get.put(CheckBoxCtrl());
+  Get.put(ListCtrl());
   runApp(MyApp());
   doWhenWindowReady(() {
     final win = appWindow;
@@ -587,19 +588,10 @@ class _MyAppState extends State<MyApp> {
                                 //파일 셀렉트하면 파일 나타나는 구간.
                                 Expanded(
                                     flex: 3,
-                                    child: Obx(
-                                      () =>
-                                          FilePickerCtrl.to.selectedFileNum > 0
-                                              ? FileList()
-                                              : const Center(
-                                                  child: Text(
-                                                    'No Files',
-                                                    style: TextStyle(
-                                                      color: Colors.red,
-                                                    ),
-                                                  ),
-                                                ),
-                                    )),
+                                    child:
+
+                                        // FileList()
+                                        ListTest()),
                                 Expanded(
                                   flex: 1,
                                   child: Padding(
@@ -611,9 +603,10 @@ class _MyAppState extends State<MyApp> {
                                             style: ElevatedButton.styleFrom(
                                                 primary:
                                                     const Color(0xff5AEDCA)),
-                                            onPressed: () {
-                                              print('데이터를 차트로 보내기');
-                                              // CheckBoxCtrl.to.updateFileList();
+                                            onPressed: () async {
+                                              // print('데이터를 차트로 보내기');
+                                              await CheckBoxCtrl.to
+                                                  .updateFileList();
                                             },
                                             child: const Text(
                                               'File load',

@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
-import 'package:wgs_viewer/main.dart';
 import 'package:wgs_viewer/model/checkbox_model.dart';
 
 class CheckBoxCtrl extends GetxController {
@@ -26,12 +25,12 @@ class CheckBoxCtrl extends GetxController {
   }
 
   //
-  // updateFileList() {
-  //   for (var i = 0; i < FilePickerCtrl.to.selectedFileNum.value; i++) {
-  //     fileList[1].add(FilePickerCtrl.to.selectedFileName.value);
-  //   }
-  //   print('\nfile list : \n$fileList');
-  // }
+  updateFileList() {
+    for (var i = 0; i < FilePickerCtrl.to.selectedFileName.length; i++) {
+      fileList[i].add(FilePickerCtrl.to.selectedFileName);
+      print('\nfile list : \n$fileList');
+    }
+  }
 
   onAllClicked(CheckBoxModel ckbItem) {
     final newValue = !ckbItem.value;

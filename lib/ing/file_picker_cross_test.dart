@@ -19,7 +19,7 @@ class _FileSelectBtnState extends State<FileSelectBtn> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(primary: const Color(0xffFF9110)),
-      onPressed: FilePickerCtrl.to.uploadFile,
+      onPressed: FilePickerCtrl.to.selectedFileFunc,
       child: Text('File Select'),
     );
   }
