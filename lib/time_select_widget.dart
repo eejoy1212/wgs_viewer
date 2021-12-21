@@ -1,32 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wgs_viewer/checkbox_list_test.dart';
-
-class TimeSelectCtrl extends GetxController {
-  static TimeSelectCtrl get to => Get.find();
-  double firstTimeVal = 0.0;
-  double secondTimeVal = 0.0;
-  void firstIncrease() {
-    firstTimeVal++;
-    update();
-  }
-
-  void firstDecrease() {
-    firstTimeVal--;
-    update();
-  }
-
-  void secondIncrease() {
-    secondTimeVal++;
-    update();
-  }
-
-  void secondDecrease() {
-    secondTimeVal--;
-    update();
-  }
-}
+import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 
 class TimeSelectTxtForm extends StatelessWidget {
   const TimeSelectTxtForm({Key? key}) : super(key: key);
@@ -121,6 +96,9 @@ class TimeSelectTxtForm extends StatelessWidget {
                         Icons.arrow_forward_ios,
                         color: Colors.blueGrey,
                       ),
+                      onLongPress: () {
+                        Get.find<TimeSelectCtrl>().secondIncrease();
+                      },
                       onTap: () {
                         Get.find<TimeSelectCtrl>().secondIncrease();
                       },

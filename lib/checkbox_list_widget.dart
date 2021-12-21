@@ -85,7 +85,8 @@
 // }
 
 import 'package:flutter/material.dart';
-import 'package:wgs_viewer/model/all_checkbox_model.dart';
+import 'package:get/get.dart';
+import 'package:wgs_viewer/model/checkbox_model.dart';
 
 class FileList extends StatefulWidget {
   @override
@@ -114,6 +115,7 @@ class _FileListState extends State<FileList> {
             children: [
               Text(allChecked.title),
               Checkbox(
+                checkColor: Colors.black,
                 value: allChecked.value,
                 onChanged: (value) => onAllClicked(allChecked),
               ),
@@ -128,6 +130,7 @@ class _FileListState extends State<FileList> {
                 horizontalTitleGap: 600,
                 onTap: () => onItemClicked(item),
                 title: Checkbox(
+                  checkColor: Colors.black,
                   value: item.value,
                   onChanged: (value) => onItemClicked(item),
                 ),

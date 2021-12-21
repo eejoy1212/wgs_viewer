@@ -34,22 +34,13 @@ class MyPage extends StatelessWidget {
         separatorSize: 4,
         onResized: _printResizeInfo,
         children: [
-          Container(color: Colors.pink),
+          Container(color: Colors.black),
           ResizableWidget(
             isHorizontalSeparator: true,
             separatorColor: Colors.blue,
             separatorSize: 10,
             children: [
               Container(color: Colors.greenAccent),
-              ResizableWidget(
-                children: [
-                  Container(color: Colors.greenAccent),
-                  Container(color: Colors.yellowAccent),
-                  Container(color: Colors.redAccent),
-                ],
-                percentages: const [0.2, 0.5, 0.3],
-              ),
-              Container(color: Colors.redAccent),
             ],
           ),
           Container(color: Colors.redAccent),
