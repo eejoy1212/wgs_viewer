@@ -86,21 +86,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wgs_viewer/controller/check_box_ctrl.dart';
+import 'package:wgs_viewer/main.dart';
 import 'package:wgs_viewer/model/checkbox_model.dart';
 
-class FileList extends StatefulWidget {
-  @override
-  State<FileList> createState() => _FileListState();
-}
-
-class _FileListState extends State<FileList> {
+class FileList extends StatelessWidget {
   final allChecked = CheckBoxModel(title: 'All Select : ');
 
-  final checkboxList = [
-    CheckBoxModel(title: 'File 1'),
-    CheckBoxModel(title: 'File 2'),
-    CheckBoxModel(title: 'File 3'),
-  ];
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -109,11 +101,16 @@ class _FileListState extends State<FileList> {
 
       children: [
         ListTile(
-          horizontalTitleGap: 600,
+          horizontalTitleGap: 200,
           onTap: () => onAllClicked(allChecked),
           title: Row(
             children: [
-              Text(allChecked.title),
+              Text(
+                allChecked.title,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               Checkbox(
                 checkColor: Colors.black,
                 value: allChecked.value,
@@ -121,27 +118,46 @@ class _FileListState extends State<FileList> {
               ),
             ],
           ),
-          leading: Text('file name'),
+          leading: Text(
+            'File name',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
         Divider(),
-        ...checkboxList
-            .map(
-              (item) => ListTile(
+        ...CheckBoxCtrl.to.checkboxList
+            .map((item) => Obx(() => ListTile(
                 horizontalTitleGap: 600,
-                onTap: () => onItemClicked(item),
+                onTap: () {
+                  CheckBoxCtrl.to.isChecked.value =
+                      !CheckBoxCtrl.to.isChecked.value;
+                },
                 title: Checkbox(
                   checkColor: Colors.black,
-                  value: item.value,
-                  onChanged: (value) => onItemClicked(item),
+                  value: CheckBoxCtrl.to.isChecked.value,
+                  onChanged: (value) {
+                    CheckBoxCtrl.to.isChecked.value =
+                        !CheckBoxCtrl.to.isChecked.value;
+                  },
                 ),
-                leading: Text(item.title),
-              ),
-            )
+                leading: Text(item.title))))
             .toList()
       ],
     );
   }
 
+  onAllClicked(CheckBoxModel ckbItem) {
+    final newValue = !ckbItem.value;
+    // setState(() {
+    //   ckbItem.value = newValue;
+    //   checkboxList.forEach((element) {
+    //     element.value = newValue;
+    //   });
+    // });
+  }
+
+  /*원래거 밑에
   onAllClicked(CheckBoxModel ckbItem) {
     final newValue = !ckbItem.value;
     setState(() {
@@ -153,8 +169,11 @@ class _FileListState extends State<FileList> {
   }
 
   onItemClicked(CheckBoxModel ckbItem) {
-    setState(() {
-      ckbItem.value = !ckbItem.value;
-    });
-  }
+    CheckBoxCtrl.to.isChecked.value = !ckbItem.value;
+    print('체크박스 상태 : ${CheckBoxCtrl.to.isChecked.value}');
+    // setState(() {
+    //   ckbItem.value = !ckbItem.value;
+    //   print('뭐지?? : ${ckbItem.value}');
+    // });
+  }*/
 }

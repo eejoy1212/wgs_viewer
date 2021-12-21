@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 class CheckBoxModel {
   String title;
   bool value;
