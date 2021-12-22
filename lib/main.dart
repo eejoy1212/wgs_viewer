@@ -8,12 +8,14 @@ import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:resizable_widget/resizable_widget.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
+import 'package:translator/translator.dart';
 import 'package:wgs_viewer/controller/chart_ctrl.dart';
 import 'package:wgs_viewer/controller/check_box_ctrl.dart';
 import 'package:wgs_viewer/controller/dark_mode_ctrl.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/left_menu_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
+import 'package:wgs_viewer/controller/translator_ctrl.dart';
 import 'package:wgs_viewer/file_select_dropdown_widget.dart';
 import 'package:wgs_viewer/view/widget/file_list_data_widget.dart';
 import 'package:wgs_viewer/model/checkbox_model.dart';
@@ -30,6 +32,7 @@ void main() {
   Get.put(TimeSelectCtrl());
   Get.put(ChartCtrl());
   Get.put(CheckboxCtrl());
+  Get.put(TranslatorCtrl());
   runApp(
     MyApp(),
   );
@@ -226,6 +229,16 @@ class mainScreen extends StatelessWidget {
                     ],
                   ),
                 ),
+                ElevatedButton(
+                  onPressed: () async {
+                    TranslatorCtrl.to.input.value = '나는 이원희고 26살임.';
+                    TranslatorCtrl.to.korToEn();
+                  },
+                  child: Text('Translator'),
+                ),
+                Obx(() {
+                  return Text('${TranslatorCtrl.to.korToEn()}');
+                }),
                 Padding(
                   padding: const EdgeInsets.only(top: 15),
                   child: Row(
