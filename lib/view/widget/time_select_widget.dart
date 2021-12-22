@@ -9,149 +9,144 @@ class TimeSelectTxtForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
-      child: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+    return Column(
+      children: [
+        Column(
           children: [
-            Column(
+            Row(
               children: [
+                DottedBorder(
+                    color: Colors.blueGrey, child: const Text('First Time : ')),
+                const SizedBox(width: 20),
+                InkWell(
+                  child: const Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.blueGrey,
+                  ),
+                  onTap: () {
+                    Get.find<TimeSelectCtrl>().firstDecrease();
+                  },
+                ),
+                GetBuilder<TimeSelectCtrl>(builder: (controller) {
+                  return Text('${controller.firstTimeVal}');
+                }),
+                InkWell(
+                  child: const Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.blueGrey,
+                  ),
+                  onTap: () {
+                    Get.find<TimeSelectCtrl>().firstIncrease();
+                  },
+                ),
+                const Spacer(),
                 Row(
                   children: [
-                    DottedBorder(
-                        color: Colors.blueGrey, child: Text('First Time : ')),
-                    SizedBox(width: 20),
-                    InkWell(
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.blueGrey,
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: const Color(0xff5AEDCA),
                       ),
-                      onTap: () {
-                        Get.find<TimeSelectCtrl>().firstDecrease();
-                      },
-                    ),
-                    GetBuilder<TimeSelectCtrl>(builder: (controller) {
-                      return Text('${controller.firstTimeVal}');
-                    }),
-                    InkWell(
-                      child: Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.blueGrey,
+                      onPressed: () {},
+                      child: const Text(
+                        'File load',
+                        style: const TextStyle(
+                            color: Colors.blueGrey,
+                            fontWeight: FontWeight.bold),
                       ),
-                      onTap: () {
-                        Get.find<TimeSelectCtrl>().firstIncrease();
-                      },
                     ),
-                    Spacer(),
-                    Row(
-                      children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Color(0xff5AEDCA),
-                          ),
-                          onPressed: () {},
-                          child: Text(
-                            'File load',
-                            style: TextStyle(
-                                color: Colors.blueGrey,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Color(0xffD83737),
-                          ),
-                          onPressed: () {},
-                          child: Text(
-                            'File Delete',
-                          ),
-                        )
-                      ],
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: const Color(0xffD83737),
+                      ),
+                      onPressed: () {},
+                      child: const Text(
+                        'File Delete',
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+            FileSelectDropDown()
+          ],
+        ),
+        const SizedBox(
+          height: 160,
+        ),
+        ///////////second Time
+
+        Column(
+          children: [
+            Row(
+              children: [
+                DottedBorder(
+                    color: Colors.blueGrey,
+                    child: const Text('Second Time : ')),
+                const SizedBox(width: 20),
+                InkWell(
+                  child: const Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.blueGrey,
+                  ),
+                  onTap: () {
+                    Get.find<TimeSelectCtrl>().secondDecrease();
+                  },
+                ),
+                GetBuilder<TimeSelectCtrl>(builder: (controller) {
+                  return Text('${controller.secondTimeVal}');
+                }),
+                InkWell(
+                  child: const Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.blueGrey,
+                  ),
+                  onLongPress: () {
+                    Get.find<TimeSelectCtrl>().secondIncrease();
+                  },
+                  onTap: () {
+                    Get.find<TimeSelectCtrl>().secondIncrease();
+                  },
+                ),
+                const Spacer(),
+                Row(
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: const Color(0xff5AEDCA),
+                      ),
+                      onPressed: () {},
+                      child: const Text(
+                        'File load',
+                        style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: const Color(0xffD83737),
+                      ),
+                      onPressed: () {},
+                      child: const Text(
+                        'File Delete',
+                      ),
                     )
                   ],
                 ),
-                FileSelectDropDown(),
+
+                ///////////second Time
               ],
             ),
-            SizedBox(
-              height: 160,
-            ),
-            ///////////second Time
-
-            Column(
-              children: [
-                Row(
-                  children: [
-                    DottedBorder(
-                        color: Colors.blueGrey, child: Text('Second Time : ')),
-                    SizedBox(width: 20),
-                    InkWell(
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.blueGrey,
-                      ),
-                      onTap: () {
-                        Get.find<TimeSelectCtrl>().secondDecrease();
-                      },
-                    ),
-                    GetBuilder<TimeSelectCtrl>(builder: (controller) {
-                      return Text('${controller.secondTimeVal}');
-                    }),
-                    InkWell(
-                      child: Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.blueGrey,
-                      ),
-                      onLongPress: () {
-                        Get.find<TimeSelectCtrl>().secondIncrease();
-                      },
-                      onTap: () {
-                        Get.find<TimeSelectCtrl>().secondIncrease();
-                      },
-                    ),
-                    Spacer(),
-                    Row(
-                      children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Color(0xff5AEDCA),
-                          ),
-                          onPressed: () {},
-                          child: Text(
-                            'File load',
-                            style: TextStyle(
-                                color: Colors.blueGrey,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Color(0xffD83737),
-                          ),
-                          onPressed: () {},
-                          child: Text(
-                            'File Delete',
-                          ),
-                        )
-                      ],
-                    ),
-
-                    ///////////second Time
-                  ],
-                ),
-                //FileSelectDropDown()
-              ],
-            ),
+            FileSelectDropDown()
           ],
         ),
-      ),
+      ],
     );
   }
 }

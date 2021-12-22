@@ -14,6 +14,7 @@ import 'package:wgs_viewer/controller/dark_mode_ctrl.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/left_menu_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
+import 'package:wgs_viewer/file_select_dropdown_widget.dart';
 import 'package:wgs_viewer/view/widget/file_list_data_widget.dart';
 import 'package:wgs_viewer/model/checkbox_model.dart';
 import 'package:wgs_viewer/view/widget/file_select_btn_widget.dart';
@@ -665,9 +666,7 @@ class mainScreen extends StatelessWidget {
                         border: Border.all(
                             color: Colors.blueGrey.withOpacity(0.5), width: 2),
                       ),
-                      child: const Center(
-                        child: TimeSelectTxtForm(),
-                      ),
+                      child: const TimeSelectTxtForm(),
                     ),
                   ),
                 )

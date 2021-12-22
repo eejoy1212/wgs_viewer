@@ -1,21 +1,20 @@
 import 'package:awesome_dropdown/awesome_dropdown.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
 
-class FileSelectDropDown extends StatefulWidget {
-  @override
-  _FileSelectDropDownState createState() => _FileSelectDropDownState();
-}
-
-class _FileSelectDropDownState extends State<FileSelectDropDown> {
+class FileSelectDropDown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    List<String> asa = ['파일을 불러주세요'];
-    return AwesomeDropDown(
-      //dropDownList: asa,
-      dropDownList: FilePickerCtrl.to.selectedFileName.isEmpty
-          ? asa
-          : FilePickerCtrl.to.selectedFileName,
-    );
+    List<String> isEmptyList = ['파일을 불러주세요'];
+    return Obx(() {
+      return AwesomeDropDown(
+        isPanDown: false,
+        numOfListItemToShow: FilePickerCtrl.to.selectedFileName.length + 1,
+        dropDownList: FilePickerCtrl.to.selectedFileName.isEmpty
+            ? isEmptyList
+            : FilePickerCtrl.to.selectedFileName,
+      );
+    });
   }
 }
