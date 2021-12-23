@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
 import 'package:wgs_viewer/view/widget/file_list_data_widget.dart';
@@ -13,6 +15,13 @@ class FilePickerCtrl extends GetxController {
   RxString fileMaxAlertMsg = ''.obs;
   Future<void> selectedFileFunc() async {
     try {
+//파일 url오픈 연습
+      String? outputFile = await FilePicker.platform.saveFile(
+        dialogTitle: 'Please select an output file:',
+        fileName: 'output-file.csv',
+      );
+
+      //
       List<PlatformFile>? _paths;
       _paths = (await FilePicker.platform.pickFiles(
               type: FileType.custom,
