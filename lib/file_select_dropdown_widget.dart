@@ -1,6 +1,8 @@
+import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:awesome_dropdown/awesome_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:smart_dropdown/smart_dropdown.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
 
 class FileSelectDropDown extends StatelessWidget {

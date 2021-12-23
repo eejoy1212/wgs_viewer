@@ -23,13 +23,13 @@ class RightChartWidget extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Padding(
-                padding: EdgeInsets.only(top: 300.0),
-                child: Text(
-                  'right chart',
-                  style: TextStyle(fontSize: 30),
-                ),
-              ),
+              // const Padding(
+              //   padding: EdgeInsets.only(top: 300.0),
+              //   child: Text(
+              //     'right chart',
+              //     style: TextStyle(fontSize: 30),
+              //   ),
+              // ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
