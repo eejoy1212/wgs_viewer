@@ -13,69 +13,66 @@ class TimeSelectTxtForm extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          Column(
+          Row(
             children: [
+              DottedBorder(
+                  color: Colors.blueGrey, child: const Text('First Time : ')),
+              const SizedBox(width: 20),
+              InkWell(
+                child: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.blueGrey,
+                ),
+                onTap: () {
+                  Get.find<TimeSelectCtrl>().firstDecrease();
+                },
+              ),
+              GetBuilder<TimeSelectCtrl>(builder: (controller) {
+                return Text('${controller.firstTimeVal}');
+              }),
+              InkWell(
+                child: const Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.blueGrey,
+                ),
+                onTap: () {
+                  Get.find<TimeSelectCtrl>().firstIncrease();
+                },
+              ),
+              const Spacer(),
               Row(
                 children: [
-                  DottedBorder(
-                      color: Colors.blueGrey,
-                      child: const Text('First Time : ')),
-                  const SizedBox(width: 20),
-                  InkWell(
-                    child: const Icon(
-                      Icons.arrow_back_ios,
-                      color: Colors.blueGrey,
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: const Color(0xff5AEDCA),
                     ),
-                    onTap: () {
-                      Get.find<TimeSelectCtrl>().firstDecrease();
-                    },
-                  ),
-                  GetBuilder<TimeSelectCtrl>(builder: (controller) {
-                    return Text('${controller.firstTimeVal}');
-                  }),
-                  InkWell(
-                    child: const Icon(
-                      Icons.arrow_forward_ios,
-                      color: Colors.blueGrey,
+                    onPressed: () {},
+                    child: const Text(
+                      'Apply',
+                      style: const TextStyle(
+                          color: Colors.blueGrey, fontWeight: FontWeight.bold),
                     ),
-                    onTap: () {
-                      Get.find<TimeSelectCtrl>().firstIncrease();
-                    },
                   ),
-                  const Spacer(),
-                  Row(
-                    children: [
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: const Color(0xff5AEDCA),
-                        ),
-                        onPressed: () {},
-                        child: const Text(
-                          'Apply',
-                          style: const TextStyle(
-                              color: Colors.blueGrey,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: const Color(0xffD83737),
-                        ),
-                        onPressed: () {},
-                        child: const Text(
-                          'File Delete',
-                        ),
-                      )
-                    ],
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: const Color(0xffD83737),
+                    ),
+                    onPressed: () {},
+                    child: const Text(
+                      'File Delete',
+                    ),
                   )
                 ],
-              ),
-              FileSelectDropDown()
+              )
             ],
           ),
+          const SizedBox(
+            height: 30,
+          ),
+          FileSelectDropDown(),
           const SizedBox(
             height: 160,
           ),
@@ -138,6 +135,9 @@ class TimeSelectTxtForm extends StatelessWidget {
 
                   ///////////second Time
                 ],
+              ),
+              const SizedBox(
+                height: 30,
               ),
               FileSelectDropDown()
             ],

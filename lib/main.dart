@@ -70,6 +70,24 @@ class _MyAppState extends State<MyApp> {
     ctrl.to.aaa.value = isDarkMode;
   }
 
+  List<String> isEmptyList = [
+    'AS',
+    'DSDS',
+    'SDSD',
+    'DSDSD',
+    'AS',
+    'DSDS',
+    'SDSD',
+    'DSDSD',
+    'AS',
+    'DSDS',
+    'SDSD',
+    'DSDSD',
+    'AS',
+    'DSDS',
+    'SDSD',
+    'DSDSD'
+  ];
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -210,7 +228,19 @@ class _MyAppState extends State<MyApp> {
 
             Container(
               color: Colors.blueGrey[300],
-              child: RangeSliders(),
+              child: Column(
+                children: [
+                  RangeSliders(),
+                  Container(
+                    width: 400,
+                    child: AwesomeDropDown(
+                      isPanDown: false,
+                      numOfListItemToShow: isEmptyList.length,
+                      dropDownList: isEmptyList,
+                    ),
+                  )
+                ],
+              ),
             ),
             ResizableWidget(
               //드래그 드롭 && 타임셀렉트 하는 부분 공간 줄이는 라인

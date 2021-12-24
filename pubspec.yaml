@@ -32,11 +32,13 @@ dependencies:
   bitsdojo_window: ^0.1.1+1
   cross_file: ^0.3.2
   csv: ^5.0.1
-  dropdown_plus: ^0.0.9
   cupertino_icons: ^1.0.2
   day_night_switcher: ^0.2.0+1
   desktop_drop: ^0.2.0
   dotted_border: ^2.0.0+2
+  dropdown_customizable: ^1.0.0
+  dropdown_plus: ^0.0.9
+  dropdown_search: ^2.0.1
   file_picker: ^4.3.0
   file_picker_cross: ^4.5.0
   file_selector: ^0.8.2+1
@@ -46,6 +48,7 @@ dependencies:
   flutter_menu: ^0.4.1
   get: ^4.6.1
   get_storage: ^2.0.3
+  multi_split_view: ^1.10.0+1
   path_provider: ^2.0.8
   permission_handler: ^8.3.0
   resizable_widget: ^1.0.5
