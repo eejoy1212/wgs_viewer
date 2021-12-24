@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:get/get.dart';
+import 'package:multi_split_view/multi_split_view.dart';
 import 'package:wgs_viewer/view/widget/file_list_data_widget.dart';
 
 class FilePickerCtrl extends GetxController {
@@ -15,13 +17,7 @@ class FilePickerCtrl extends GetxController {
   RxString fileMaxAlertMsg = ''.obs;
   Future<void> selectedFileFunc() async {
     try {
-//파일 url오픈 연습
-      String? outputFile = await FilePicker.platform.saveFile(
-        dialogTitle: 'Please select an output file:',
-        fileName: 'output-file.csv',
-      );
-
-      //
+//
       List<PlatformFile>? _paths;
       _paths = (await FilePicker.platform.pickFiles(
               type: FileType.custom,
@@ -39,6 +35,8 @@ class FilePickerCtrl extends GetxController {
         if (selectedFileName.length + _fileNames.length > 100) {
           var ableAddCnt = 100 - selectedFileName.length;
           selectedFileName.addAll(_fileNames.sublist(0, ableAddCnt));
+
+          FilePickerCtrl.to.fileMaxAlertMsg.value = 'File maximum is 100';
         } else {
           selectedFileName.addAll(_fileNames);
         }
@@ -57,9 +55,7 @@ class FilePickerCtrl extends GetxController {
         }
       }
     } catch (e) {
-      FilePickerCtrl.to.fileMaxAlertMsg.value = 'File maximum is 100';
       //예외상황일 때 발생시킬 상황
-      print('파일 최대 갯수는 100개입니다.');
       print('파일을 선택 해 주세요 : $e');
     }
   }

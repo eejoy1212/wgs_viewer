@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/chart_ctrl.dart';
+import 'package:wgs_viewer/ing/chart_test.dart';
 
 class RightChartWidget extends StatelessWidget {
   const RightChartWidget({Key? key}) : super(key: key);
@@ -19,30 +20,27 @@ class RightChartWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Container(
-          color: Colors.pink,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // const Padding(
-              //   padding: EdgeInsets.only(top: 300.0),
-              //   child: Text(
-              //     'right chart',
-              //     style: TextStyle(fontSize: 30),
-              //   ),
-              // ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(primary: Colors.blueAccent),
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.file_copy_outlined,
-                      size: 20,
+              Expanded(flex: 10, child: LineChartSample2()),
+              Expanded(
+                flex: 1,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton.icon(
+                      style:
+                          ElevatedButton.styleFrom(primary: Colors.blueAccent),
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.file_copy_outlined,
+                        size: 20,
+                      ),
+                      label: const Text('Export'),
                     ),
-                    label: const Text('Export'),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

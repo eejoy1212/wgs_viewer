@@ -11,6 +11,9 @@ class ChartCtrl extends GetxController {
   RxInt visibleMode = 2.obs;
   RxDouble rangeStart = 0.0.obs;
   RxDouble rangeEnd = 0.0.obs;
+  RxBool leftMode = false.obs;
+
+  RxBool rightMode = false.obs;
 }
 
 class RangeSliders extends StatefulWidget {

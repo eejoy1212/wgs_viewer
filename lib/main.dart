@@ -1,4 +1,3 @@
-import 'package:awesome_dropdown/awesome_dropdown.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -70,24 +69,6 @@ class _MyAppState extends State<MyApp> {
     ctrl.to.aaa.value = isDarkMode;
   }
 
-  List<String> isEmptyList = [
-    'AS',
-    'DSDS',
-    'SDSD',
-    'DSDSD',
-    'AS',
-    'DSDS',
-    'SDSD',
-    'DSDSD',
-    'AS',
-    'DSDS',
-    'SDSD',
-    'DSDSD',
-    'AS',
-    'DSDS',
-    'SDSD',
-    'DSDSD'
-  ];
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -231,14 +212,6 @@ class _MyAppState extends State<MyApp> {
               child: Column(
                 children: [
                   RangeSliders(),
-                  Container(
-                    width: 400,
-                    child: AwesomeDropDown(
-                      isPanDown: false,
-                      numOfListItemToShow: isEmptyList.length,
-                      dropDownList: isEmptyList,
-                    ),
-                  )
                 ],
               ),
             ),
@@ -257,7 +230,7 @@ class _MyAppState extends State<MyApp> {
                                   Get.find<ChartCtrl>().visibleMode.value == 2
                               ? true
                               : false,
-                          child: const Expanded(
+                          child: Expanded(
                             flex: 1,
                             child: LeftChartWidget(),
                           ),
@@ -408,7 +381,7 @@ class _MyAppState extends State<MyApp> {
                               ),
                               //파일 셀렉트하면 파일 나타나는 구간.
                               Expanded(
-                                flex: 3,
+                                flex: 5,
                                 child: FileListData(),
                               ),
                               Expanded(
