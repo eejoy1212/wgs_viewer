@@ -78,380 +78,392 @@ class _MyAppState extends State<MyApp> {
         themeMode: ctrl.to.aaa.value ? ThemeMode.dark : ThemeMode.light,
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          appBar: PreferredSize(
-            preferredSize: const Size(1920, 100),
-            child: SafeArea(
-              child: Container(
-                height: 60,
-                color: Colors.blueGrey,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 15),
-                      child: Row(
-                        children: [
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          LeftMenuIcon(),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          Image.asset(
-                            'assets/images/CI_nobg.png',
-                            fit: BoxFit.fitHeight,
-                            width: 100,
-                          ),
-                          const SizedBox(
-                            width: 220,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 6.0),
-                            child: Row(
-                              children: [
-                                const Text(
-                                  'Chart Show Mode :  ',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                Tooltip(
-                                  message: 'Show only left chart',
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        primary: const Color(0xFF15202B)),
-                                    onPressed: () {
-                                      Get.find<ChartCtrl>().visibleMode.value =
-                                          0;
-                                    },
-                                    child: const Text('left'),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Tooltip(
-                                  message: 'Show only right chart',
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        primary: const Color(0xFF15202B)),
-                                    onPressed: () {
-                                      Get.find<ChartCtrl>().visibleMode.value =
-                                          1;
-                                    },
-                                    child: const Text('Right'),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Tooltip(
-                                  message: 'Show all chart',
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        primary: const Color(0xFF15202B)),
-                                    onPressed: () {
-                                      Get.find<ChartCtrl>().visibleMode.value =
-                                          2;
-                                    },
-                                    child: const Text('All'),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () async {
-                        TranslatorCtrl.to.input.value = '나는 26살이다.';
-                        TranslatorCtrl.to.korToEn();
-                      },
-                      child: Text('Translator'),
-                    ),
-                    Obx(() {
-                      return Text('${TranslatorCtrl.to.korToEn()}');
-                    }),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 15),
-                      child: Row(
-                        children: [
-                          Tooltip(
-                            height: 30,
-                            message: ''
-                                    'Dark mode is ' +
-                                (isDarkMode ? 'enabled' : 'disabled') +
-                                '.',
-                            child: DayNightSwitcher(
-                                isDarkModeEnabled: ctrl.to.aaa.value
-                                //isDarkMode
-
-                                ,
-                                onStateChanged: onStateChanged),
-                          ),
-                          const SizedBox(
-                            width: 50,
-                          ),
-                          WindowBtns(),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          body: ResizableWidget(separatorColor: Colors.blueGrey, percentages: [
-            Get.find<LeftMenuCtrl>().activateLeftMenu.value == true ? 0.2 : 0,
-            Get.find<LeftMenuCtrl>().activateLeftMenu.value == true ? 0.8 : 1
-          ], children: [
-            //left menu
-
-            Container(
-              color: Colors.blueGrey[300],
-              child: Column(
-                children: [
-                  RangeSliders(),
-                ],
-              ),
-            ),
-            ResizableWidget(
-              //드래그 드롭 && 타임셀렉트 하는 부분 공간 줄이는 라인
-              isHorizontalSeparator: true,
-              separatorColor: Colors.blueGrey,
-              children: [
-                Center(
+            appBar: PreferredSize(
+              preferredSize: const Size(1920, 100),
+              child: SafeArea(
+                child: Container(
+                  height: 60,
+                  color: Colors.blueGrey,
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Obx(
-                        () => Visibility(
-                          visible: Get.find<ChartCtrl>().visibleMode.value ==
-                                      0 ||
-                                  Get.find<ChartCtrl>().visibleMode.value == 2
-                              ? true
-                              : false,
-                          child: Expanded(
-                            flex: 1,
-                            child: LeftChartWidget(),
-                          ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15),
+                        child: Row(
+                          children: [
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            LeftMenuIcon(),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Image.asset(
+                              'assets/images/CI_nobg.png',
+                              fit: BoxFit.fitHeight,
+                              width: 100,
+                            ),
+                            const SizedBox(
+                              width: 220,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 6.0),
+                              child: Row(
+                                children: [
+                                  const Text(
+                                    'Chart Show Mode :  ',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  Tooltip(
+                                    message: 'Show only left chart',
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          primary: const Color(0xFF15202B)),
+                                      onPressed: () {
+                                        Get.find<ChartCtrl>()
+                                            .visibleMode
+                                            .value = 0;
+                                      },
+                                      child: const Text('left'),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Tooltip(
+                                    message: 'Show only right chart',
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          primary: const Color(0xFF15202B)),
+                                      onPressed: () {
+                                        Get.find<ChartCtrl>()
+                                            .visibleMode
+                                            .value = 1;
+                                      },
+                                      child: const Text('Right'),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Tooltip(
+                                    message: 'Show all chart',
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          primary: const Color(0xFF15202B)),
+                                      onPressed: () {
+                                        Get.find<ChartCtrl>()
+                                            .visibleMode
+                                            .value = 2;
+                                      },
+                                      child: const Text('All'),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
                         ),
                       ),
-                      Obx(() => Visibility(
-                            visible: Get.find<ChartCtrl>().visibleMode.value ==
-                                        1 ||
-                                    Get.find<ChartCtrl>().visibleMode.value == 2
-                                ? true
-                                : false,
-                            child: const Expanded(
-                              flex: 1,
-                              child: RightChartWidget(),
+                      ElevatedButton(
+                        onPressed: () async {
+                          TranslatorCtrl.to.input.value = '나는 26살이다.';
+                          TranslatorCtrl.to.korToEn();
+                        },
+                        child: Text('Translator'),
+                      ),
+                      Obx(() {
+                        return Text('${TranslatorCtrl.to.korToEn()}');
+                      }),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15),
+                        child: Row(
+                          children: [
+                            Tooltip(
+                              height: 30,
+                              message: ''
+                                      'Dark mode is ' +
+                                  (isDarkMode ? 'enabled' : 'disabled') +
+                                  '.',
+                              child: DayNightSwitcher(
+                                  isDarkModeEnabled: ctrl.to.aaa.value
+                                  //isDarkMode
+
+                                  ,
+                                  onStateChanged: onStateChanged),
                             ),
-                          ))
+                            const SizedBox(
+                              width: 50,
+                            ),
+                            WindowBtns(),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              ),
+            ),
+            body:
+                ResizableWidget(separatorColor: Colors.blueGrey, percentages: [
+              Get.find<LeftMenuCtrl>().activateLeftMenu.value == true ? 0.2 : 0,
+              Get.find<LeftMenuCtrl>().activateLeftMenu.value == true ? 0.8 : 1
+            ], children: [
+              //left menu
+
+              Container(
+                color: Colors.blueGrey[300],
+                child: Column(
                   children: [
-                    //파일 드래그 앤드 드롭, 파일 선택하는 곳
-                    Expanded(
-                      flex: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Colors.blueGrey.withOpacity(0.5),
-                                  width: 2)),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              Expanded(
+                    RangeSliders(),
+                  ],
+                ),
+              ),
+              ResizableWidget(
+                //드래그 드롭 && 타임셀렉트 하는 부분 공간 줄이는 라인
+                isHorizontalSeparator: true,
+                separatorColor: Colors.blueGrey,
+                children: [
+                  Center(
+                    child: Row(
+                      children: [
+                        Obx(
+                          () => Visibility(
+                            visible: Get.find<ChartCtrl>().visibleMode.value ==
+                                        0 ||
+                                    Get.find<ChartCtrl>().visibleMode.value == 2
+                                ? true
+                                : false,
+                            child: Expanded(
+                              flex: 1,
+                              child: LeftChartWidget(),
+                            ),
+                          ),
+                        ),
+                        Obx(() => Visibility(
+                              visible: Get.find<ChartCtrl>()
+                                              .visibleMode
+                                              .value ==
+                                          1 ||
+                                      Get.find<ChartCtrl>().visibleMode.value ==
+                                          2
+                                  ? true
+                                  : false,
+                              child: const Expanded(
                                 flex: 1,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Row(
-                                        children: [
-                                          DottedBorder(
-                                              color: Colors.blueGrey,
-                                              child: const Text('File List')),
-                                          const SizedBox(
-                                            width: 20,
-                                          ),
-                                          const FileSelectBtn(),
-                                          const SizedBox(
-                                            width: 20,
-                                          ),
-                                          ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                  primary:
-                                                      const Color(0xffD83737)),
-                                              onPressed: () {
-                                                if (CheckboxCtrl
-                                                        .to.isChecked.value ||
-                                                    CheckboxCtrl.to.isAllChecked
-                                                            .value ==
-                                                        true) {
-                                                  FilePickerCtrl
-                                                      .to.selectedFileName
-                                                      .removeAt(CheckboxCtrl
-                                                          .to.selIdx.value);
-                                                } else {}
-                                              },
-                                              child: const Text(
-                                                  'Selected File Delete')),
-                                          const SizedBox(
-                                            width: 20,
-                                          ),
-                                          ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                  primary:
-                                                      const Color(0xffD83737)),
-                                              onPressed: () {
-                                                Get.defaultDialog(
-                                                  title: 'All Files Delete',
-                                                  content: Column(
-                                                    children: const [
-                                                      Divider(
-                                                        indent: 6,
-                                                        endIndent: 6,
-                                                        color: Colors.blueGrey,
-                                                      ),
-                                                      Text(
-                                                        'Do you want to delete all?',
-                                                        style: TextStyle(
-                                                          color: Colors.red,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  textConfirm: 'No',
-                                                  confirmTextColor:
-                                                      Colors.white,
-                                                  textCancel: 'Yes',
-                                                  cancelTextColor: Colors.red,
-                                                  buttonColor: Colors.blueGrey,
-                                                  onCancel: () {
+                                child: RightChartWidget(),
+                              ),
+                            ))
+                      ],
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      //파일 드래그 앤드 드롭, 파일 선택하는 곳
+                      Expanded(
+                        flex: 1,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Colors.blueGrey.withOpacity(0.5),
+                                    width: 2)),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Row(
+                                          children: [
+                                            DottedBorder(
+                                                color: Colors.blueGrey,
+                                                child: const Text('File List')),
+                                            const SizedBox(
+                                              width: 20,
+                                            ),
+                                            const FileSelectBtn(),
+                                            const SizedBox(
+                                              width: 20,
+                                            ),
+                                            ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    primary: const Color(
+                                                        0xffD83737)),
+                                                onPressed: () {
+                                                  if (CheckboxCtrl
+                                                          .to.isChecked.value ||
+                                                      CheckboxCtrl
+                                                              .to
+                                                              .isAllChecked
+                                                              .value ==
+                                                          true) {
                                                     FilePickerCtrl
                                                         .to.selectedFileName
-                                                        .clear();
-                                                    FilePickerCtrl
-                                                            .to
-                                                            .selectedFileNum
-                                                            .value =
-                                                        FilePickerCtrl
-                                                            .to
-                                                            .selectedFileName
-                                                            .value
-                                                            .length;
-                                                    print(
-                                                        '\nAll File Delete Result : \n${FilePickerCtrl.to.selectedFileName}');
-                                                    print(
-                                                        '\nAll File Delete Result length : \n${FilePickerCtrl.to.selectedFileName.length}');
-                                                  },
-                                                  onConfirm: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                );
-                                              },
-                                              child: const Text(
-                                                  'All File Delete')),
-                                          const SizedBox(
-                                            width: 20,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const Spacer(),
-                                    Obx(
-                                      () => Text(
-                                          'File num : ${FilePickerCtrl.to.selectedFileName.length}'),
-                                    ),
-                                    const SizedBox(
-                                      width: 20,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              //파일 셀렉트하면 파일 나타나는 구간.
-                              Expanded(
-                                flex: 5,
-                                child: FileListData(),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Obx(
-                                        () => Text(
-                                          FilePickerCtrl
-                                              .to.fileMaxAlertMsg.string,
-                                          style: TextStyle(
-                                            color: Colors.red,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                                        .removeAt(CheckboxCtrl
+                                                            .to.selIdx.value);
+                                                  } else {}
+                                                },
+                                                child: const Text(
+                                                    'Selected File Delete')),
+                                            const SizedBox(
+                                              width: 20,
+                                            ),
+                                            ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    primary: const Color(
+                                                        0xffD83737)),
+                                                onPressed: () {
+                                                  Get.defaultDialog(
+                                                    title: 'All Files Delete',
+                                                    content: Column(
+                                                      children: const [
+                                                        Divider(
+                                                          indent: 6,
+                                                          endIndent: 6,
+                                                          color:
+                                                              Colors.blueGrey,
+                                                        ),
+                                                        Text(
+                                                          'Do you want to delete all?',
+                                                          style: TextStyle(
+                                                            color: Colors.red,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    textConfirm: 'No',
+                                                    confirmTextColor:
+                                                        Colors.white,
+                                                    textCancel: 'Yes',
+                                                    cancelTextColor: Colors.red,
+                                                    buttonColor:
+                                                        Colors.blueGrey,
+                                                    onCancel: () {
+                                                      FilePickerCtrl
+                                                          .to.selectedFileName
+                                                          .clear();
+                                                      FilePickerCtrl
+                                                              .to
+                                                              .selectedFileNum
+                                                              .value =
+                                                          FilePickerCtrl
+                                                              .to
+                                                              .selectedFileName
+                                                              .value
+                                                              .length;
+                                                      print(
+                                                          '\nAll File Delete Result : \n${FilePickerCtrl.to.selectedFileName}');
+                                                      print(
+                                                          '\nAll File Delete Result length : \n${FilePickerCtrl.to.selectedFileName.length}');
+                                                    },
+                                                    onConfirm: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                  );
+                                                },
+                                                child: const Text(
+                                                    'All File Delete')),
+                                            const SizedBox(
+                                              width: 20,
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                      SizedBox(
+                                      const Spacer(),
+                                      Obx(
+                                        () => Text(
+                                            'File num : ${FilePickerCtrl.to.selectedFileName.length}'),
+                                      ),
+                                      const SizedBox(
                                         width: 20,
                                       ),
-                                      ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                              primary: const Color(0xff5AEDCA)),
-                                          onPressed: () async {
-                                            // print('데이터를 차트로 보내기');
-                                            // await CheckBoxCtrl.to.updateFileList();
-                                          },
-                                          child: const Text(
-                                            'Apply',
-                                            style: TextStyle(
-                                                color: Colors.blueGrey,
-                                                fontWeight: FontWeight.bold),
-                                          ))
                                     ],
                                   ),
                                 ),
-                              )
-                            ],
+                                //파일 셀렉트하면 파일 나타나는 구간.
+                                Expanded(
+                                  flex: 5,
+                                  child: FileListData(),
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Obx(
+                                          () => Text(
+                                            FilePickerCtrl
+                                                .to.fileMaxAlertMsg.string,
+                                            style: TextStyle(
+                                              color: Colors.red,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                                primary:
+                                                    const Color(0xff5AEDCA)),
+                                            onPressed: () async {
+                                              // print('데이터를 차트로 보내기');
+                                              // await CheckBoxCtrl.to.updateFileList();
+                                            },
+                                            child: const Text(
+                                              'Apply',
+                                              style: TextStyle(
+                                                  color: Colors.blueGrey,
+                                                  fontWeight: FontWeight.bold),
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
 
-                    //시간대 선택하는 곳
-                    Expanded(
-                      flex: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Colors.blueGrey.withOpacity(0.5),
-                                width: 2),
+                      //시간대 선택하는 곳
+                      Expanded(
+                        flex: 1,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.blueGrey.withOpacity(0.5),
+                                  width: 2),
+                            ),
+                            child: const TimeSelectTxtForm(),
                           ),
-                          child: const TimeSelectTxtForm(),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-              percentages: const [
-                0.8,
-                0.2,
-              ],
-            ),
-          ]),
-        ));
+                    ],
+                  ),
+                ],
+                percentages: const [
+                  0.8,
+                  0.2,
+                ],
+              ),
+            ])));
   }
 
   void onStateChanged(bool isDarkMode) {

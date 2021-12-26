@@ -32,6 +32,14 @@ class LeftChartWidget extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: Text('Start'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: Text('Stop'),
+                  ),
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(primary: Colors.blueAccent),
                     onPressed: () {
