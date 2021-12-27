@@ -15,7 +15,6 @@ class WindowBtns extends StatelessWidget {
         CloseWindowButton(
           colors: closeBtnColors,
           onPressed: () {
-            print('나가시겠습니까??');
             exit(0);
           },
         ),

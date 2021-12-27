@@ -38,13 +38,6 @@ class _MyAppState extends State<MyApp> {
                 type: FileTypeCross.custom,
                 fileExtension: 'csv',
               );
-              print('??  :  ${myFiles.toList()}');
-              print('선택된 파일1?? : ${myFiles[0]}\n');
-              print('선택된 파일2?? : ${myFiles[1]}\n');
-              print(
-                  '=========================================================================================');
-              print('선택된 파일2?? : ${myFiles[2]}\n');
-              print('선택된 파일 갯수 : ${myFiles.length}');
             },
             child: Text('file_picker_cross'),
           ),

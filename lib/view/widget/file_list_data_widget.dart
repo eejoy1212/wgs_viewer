@@ -11,7 +11,6 @@ class FileListData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('???? : ${FilePickerCtrl.to.selectedFileName}');
     return Obx(() {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -62,11 +61,7 @@ class FileListData extends StatelessWidget {
                       itemBuilder: (BuildContext context, int index) {
                         return Obx(() => ListTile(
                             onTap: () {
-                              print('tap');
                               CheckboxCtrl.to.selIdx.value = index;
-
-                              print(
-                                  'isSelected index: ${CheckboxCtrl.to.selIdx.value}');
                             },
                             hoverColor: Colors.cyan[50],
                             selected: index == CheckboxCtrl.to.selIdx.value,
@@ -97,12 +92,8 @@ class FileListData extends StatelessWidget {
                                 value: CheckboxCtrl.to.selIdx.value == index,
                                 onChanged: (value) {
                                   if (CheckboxCtrl.to.selIdx.value == index) {
-                                    print(
-                                        '체크박스 선택true? : ${CheckboxCtrl.to.selIdx.value == index}');
                                     CheckboxCtrl.to.isChecked.value = true;
                                   } else {
-                                    print(
-                                        '체크박스 선택false? : ${CheckboxCtrl.to.selIdx.value == index}');
                                     CheckboxCtrl.to.isChecked.value = false;
                                   }
                                 },

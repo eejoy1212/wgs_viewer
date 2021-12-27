@@ -61,9 +61,7 @@ class _DragDropWidgetState extends State<DragDropWidget> {
               SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: InkWell(
-                  onTap: () {
-                    print('파일 열기');
-                  },
+                  onTap: () {},
                   child: Text(_fileList.map((data) => data.name).join("\n\n")),
                 ),
               ),

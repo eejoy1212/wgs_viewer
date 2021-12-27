@@ -2,13 +2,8 @@ import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/get_navigation.dart';
 import 'package:resizable_widget/resizable_widget.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
-import 'package:translator/translator.dart';
 import 'package:wgs_viewer/controller/chart_ctrl.dart';
 import 'package:wgs_viewer/controller/check_box_ctrl.dart';
 import 'package:wgs_viewer/controller/dark_mode_ctrl.dart';
@@ -16,7 +11,6 @@ import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/left_menu_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/controller/translator_ctrl.dart';
-import 'package:wgs_viewer/file_select_dropdown_widget.dart';
 import 'package:wgs_viewer/mode.dart';
 import 'package:wgs_viewer/view/widget/file_list_data_widget.dart';
 import 'package:wgs_viewer/model/checkbox_model.dart';
@@ -165,16 +159,20 @@ class _MyAppState extends State<MyApp> {
                           ],
                         ),
                       ),
-                      ElevatedButton(
-                        onPressed: () async {
-                          TranslatorCtrl.to.input.value = '나는 26살이다.';
-                          TranslatorCtrl.to.korToEn();
-                        },
-                        child: Text('Translator'),
-                      ),
-                      Obx(() {
-                        return Text('${TranslatorCtrl.to.korToEn()}');
-                      }),
+                      Visibility(
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            TranslatorCtrl.to.input.value = '나는 26살이다.';
+                            TranslatorCtrl.to.korToEn();
+                          },
+                          child: Text('Translator'),
+                        ),
+                      )
+
+                      // Obx(() {
+                      // return Text('${TranslatorCtrl.to.korToEn()}');
+                      // })
+                      ,
                       Padding(
                         padding: const EdgeInsets.only(top: 15),
                         child: Row(
@@ -361,10 +359,6 @@ class _MyAppState extends State<MyApp> {
                                                               .selectedFileName
                                                               .value
                                                               .length;
-                                                      print(
-                                                          '\nAll File Delete Result : \n${FilePickerCtrl.to.selectedFileName}');
-                                                      print(
-                                                          '\nAll File Delete Result length : \n${FilePickerCtrl.to.selectedFileName.length}');
                                                     },
                                                     onConfirm: () {
                                                       Navigator.of(context)
@@ -471,8 +465,6 @@ class _MyAppState extends State<MyApp> {
       this.isDarkMode = isDarkMode;
     });
     ctrl.to.aaa.value = isDarkMode;
-    print('ori: $isDarkMode');
-    print('getx dark : ${ctrl.to.aaa.value}');
   }
 
   onItemClicked(CheckBoxModel ckbItem) {
@@ -500,10 +492,7 @@ class _MyAppState extends State<MyApp> {
           TextButton(
             onPressed: () {
               FilePickerCtrl.to.selectedFileName.clear();
-              print(
-                  '\nAll File Delete Result : \n${FilePickerCtrl.to.selectedFileName}');
-              print(
-                  '\nAll File Delete Result length : \n${FilePickerCtrl.to.selectedFileName.length}');
+
               Navigator.of(context).pop();
             },
             child: const Text('Yes'),
@@ -525,14 +514,9 @@ class LeftMenuIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // ignore: avoid_print
-        print('햄버거 메뉴 열기');
         Get.find<LeftMenuCtrl>().activateLeftMenu.value == false
             ? Get.find<LeftMenuCtrl>().activateLeftMenu.value = true
             : Get.find<LeftMenuCtrl>().activateLeftMenu.value = false;
-        // ignore: avoid_print
-        print(
-            'activateLeftMenu : ${Get.find<LeftMenuCtrl>().activateLeftMenu.value}');
       },
       child: const Icon(
         Icons.menu,

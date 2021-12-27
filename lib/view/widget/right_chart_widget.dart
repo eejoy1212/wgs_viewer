@@ -23,7 +23,9 @@ class RightChartWidget extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(flex: 10, child: LineChartSample2()),
+              // Expanded(flex: 10,
+              // child: LineChartSample2(),
+              // ),
               Expanded(
                 flex: 1,
                 child: Row(
