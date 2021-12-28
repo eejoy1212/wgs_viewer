@@ -27,33 +27,15 @@ class LeftChartWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // const Expanded(
-            // flex: 10,
-            // child: LineChartSample2(),
-            // ),
+            Expanded(
+              flex: 10,
+              child: LineChartSample2(),
+            ),
             Expanded(
               flex: 1,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      ChartCtrl.to.leftDataMode.value = true;
-                      // Timer.periodic(
-                      //     Duration(milliseconds: 500), ChartCtrl.to.updateSim);
-                      Timer.periodic(
-                        Duration(milliseconds: 500),
-                        ChartCtrl.to.updateLeftData,
-                      );
-                    },
-                    child: Text('Start'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      ChartCtrl.to.simTimer?.cancel();
-                    },
-                    child: Text('Stop'),
-                  ),
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(primary: Colors.blueAccent),
                     onPressed: () {

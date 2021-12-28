@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'dart:math' as math;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -19,36 +18,29 @@ class ChartCtrl extends GetxController {
   RxBool leftMode = false.obs;
   RxBool rightMode = false.obs;
   RxList<FlSpot> simData = RxList.empty();
-  RxList<List<FlSpot>> leftChartData = RxList.empty(growable: true);
+  List<FlSpot> leftChartData = RxList.empty();
   RxList<List<FlSpot>> rightChartData = RxList.empty();
   RxBool leftDataMode = false.obs;
   RxBool rightDataMode = false.obs;
   RxInt tempFileNum = 50.obs;
   RxInt tempWaveNum = 10.obs;
   RxList xAxisData = RxList.empty();
-
+  List<FlSpot> forfields = RxList.empty();
+  List<List<FlSpot>> seriesList = RxList.empty();
   Timer? simTimer;
 /*
 1. 만약에 leftChartSignal==true면,
 2. count(==(아래 메뉴에서 파일 선택한 갯수)*(왼쪽 메뉴에서 파장 선택한 갯수))대로 시리즈가 들어오고,
 3.  leftChartData의 FlSpot에서 x축 , y축 값을 .add한다.
 */
-/*  
-<예시>
-if (nChannel == true) {
-        for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
-          for (var x = 0; x < listWavelength.length; x++) {
-            oesData[i].add(FlSpot(listWavelength[x], fmtSpec[x]));
-          }
-        }
-      }
-*/
 
+//랜덤데이터 y 축
   double setRandom() {
     double yValue = 1800 + math.Random().nextInt(500).toDouble();
     return yValue;
   }
 
+//시뮬레이션 업데이트
   Future<void> updateSim(Timer simTimer) async {
     if (simData.isNotEmpty) {
       simData.clear();
@@ -60,26 +52,36 @@ if (nChannel == true) {
     update();
   }
 
-  Future<void> updateLeftData(Timer lTimer) async {
+  double parseTimeFunc() {
+    return 0.0;
+  }
+
+  Future<void> updateLeftData() async {
     //왼쪽 데이터 signal을 주었을 때
     if (leftDataMode.value == true) {
-      //왼쪽 데이터 리스트가 비어있지 않으면, clear해주고
-      if (leftChartData.isNotEmpty) {
-        leftChartData.clear();
-      } else {
-        //시리즈가 파일갯수*선택파장갯수만큼 들어오고
-        // for (var i = 0; i < 5; i++) {
-        //x축==각 파일의 특정파장 || 범위의 평균값  , y축은 왼쪽메뉴탭에서 선택한 파장대들
-        for (var j = 190; j < 2048; j++) {
-          leftChartData[j].add(
-            FlSpot(j.toDouble(), setRandom()),
-          );
-          print('\nsimData : \n$leftChartData');
+      //시리즈갯수
+      for (var i = 7; i < 13; i++) {
+        String time = FilePickerCtrl.to.forfields[i][0];
+        //Time을 Double로 parsing해야 함.
+        //분
+        var substringMin = time.substring(3, 5);
+        //초
+        var substringSec = time.substring(6).replaceAll(':', '.');
+        debugPrint('substringSec : $substringSec');
+        for (var j = 1; j < 2048; j++) {
+          forfields.add(FlSpot(
+              double.parse(substringSec), FilePickerCtrl.to.forfields[i][j]));
         }
-        // }
       }
-    }
+    } else {}
+    debugPrint('forfields : $forfields');
+    //시리즈
+    // for (int seriesNum = 0; seriesNum < 5; seriesNum++) {
+    //   seriesList.add(forfields);
+    //   debugPrint('seriesList length : ${seriesList.length}');
+    // }
 
+    debugPrint('seriesList length : ${seriesList.length}');
     update();
   }
 }

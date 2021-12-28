@@ -27,6 +27,7 @@ class FilePickerCtrl extends GetxController {
   List xAxisData = RxList.empty();
   List<List<dynamic>> f1 = RxList.empty();
   List<List<dynamic>> f2 = RxList.empty();
+  List<List<dynamic>> forfields = RxList.empty();
 
   Future<void> selectedFileFunc() async {
     try {
@@ -63,11 +64,14 @@ class FilePickerCtrl extends GetxController {
             .toList();
         //csv파일을 효율적으로 parsing해오는 방법(밑에거보다 효율적)
 
-        debugPrint('file csv data: ${fields[7][1]}');
-        yAxisData = fields;
-        xAxisData = fields[0];
-        print('yAxisData : ${yAxisData}');
-        print('xAxisData : ${xAxisData[6]}');
+        // debugPrint('file csv data: ${fields[7][1]}');
+        forfields = fields;
+
+        // debugPrint('forfields??: ${forfields[7][1]}');
+        // yAxisData = fields;
+        // xAxisData = fields[0];
+        // print('yAxisData : ${yAxisData}');
+        // print('xAxisData : ${xAxisData[6]}');
         List<String> aa = [];
 
         ///////////////////////////////////////////////////////////
@@ -84,9 +88,9 @@ class FilePickerCtrl extends GetxController {
         f1 = const CsvToListConverter().convert(aa[7]);
         f2 = const CsvToListConverter().convert(aa[8]);
 
-        debugPrint(
-            '#################################file f1[1]: ${FilePickerCtrl.to.f1[0]}');
-        debugPrint('#################################file f2[2]: ${f2[0][1]}');
+        // debugPrint(
+        //     '#################################file f1[1]: ${FilePickerCtrl.to.f1[0]}');
+        // debugPrint('#################################file f2[2]: ${f2[0][1]}');
         // final input = new File(_fileUrls[0]!).openRead();
         // await input.map(utf8.decode).transform(new LineSplitter()).forEach((l) {
         //   aa.add(l);

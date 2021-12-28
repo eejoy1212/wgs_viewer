@@ -12,6 +12,7 @@ import 'package:wgs_viewer/controller/left_menu_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/controller/translator_ctrl.dart';
 import 'package:wgs_viewer/mode.dart';
+import 'package:wgs_viewer/view/widget/apply_btn_widget.dart';
 import 'package:wgs_viewer/view/widget/file_list_data_widget.dart';
 import 'package:wgs_viewer/model/checkbox_model.dart';
 import 'package:wgs_viewer/view/widget/file_select_btn_widget.dart';
@@ -410,20 +411,7 @@ class _MyAppState extends State<MyApp> {
                                         SizedBox(
                                           width: 20,
                                         ),
-                                        ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                                primary:
-                                                    const Color(0xff5AEDCA)),
-                                            onPressed: () async {
-                                              // print('데이터를 차트로 보내기');
-                                              // await CheckBoxCtrl.to.updateFileList();
-                                            },
-                                            child: const Text(
-                                              'Apply',
-                                              style: TextStyle(
-                                                  color: Colors.blueGrey,
-                                                  fontWeight: FontWeight.bold),
-                                            ))
+                                        ApplyBtn(),
                                       ],
                                     ),
                                   ),
