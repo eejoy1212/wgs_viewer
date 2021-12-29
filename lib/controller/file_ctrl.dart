@@ -28,8 +28,10 @@ class FilePickerCtrl extends GetxController {
   List<List<dynamic>> f1 = RxList.empty();
   List<List<dynamic>> f2 = RxList.empty();
   List<List<dynamic>> forfields = RxList.empty();
-
+  RxBool enableRangeSelect = false.obs;
   Future<void> selectedFileFunc() async {
+    //파일 셀렉트 버튼 누르면, 파장선택 가능하게 하기
+    enableRangeSelect.value = true;
     try {
 //
       List<PlatformFile>? _paths;

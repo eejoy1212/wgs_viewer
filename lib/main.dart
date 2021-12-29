@@ -30,6 +30,8 @@ void main() {
   Get.put(ChartCtrl());
   Get.put(CheckboxCtrl());
   Get.put(TranslatorCtrl());
+  Get.put(RangeSliderCtrl());
+  ChartCtrl.to.init();
   runApp(
     MyApp(),
   );
@@ -161,6 +163,7 @@ class _MyAppState extends State<MyApp> {
                         ),
                       ),
                       Visibility(
+                        visible: false,
                         child: ElevatedButton(
                           onPressed: () async {
                             TranslatorCtrl.to.input.value = '나는 26살이다.';
@@ -168,12 +171,16 @@ class _MyAppState extends State<MyApp> {
                           },
                           child: Text('Translator'),
                         ),
-                      )
+                      ),
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: Text('add test'),
+                      ),
 
                       // Obx(() {
                       // return Text('${TranslatorCtrl.to.korToEn()}');
                       // })
-                      ,
+
                       Padding(
                         padding: const EdgeInsets.only(top: 15),
                         child: Row(
