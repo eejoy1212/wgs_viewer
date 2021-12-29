@@ -61,6 +61,8 @@ class ChartCtrl extends GetxController {
     }
     for (var i = 0; i < ChartCtrl.to.seriesCnt.value; i++) {
       rv.add(RangeValue(start: 0.0, end: 0.0));
+      debugPrint(
+          '시리즈 수 && rv : ${ChartCtrl.to.seriesCnt.value} && ${rv.length}');
     }
   }
 
@@ -183,23 +185,32 @@ class _RangeSlidersState extends State<RangeSliders> {
                         ChartCtrl.to.rv[0].end.toString()),
                     activeColor: Colors.blue,
                     onChanged: (RangeValues val) {
-                      List<int> aa = [1, 222222, 3, 4, 5]; // 2 1
-                      int idx = aa.indexOf(5);
-                      debugPrint('idx $idx');
-//현재(start,end)에 바뀐 값 넣기
-                      RangeSliderCtrl.to.currentRangeVal.value = val;
                       /*
                       start end 값을 차트 컨트롤러에 보내서 
                       for문안에 하드코딩 했던거 바꾸기.
                       */
-                      ChartCtrl.to.rv[0].start =
-                          RangeSliderCtrl.to.currentRangeVal.value.start;
+                      List<int> aa = [1, 222222, 3, 4, 5]; // 2 1
+                      int idx = aa.indexOf(5);
+                      debugPrint('idx $idx');
+                      //현재(start,end)에 바뀐 값 넣기
+                      RangeSliderCtrl.to.currentRangeVal.value = val;
+                      //레인지 스타트 && 레인지 앤드에 바뀐 값 넣기
+
+                      for (var i = 0; i < ChartCtrl.to.seriesCnt.value; i++) {
+                        ChartCtrl.to.rv[i].start =
+                            RangeSliderCtrl.to.currentRangeVal.value.start;
+                        ChartCtrl.to.rv[i].end =
+                            RangeSliderCtrl.to.currentRangeVal.value.end;
+                        debugPrint('rv length : ${ChartCtrl.to.rv.length}');
+                        debugPrint('rv start : ${ChartCtrl.to.rv[i].start}');
+                        debugPrint('rv end : ${ChartCtrl.to.rv[i].end}');
+                      }
+
                       // for (var i = 0; i < idx; i++) {
                       // ChartCtrl.to.rv[i].start = ChartCtrl.to.value.value;
                       // }
                       //RangeSliderCtrl.to.currentRangeVal.value.start;
-                      ChartCtrl.to.rv[0].end =
-                          RangeSliderCtrl.to.currentRangeVal.value.end;
+
                       //RangeSliderCtrl.to.currentRangeVal.value.end;
                       debugPrint(
                           'RangeValue: ${ChartCtrl.to.rv[0].start} ${ChartCtrl.to.rv[0].end}');
