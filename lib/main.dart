@@ -369,6 +369,13 @@ class _MyAppState extends State<MyApp> {
                                                               .selectedFileName
                                                               .value
                                                               .length;
+
+                                                      //모든파일 삭제하기
+                                                      CheckboxCtrl.to.ckb
+                                                          .removeRange(
+                                                              0,
+                                                              CheckboxCtrl.to
+                                                                  .ckb.length);
                                                     },
                                                     onConfirm: () {
                                                       Navigator.of(context)
