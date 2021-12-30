@@ -306,6 +306,15 @@ class _MyAppState extends State<MyApp> {
                                                     primary: const Color(
                                                         0xffD83737)),
                                                 onPressed: () {
+                                                  //파일 셀렉트 한 것만 삭제하는 기능
+                                                  CheckboxCtrl.to.ckb.removeAt(
+                                                      CheckboxCtrl.to.ckb
+                                                          .indexWhere(
+                                                              (element) =>
+                                                                  element
+                                                                      .isChecked
+                                                                      .isTrue));
+
                                                   if (CheckboxCtrl
                                                           .to.isChecked.value ||
                                                       CheckboxCtrl

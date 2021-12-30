@@ -1,8 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/check_box_ctrl.dart';
-import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/model/checkbox_model.dart';
 
 class CkbViewWidget extends StatelessWidget {
@@ -38,7 +38,6 @@ class FileListData extends StatelessWidget {
           horizontalTitleGap: 200,
           title: Row(
             children: [
-              Text('파일리스트!!!'),
               SizedBox(
                 height: 300,
                 width: 300,
@@ -139,21 +138,36 @@ class FileListData extends StatelessWidget {
             FloatingActionButton(
               onPressed: () {
                 int i = CheckboxCtrl.to.ckb.length;
-                CheckboxCtrl.to.ckb.add(CheckBoxModel(
+                CheckboxCtrl.to.ckb.add(
+                  CheckBoxModel(
                     title: 'ds',
                     fileName: '$i. file name ',
                     isChecked: false.obs,
-                    range: RangeModel(start: i, end: i + 2)));
+                    range: RangeModel(start: i, end: i + 2),
+                  ),
+                );
               },
               tooltip: 'Add',
               child: const Icon(Icons.add),
             ),
             FloatingActionButton(
-                onPressed: () {
-                  CheckboxCtrl.to.ckb.removeLast();
-                },
-                tooltip: 'Delete',
-                child: const Icon(Icons.remove)),
+              onPressed: () {
+                // CheckboxCtrl.to.deleteSignal.value = true;
+                // CheckboxCtrl.to.ckb.removeLast();
+                // CheckboxCtrl.to.ckb.removeAt(CheckboxCtrl.to.ckb
+                // .indexWhere((element) => element.isChecked.isTrue));
+
+                // if (CheckboxCtrl.to.ckb.map((e) => e.isChecked.isTrue)&&
+                // CheckboxCtrl.to.deleteSignal.isTrue) {
+                // CheckboxCtrl.to.removeIdx.value = CheckboxCtrl.to.ckb
+                // .indexOf(
+                // CheckboxCtrl.to.ckb[CheckboxCtrl.to.ckb.length]);
+                // }
+                // CheckboxCtrl.to.ckb.removeAt(CheckboxCtrl.to.removeIdx.value);
+              },
+              tooltip: '',
+              child: const Icon(Icons.remove),
+            ),
           ],
         ),
       ],
