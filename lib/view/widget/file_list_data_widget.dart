@@ -150,24 +150,6 @@ class FileListData extends StatelessWidget {
               tooltip: 'Add',
               child: const Icon(Icons.add),
             ),
-            FloatingActionButton(
-              onPressed: () {
-                // CheckboxCtrl.to.deleteSignal.value = true;
-                // CheckboxCtrl.to.ckb.removeLast();
-                // CheckboxCtrl.to.ckb.removeAt(CheckboxCtrl.to.ckb
-                // .indexWhere((element) => element.isChecked.isTrue));
-
-                // if (CheckboxCtrl.to.ckb.map((e) => e.isChecked.isTrue)&&
-                // CheckboxCtrl.to.deleteSignal.isTrue) {
-                // CheckboxCtrl.to.removeIdx.value = CheckboxCtrl.to.ckb
-                // .indexOf(
-                // CheckboxCtrl.to.ckb[CheckboxCtrl.to.ckb.length]);
-                // }
-                // CheckboxCtrl.to.ckb.removeAt(CheckboxCtrl.to.removeIdx.value);
-              },
-              tooltip: '',
-              child: const Icon(Icons.remove),
-            ),
           ],
         ),
       ],
