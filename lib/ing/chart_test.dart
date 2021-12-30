@@ -26,7 +26,11 @@ class LineChartSample2 extends StatelessWidget {
                         color: Colors.transparent),
                     child: Padding(
                       padding: const EdgeInsets.only(
-                          right: 18.0, left: 12.0, top: 24, bottom: 12),
+                        right: 18.0,
+                        left: 12.0,
+                        top: 24,
+                        bottom: 12,
+                      ),
                       child: leftData(
                         ctrl: ctrl,
                         lineBarsData: [
@@ -39,20 +43,26 @@ class LineChartSample2 extends StatelessWidget {
                             lineChartBarData(
                               ctrl.forfields[1],
                               Colors.red,
+                            ),
+                          if (ctrl.forfields[0].isNotEmpty)
+                            lineChartBarData(
+                              ctrl.forfields[2],
+                              Colors.purple,
+                            ),
+                          if (ctrl.forfields[0].isNotEmpty)
+                            lineChartBarData(
+                              ctrl.forfields[3],
+                              Colors.blueAccent,
                             )
                         ],
                         bottomTitles: SideTitles(
-                          showTitles: false,
+                          showTitles: true,
                           reservedSize: 20,
                           getTextStyles: (bctx, dbl) => const TextStyle(
                             color: Colors.blueGrey,
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
                           ),
-                          // getTitles: (val) {
-                          //   debugPrint('val : $val');
-                          //   return '$val';
-                          // },
                           margin: 8,
                         ),
                         leftTitles: SideTitles(
@@ -62,17 +72,6 @@ class LineChartSample2 extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
                           ),
-                          getTitles: (val) {
-                            // switch (val.toInt()) {
-                            //   case 0:
-                            //     return '10k';
-                            //   case 250:
-                            //     return '30k';
-                            //   case 500:
-                            //     return '50k';
-                            // }
-                            return '';
-                          },
                           reservedSize: 10,
                           margin: 12,
                         ),
@@ -106,10 +105,10 @@ class LineChartSample2 extends StatelessWidget {
   }) {
     return LineChart(
       LineChartData(
-          // minY: 0,
-          // maxY: 3000,
+          minY: -50000,
+          maxY: 150000,
           minX: 0,
-          maxX: 20,
+          maxX: 6,
           lineTouchData: LineTouchData(
               touchTooltipData: LineTouchTooltipData(
             fitInsideHorizontally: true,
@@ -121,10 +120,27 @@ class LineChartSample2 extends StatelessWidget {
             bottomTitles: bottomTitles,
             leftTitles: leftTitles,
             topTitles: SideTitles(
-              showTitles: true,
+              showTitles: false,
             ),
             rightTitles: SideTitles(
               showTitles: true,
+              // getTitles: (value) {
+              // switch (value.toInt()) {
+              // case 0:
+              // return '2300';
+              // case 100:
+              // return '2300';
+              // case 2400:
+              // return '2400';
+              // case 2450:
+              // return '2450';
+              // case 2500:
+              // return '2450';
+              // case 2550:
+              // return '2450';
+              // }
+              // return '??';
+              // },
             ),
           ),
           borderData: FlBorderData(

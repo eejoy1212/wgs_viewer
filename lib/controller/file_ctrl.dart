@@ -10,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:multi_split_view/multi_split_view.dart';
+import 'package:wgs_viewer/controller/chart_ctrl.dart';
 import 'package:wgs_viewer/view/widget/file_list_data_widget.dart';
 
 class FilePickerCtrl extends GetxController {
@@ -32,6 +33,7 @@ class FilePickerCtrl extends GetxController {
   Future<void> selectedFileFunc() async {
     //파일 셀렉트 버튼 누르면, 파장선택 가능하게 하기
     enableRangeSelect.value = true;
+    //시리즈 슛자
     try {
 //
       List<PlatformFile>? _paths;
@@ -90,25 +92,7 @@ class FilePickerCtrl extends GetxController {
         f1 = const CsvToListConverter().convert(aa[7]);
         f2 = const CsvToListConverter().convert(aa[8]);
 
-        // debugPrint(
-        //     '#################################file f1[1]: ${FilePickerCtrl.to.f1[0]}');
-        // debugPrint('#################################file f2[2]: ${f2[0][1]}');
-        // final input = new File(_fileUrls[0]!).openRead();
-        // await input.map(utf8.decode).transform(new LineSplitter()).forEach((l) {
-        //   aa.add(l);
-        // });
-        // List<List<dynamic>> f1 = const CsvToListConverter().convert(aa[7]);
-        // List<List<dynamic>> f2 = const CsvToListConverter().convert(aa[8]);
-        // debugPrint('#################################file f1[1]: ${f1[0][0]}');
-        // debugPrint('#################################file f2[2]: ${f2[0][1]}');
-        /////////////////////////////////////////////////////
-
         selectedFileUrl.value = _fileUrls.toString();
-
-        // print('$_paths');
-        // print('paths ${_fileNames}');
-        // print('총 파일갯수 :\n${selectedFileName.length}');
-        // print('파일 url :\n${selectedFileUrl.value}');
         if (
             //예외상황
             FilePickerCtrl.to.selectedFileName.length > 100) {

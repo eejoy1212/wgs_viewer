@@ -58,7 +58,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var allChecked = CheckBoxModel(title: 'All check');
+  // var allChecked = CheckBoxModel(title: 'All check', fileName: '', isChecked: true, range: );
 
   bool isDarkMode = false;
 
@@ -355,6 +355,9 @@ class _MyAppState extends State<MyApp> {
                                                     buttonColor:
                                                         Colors.blueGrey,
                                                     onCancel: () {
+                                                      //차트 화면에서 지워주는거
+                                                      ChartCtrl.to.forfields
+                                                          .clear();
                                                       FilePickerCtrl
                                                           .to.selectedFileName
                                                           .clear();
@@ -462,11 +465,11 @@ class _MyAppState extends State<MyApp> {
     ctrl.to.aaa.value = isDarkMode;
   }
 
-  onItemClicked(CheckBoxModel ckbItem) {
-    setState(() {
-      ckbItem.value = !ckbItem.value;
-    });
-  }
+  // onItemClicked(CheckBoxModel ckbItem) {
+  //   setState(() {
+  //     ckbItem.value = !ckbItem.value;
+  //   });
+  // }
 
   void realDeleteAlert() {
     showDialog<String>(

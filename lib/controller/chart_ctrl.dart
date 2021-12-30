@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math' as math;
 
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -12,10 +14,61 @@ import 'package:wgs_viewer/controller/file_ctrl.dart';
 class RangeValue {
   double start;
   double end;
+  List<double> tableX;
   RangeValue({
     required this.start,
     required this.end,
+    required this.tableX,
   });
+
+  RangeValue copyWith({
+    double? start,
+    double? end,
+    List<double>? tableX,
+  }) {
+    return RangeValue(
+      start: start ?? this.start,
+      end: end ?? this.end,
+      tableX: tableX ?? this.tableX,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'start': start,
+      'end': end,
+      'tableX': tableX,
+    };
+  }
+
+  factory RangeValue.fromMap(Map<String, dynamic> map) {
+    return RangeValue(
+      start: map['start']?.toDouble() ?? 0.0,
+      end: map['end']?.toDouble() ?? 0.0,
+      tableX: List<double>.from(map['tableX']),
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory RangeValue.fromJson(String source) =>
+      RangeValue.fromMap(json.decode(source));
+
+  @override
+  String toString() => 'RangeValue(start: $start, end: $end, tableX: $tableX)';
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is RangeValue &&
+        other.start == start &&
+        other.end == end &&
+        listEquals(other.tableX, tableX);
+  }
+
+  @override
+  int get hashCode => start.hashCode ^ end.hashCode ^ tableX.hashCode;
 }
 
 class ChartCtrl extends GetxController {
@@ -25,7 +78,10 @@ class ChartCtrl extends GetxController {
   visible mode == 2 ->all chart
   */
   RxInt visibleMode = 2.obs;
-  RxInt seriesCnt = 3.obs;
+  // RxInt seriesCnt = 150.obs;
+  // RxInt seriesCnt = 150.obs;
+
+  RxInt seriesCnt = 150.obs;
   RxDouble rangeEnd = 0.0.obs;
   RxBool leftMode = false.obs;
   RxBool rightMode = false.obs;
@@ -49,6 +105,14 @@ class ChartCtrl extends GetxController {
   List<double> startList = RxList.empty();
   List<double> endList = RxList.empty();
   List<RangeValue> rv = [];
+  List<RangeValue> rv2 = [];
+  List<RangeValue> rv3 = [];
+  List<RangeValue> rv4 = [];
+  List<RangeValue> rv5 = [];
+
+  RxInt timeMaxLength = 0.obs;
+
+  RxInt rvIdx = 0.obs;
 
 /*
 1. 만약에 leftChartSignal==true면,
@@ -60,62 +124,42 @@ class ChartCtrl extends GetxController {
       forfields.add([]);
     }
     for (var i = 0; i < ChartCtrl.to.seriesCnt.value; i++) {
-      rv.add(RangeValue(start: 0.0, end: 0.0));
-      debugPrint(
-          '시리즈 수 && rv : ${ChartCtrl.to.seriesCnt.value} && ${rv.length}');
+      rv.add(RangeValue(start: 0.0, end: 0.0, tableX: []));
+    }
+    for (var i = 1; i < 2048; i++) {
+      RangeSliderCtrl.to.minMaxList.add([]);
     }
   }
 
   Future<void> updateLeftData() async {
     //왼쪽 데이터 signal을 주었을 때
-
-    // forfields.clear();
     if (leftDataMode.value == true) {
       //시리즈갯수
+
+      //시리즈 갯수는 파장 선택하는 레인지 갯수(5개) * 파일선택한 갯수
+      //seriesCnt==5*FilePickerCtrl.to.selectedFileName.length
+      ChartCtrl.to.seriesCnt.value =
+          5 * FilePickerCtrl.to.selectedFileName.length.toInt();
       var firstTime = FilePickerCtrl.to.forfields[7][0]; // 15:23:43.432
-      // var dt = DateFormat('hh:nn:ss.nnn')
-      //     .format(DateTime.parse(firstTime))
-      //     .toString();
-      // List<int> start = [];
-      // List<int> end = [];
-
-      // //1 range 선택
-      // start.add(1);
-      // end.add(2);
-
-      // //2 range 선택
-      // start.add(5);
-      // end.add(10);
-      // //3 range 선택
-      // start.add(11);
-      // end.add(12);
 
       for (var ii = 0; ii < seriesCnt.value; ii++) {
         forfields[ii].clear();
       }
+
       //start[0] = 1 end[0] = 2
       //start[1] = 5 end[1] =10
       //debugPrint('firstTime $firstTime $dt');
-      for (var i = 7; i < 13; i++) {
+      // for (var i = 7; i < 14; i++) {
+
+      for (var i = 7; i < 14; i++) {
         int idx = i - 7;
+        //점이 7개 나와야하는데 위의 idx로하면 6개임
+        // int idx = i - 6;
+
+        debugPrint('idx : $idx');
         var time = FilePickerCtrl.to.forfields[i][0]; // 15:23:43.532
-        // DateTime asss = time - firstTime;
-        // var fvf = double.parse(asss.toString());
-
-        //Time을 Double로 parsing해야 함.
-        // time.difference(other)
-
-        //분
-        //var substringMin = time.substring(3, 5);
-        //초
-        //var substringSec = time.substring(6).replaceAll(':', '.');
-        // String aaaa = '23.32';
-        // double bbbb = double.parse(aaaa);
 
         value.value = 0.0;
-        //다른레인지에 그리는 포문
-        // for (var ii = 0; ii < start.length; ii++) {
-
         for (var ii = 0; ii < seriesCnt.value; ii++) {
 //cnt==범위 선택한 것.
           // final cnt = end[ii] - start[ii] + 1;
@@ -123,23 +167,28 @@ class ChartCtrl extends GetxController {
 // 레인지 평균내는 식
           for (var iii = 0; iii < cnt; iii++) {
             // 2 - 1
-            final int avgIdx = 1 + rv[ii].start.toInt() + iii;
-            debugPrint('avgIdx $avgIdx');
+
+            // final int avgIdx = 1 + rv[ii].start.toInt() + iii;
+            final int startIdx = rv.indexOf(rv[ii]);
+            final int avgIdx = 1 + startIdx + iii;
+            //avgIdx에 인덱스가 아니라 값이 잘못들어간듯..?(ui상 툴팁에 보이는 레인지를 선택한 값이 avgIdx에 잘못들어가는중.)
             value.value += FilePickerCtrl.to.forfields[i][avgIdx];
-            rangeList.add(value.value);
+            // rangeList.add(value.value);
             // debugPrint('레인지 평균 : $value');
-            // debugPrint('레인지리스트 : $rangeList');
+            //레인지리스트==파장값들을 리스트에 담은거
+
           }
-          value.value /= cnt;
           // 레인지 평균내는 식
+          value.value /= cnt;
 
-          //시리즈별로 리스트에 추가.
+          //시리즈별로 리스트에 추가./
           forfields[ii].add(FlSpot(idx.toDouble(), value.value));
-          debugPrint('wavelength value : ${value.value}');
-          debugPrint('forfields : $forfields');
-          //  forfields[ii].add(FlSpot((idx).toDouble(), value));
-
+          // RangeSliderCtrl.to.minVal.value = forfields[6].length;
+          // RangeSliderCtrl.to.maxVal.value = forfields[6][1].y;
         }
+        timeMaxLength.value = FilePickerCtrl.to.forfields[i][0].length;
+        debugPrint('cloumn length : ${timeMaxLength.value}');
+
         update();
       }
     } else {}
@@ -157,7 +206,9 @@ class RangeSliders extends StatefulWidget {
 
 class _RangeSlidersState extends State<RangeSliders> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     return Container(
       width: 500,
       child: Column(
@@ -166,93 +217,275 @@ class _RangeSlidersState extends State<RangeSliders> {
           Padding(
             padding: const EdgeInsets.only(left: 20.0),
             child: Row(
-              children: const [
+              children: [
                 Text('Wavelength 1'),
               ],
             ),
           ),
           Obx(() {
             //file select onPessed 할 때 enableRangeSelect=true 해 주기
-            return ChartCtrl.to.enableApply.value == true
-                ? RangeSlider(
-                    min: 0.0,
-                    max: 1000,
-                    // divisions: ChartCtrl.to.rangeList.length != 0
-                    //     ? ChartCtrl.to.rangeList.length - 1
-                    //     : 1,
-                    divisions: 100,
-                    labels: RangeLabels(ChartCtrl.to.rv[0].start.toString(),
-                        ChartCtrl.to.rv[0].end.toString()),
-                    activeColor: Colors.blue,
-                    onChanged: (RangeValues val) {
-                      /*
+            return IgnorePointer(
+              ignoring: ChartCtrl.to.forfields.isNotEmpty &&
+                  FilePickerCtrl.to.enableRangeSelect.value == false,
+              child: RangeSlider(
+                min: 0,
+
+                max: ChartCtrl.to.forfields.isNotEmpty &&
+                        FilePickerCtrl.to.enableRangeSelect.value
+                    ? 5000
+                    : 0,
+                // max: ChartCtrl.to.forfields.isNotEmpty ? 5000 : 1,
+                divisions: ChartCtrl.to.forfields.isNotEmpty
+                    ? ChartCtrl.to.forfields.length
+                    : 1,
+                // divisions: 1,
+                values: ChartCtrl.to.forfields.isNotEmpty &&
+                        FilePickerCtrl.to.enableRangeSelect.value
+                    ? RangeSliderCtrl.to.currentRangeVal.value
+                    : RangeValues(0, 0),
+                labels: RangeLabels(ChartCtrl.to.rv[0].start.toString(),
+                    ChartCtrl.to.rv[0].end.toString()),
+                activeColor: ChartCtrl.to.forfields.isNotEmpty &&
+                        FilePickerCtrl.to.enableRangeSelect.value
+                    ? Colors.blue
+                    : Colors.grey,
+                onChanged: (RangeValues val) {
+                  /*
                       start end 값을 차트 컨트롤러에 보내서 
                       for문안에 하드코딩 했던거 바꾸기.
                       */
-                      List<int> aa = [1, 222222, 3, 4, 5]; // 2 1
-                      int idx = aa.indexOf(5);
-                      debugPrint('idx $idx');
-                      //현재(start,end)에 바뀐 값 넣기
-                      RangeSliderCtrl.to.currentRangeVal.value = val;
-                      //레인지 스타트 && 레인지 앤드에 바뀐 값 넣기
 
-                      for (var i = 0; i < ChartCtrl.to.seriesCnt.value; i++) {
-                        ChartCtrl.to.rv[i].start =
-                            RangeSliderCtrl.to.currentRangeVal.value.start;
-                        ChartCtrl.to.rv[i].end =
-                            RangeSliderCtrl.to.currentRangeVal.value.end;
-                        debugPrint('rv length : ${ChartCtrl.to.rv.length}');
-                        debugPrint('rv start : ${ChartCtrl.to.rv[i].start}');
-                        debugPrint('rv end : ${ChartCtrl.to.rv[i].end}');
-                      }
+                  //현재(start,end)에 바뀐 값 넣기
+                  RangeSliderCtrl.to.currentRangeVal.value = val;
+                  //레인지 스타트 && 레인지 앤드에 바뀐 값 넣기
+                  for (var i = 0; i < ChartCtrl.to.seriesCnt.value; i++) {
+                    ChartCtrl.to.rv[i].start =
+                        RangeSliderCtrl.to.currentRangeVal.value.start;
+                    ChartCtrl.to.rv[i].end =
+                        RangeSliderCtrl.to.currentRangeVal.value.end;
+                    //ChartCtrl.to.rvIdx.value==(start,end)의 인덱스값
+                    ChartCtrl.to.rvIdx.value =
+                        ChartCtrl.to.rv.indexOf(ChartCtrl.to.rv[i]);
+                  }
+                  //스타트와 앤드의 인덱스값을 떼어 와서
+                  //스타트와 앤드의 인덱스값을 떼어 와서 / csv 파장의 인덱스값과 일치하면 그 영역을 차트에 값으로 보여준다.
+// if (ChartCtrl.to.rvIdx.value ==) {
 
-                      // for (var i = 0; i < idx; i++) {
-                      // ChartCtrl.to.rv[i].start = ChartCtrl.to.value.value;
-                      // }
-                      //RangeSliderCtrl.to.currentRangeVal.value.start;
+// } else {
+// }
+                },
+                // values: RangeSliderCtrl.to.currentRangeVal.value,
+                //divisions: ChartCtrl.to.rangeList.length,
+              ),
+            );
+          }),
+          SizedBox(height: 50),
+          Padding(
+            padding: const EdgeInsets.only(left: 20.0),
+            child: Row(
+              children: [
+                Text('Wavelength 2'),
+              ],
+            ),
+          ),
+          Obx(() {
+            //file select onPessed 할 때 enableRangeSelect=true 해 주기
+            return IgnorePointer(
+                ignoring: ChartCtrl.to.forfields.isNotEmpty &&
+                    FilePickerCtrl.to.enableRangeSelect.value == false,
+                child: RangeSlider(
+                  min: 0.0,
 
-                      //RangeSliderCtrl.to.currentRangeVal.value.end;
-                      debugPrint(
-                          'RangeValue: ${ChartCtrl.to.rv[0].start} ${ChartCtrl.to.rv[0].end}');
-                      return;
-                      RangeSliderCtrl.to.changedStart.value = RangeSliderCtrl
-                          .to.currentRangeVal.value.start
-                          .toString();
-                      RangeSliderCtrl.to.changedEnd.value = RangeSliderCtrl
-                          .to.currentRangeVal.value.end
-                          .toString();
+                  max: ChartCtrl.to.forfields.isNotEmpty ? 5000 : 1,
+                  divisions: ChartCtrl.to.forfields.isNotEmpty
+                      ? ChartCtrl.to.forfields.length
+                      : 1,
+                  // divisions: 1,
+                  labels: RangeLabels(ChartCtrl.to.rv[0].start.toString(),
+                      ChartCtrl.to.rv[0].end.toString()),
+                  activeColor: ChartCtrl.to.forfields.isNotEmpty &&
+                          FilePickerCtrl.to.enableRangeSelect.value
+                      ? Colors.blue
+                      : Colors.grey,
+                  onChanged: (RangeValues val) {
+                    /*
+                      start end 값을 차트 컨트롤러에 보내서 
+                      for문안에 하드코딩 했던거 바꾸기.
+                      */
 
-                      if (RangeSliderCtrl.to.currentRangeVal.value == val) {
-                        ChartCtrl.to.startList.addIf(
-                            RangeSliderCtrl.to.changedStart.value ==
-                                    RangeSliderCtrl
-                                        .to.currentRangeVal.value.start
-                                        .toString() &&
-                                RangeSliderCtrl.to.changedEnd.value ==
-                                    RangeSliderCtrl.to.currentRangeVal.value.end
-                                        .toString(),
-                            double.parse(
-                                RangeSliderCtrl.to.changedStart.value));
-                        //end
-                        ChartCtrl.to.endList.addIf(
-                            RangeSliderCtrl.to.changedStart.value ==
-                                    RangeSliderCtrl
-                                        .to.currentRangeVal.value.start
-                                        .toString() &&
-                                RangeSliderCtrl.to.changedEnd.value ==
-                                    RangeSliderCtrl.to.currentRangeVal.value.end
-                                        .toString(),
-                            double.parse(RangeSliderCtrl.to.changedEnd.value));
-                        // debugPrint('StartList : ${ChartCtrl.to.startList}');
-                      } else {
-                        debugPrint('레인지 변화 없음.');
-                      }
-                    },
-                    values: RangeSliderCtrl.to.currentRangeVal.value,
-                    //divisions: ChartCtrl.to.rangeList.length,
-                  )
-                : Text('Press Apply to Select Wavelength');
-          })
+                    //현재(start,end)에 바뀐 값 넣기
+                    RangeSliderCtrl.to.currentRangeVal.value = val;
+                    //레인지 스타트 && 레인지 앤드에 바뀐 값 넣기
+                    for (var i = 0; i < ChartCtrl.to.seriesCnt.value; i++) {
+                      ChartCtrl.to.rv[i].start =
+                          RangeSliderCtrl.to.currentRangeVal.value.start;
+                      ChartCtrl.to.rv[i].end =
+                          RangeSliderCtrl.to.currentRangeVal.value.end;
+                      //ChartCtrl.to.rvIdx.value==(start,end)의 인덱스값
+                      ChartCtrl.to.rvIdx.value =
+                          ChartCtrl.to.rv.indexOf(ChartCtrl.to.rv[i]);
+                    }
+                  },
+                  values: ChartCtrl.to.forfields.isNotEmpty &&
+                          FilePickerCtrl.to.enableRangeSelect.value
+                      ? RangeSliderCtrl.to.currentRangeVal.value
+                      : const RangeValues(0, 0),
+                  //divisions: ChartCtrl.to.rangeList.length,
+                ));
+          }),
+          SizedBox(height: 50),
+          Padding(
+            padding: const EdgeInsets.only(left: 20.0),
+            child: Row(
+              children: [
+                Text('Wavelength 3'),
+              ],
+            ),
+          ),
+          Obx(() {
+            //file select onPessed 할 때 enableRangeSelect=true 해 주기
+            return IgnorePointer(
+                ignoring: ChartCtrl.to.forfields.isNotEmpty &&
+                    FilePickerCtrl.to.enableRangeSelect.value == false,
+                child: RangeSlider(
+                  min: 0.0,
+                  // max: 1000,
+                  max: ChartCtrl.to.forfields.isNotEmpty ? 5000 : 1,
+                  divisions: ChartCtrl.to.forfields.isNotEmpty
+                      ? ChartCtrl.to.forfields.length
+                      : 1,
+                  // divisions: 1,
+                  labels: RangeLabels(ChartCtrl.to.rv[0].start.toString(),
+                      ChartCtrl.to.rv[0].end.toString()),
+                  activeColor: ChartCtrl.to.forfields.isNotEmpty &&
+                          FilePickerCtrl.to.enableRangeSelect.value
+                      ? Colors.blue
+                      : Colors.grey,
+                  onChanged: (RangeValues val) {
+                    /*
+                      start end 값을 차트 컨트롤러에 보내서 
+                      for문안에 하드코딩 했던거 바꾸기.
+                      */
+
+                    //현재(start,end)에 바뀐 값 넣기
+                    RangeSliderCtrl.to.currentRangeVal.value = val;
+                    //레인지 스타트 && 레인지 앤드에 바뀐 값 넣기
+                    for (var i = 0; i < ChartCtrl.to.seriesCnt.value; i++) {
+                      ChartCtrl.to.rv[i].start =
+                          RangeSliderCtrl.to.currentRangeVal.value.start;
+                      ChartCtrl.to.rv[i].end =
+                          RangeSliderCtrl.to.currentRangeVal.value.end;
+                      //ChartCtrl.to.rvIdx.value==(start,end)의 인덱스값
+                      ChartCtrl.to.rvIdx.value =
+                          ChartCtrl.to.rv.indexOf(ChartCtrl.to.rv[i]);
+                    }
+                  },
+                  values: RangeSliderCtrl.to.currentRangeVal.value,
+                  //divisions: ChartCtrl.to.rangeList.length,
+                ));
+          }),
+          SizedBox(height: 50),
+          Padding(
+            padding: const EdgeInsets.only(left: 20.0),
+            child: Row(
+              children: [
+                Text('Wavelength 4'),
+              ],
+            ),
+          ),
+          Obx(() {
+            //file select onPessed 할 때 enableRangeSelect=true 해 주기
+            return IgnorePointer(
+                ignoring: ChartCtrl.to.forfields.isNotEmpty &&
+                    FilePickerCtrl.to.enableRangeSelect.value == false,
+                child: RangeSlider(
+                  min: 0.0,
+                  // max: 1000,
+                  max: ChartCtrl.to.forfields.isNotEmpty ? 5000 : 1,
+                  divisions: ChartCtrl.to.forfields.isNotEmpty
+                      ? ChartCtrl.to.forfields.length
+                      : 1,
+                  // divisions: 1,
+                  labels: RangeLabels(ChartCtrl.to.rv[0].start.toString(),
+                      ChartCtrl.to.rv[0].end.toString()),
+                  activeColor: ChartCtrl.to.forfields.isNotEmpty &&
+                          FilePickerCtrl.to.enableRangeSelect.value
+                      ? Colors.blue
+                      : Colors.grey,
+                  onChanged: (RangeValues val) {
+                    /*
+                      start end 값을 차트 컨트롤러에 보내서 
+                      for문안에 하드코딩 했던거 바꾸기.
+                      */
+
+                    //현재(start,end)에 바뀐 값 넣기
+                    RangeSliderCtrl.to.currentRangeVal.value = val;
+                    //레인지 스타트 && 레인지 앤드에 바뀐 값 넣기
+                    for (var i = 0; i < ChartCtrl.to.seriesCnt.value; i++) {
+                      ChartCtrl.to.rv[i].start =
+                          RangeSliderCtrl.to.currentRangeVal.value.start;
+                      ChartCtrl.to.rv[i].end =
+                          RangeSliderCtrl.to.currentRangeVal.value.end;
+                      //ChartCtrl.to.rvIdx.value==(start,end)의 인덱스값
+                      ChartCtrl.to.rvIdx.value =
+                          ChartCtrl.to.rv.indexOf(ChartCtrl.to.rv[i]);
+                    }
+                  },
+                  values: RangeSliderCtrl.to.currentRangeVal.value,
+                  //divisions: ChartCtrl.to.rangeList.length,
+                ));
+          }),
+          const SizedBox(height: 50),
+          Padding(
+            padding: const EdgeInsets.only(left: 20.0),
+            child: Row(
+              children: const [
+                Text('Wavelength 5'),
+              ],
+            ),
+          ),
+          Obx(() {
+            //file select onPessed 할 때 enableRangeSelect=true 해 주기
+            return IgnorePointer(
+                ignoring: ChartCtrl.to.forfields.isNotEmpty &&
+                    FilePickerCtrl.to.enableRangeSelect.value == false,
+                child: RangeSlider(
+                  min: 0.0,
+                  // max: 1000,
+                  max: ChartCtrl.to.forfields.isNotEmpty ? 5000 : 1,
+                  divisions: ChartCtrl.to.forfields.isNotEmpty
+                      ? ChartCtrl.to.forfields.length
+                      : 1,
+                  // divisions: 1,
+                  labels: RangeLabels(ChartCtrl.to.rv[0].start.toString(),
+                      ChartCtrl.to.rv[0].end.toString()),
+                  activeColor: ChartCtrl.to.forfields.isNotEmpty &&
+                          FilePickerCtrl.to.enableRangeSelect.value
+                      ? Colors.blue
+                      : Colors.grey,
+                  onChanged: (RangeValues val) {
+                    /*
+                      start end 값을 차트 컨트롤러에 보내서 
+                      for문안에 하드코딩 했던거 바꾸기.
+                      */
+
+                    //현재(start,end)에 바뀐 값 넣기
+                    RangeSliderCtrl.to.currentRangeVal.value = val;
+                    //레인지 스타트 && 레인지 앤드에 바뀐 값 넣기
+                    for (var i = 0; i < ChartCtrl.to.seriesCnt.value; i++) {
+                      ChartCtrl.to.rv[i].start =
+                          RangeSliderCtrl.to.currentRangeVal.value.start;
+                      ChartCtrl.to.rv[i].end =
+                          RangeSliderCtrl.to.currentRangeVal.value.end;
+                      //ChartCtrl.to.rvIdx.value==(start,end)의 인덱스값
+                      ChartCtrl.to.rvIdx.value =
+                          ChartCtrl.to.rv.indexOf(ChartCtrl.to.rv[i]);
+                    }
+                  },
+                  values: RangeSliderCtrl.to.currentRangeVal.value,
+                  //divisions: ChartCtrl.to.rangeList.length,
+                ));
+          }),
         ],
       ),
     );
@@ -263,16 +496,20 @@ class RangeSliderCtrl extends GetxController {
   static RangeSliderCtrl get to => Get.find();
   RxDouble originStart = 0.0.obs;
   RxDouble originEnd = 0.0.obs;
-  Rx<RangeValues> currentRangeVal = const RangeValues(10, 30).obs;
+  Rx<RangeValues> currentRangeVal = const RangeValues(0, 0).obs;
   RxBool disabledBtn = false.obs;
   RxString changedStart = ''.obs;
   RxString changedEnd = ''.obs;
   // late Rx<RangeWaveLength> rwl;
-  RxDouble maxVal = 0.0.obs;
+  RxDouble maxVal = 867.901527512498.obs;
   RxDouble minVal = 0.0.obs;
+  List<dynamic> minMaxList = RxList.empty();
+  // List<Range> rm = RxList.empty();
   void minMaxFunc() {
     if (ChartCtrl.to.enableApply.value == true &&
         ChartCtrl.to.rangeList.isNotEmpty) {
+      //minMax
+
       maxVal.value = ChartCtrl.to.rangeList[0];
       minVal.value = ChartCtrl.to.rangeList[0];
 

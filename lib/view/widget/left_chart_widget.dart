@@ -60,10 +60,10 @@ class LeftChartWidget extends StatelessWidget {
     final rightMode = ChartCtrl.to.rightMode.value;
 
     return LineChartData(
-      minY: 0,
-      maxY: 500,
+      minY: 2300,
+      maxY: 2550,
       minX: 0,
-      maxX: 500,
+      // maxX: 500,
       lineTouchData: LineTouchData(
         touchTooltipData: LineTouchTooltipData(
           tooltipBgColor: Colors.blueAccent,
