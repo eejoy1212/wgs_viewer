@@ -367,7 +367,6 @@ class _MyAppState extends State<MyApp> {
                                                           FilePickerCtrl
                                                               .to
                                                               .selectedFileName
-                                                              .value
                                                               .length;
 
                                                       //모든파일 삭제하기

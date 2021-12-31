@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/check_box_ctrl.dart';
+import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/model/checkbox_model.dart';
 
 class CkbViewWidget extends StatelessWidget {
@@ -137,11 +138,12 @@ class FileListData extends StatelessWidget {
           children: [
             FloatingActionButton(
               onPressed: () {
+                // FilePickerCtrl.to.selectedFileFunc();
                 int i = CheckboxCtrl.to.ckb.length;
                 CheckboxCtrl.to.ckb.add(
                   CheckBoxModel(
                     title: 'ds',
-                    fileName: '$i. file name ',
+                    fileName: '$i. ${FilePickerCtrl.to.selectedFileName[i]} ',
                     isChecked: false.obs,
                     range: RangeModel(start: i, end: i + 2),
                   ),

@@ -11,6 +11,8 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:multi_split_view/multi_split_view.dart';
 import 'package:wgs_viewer/controller/chart_ctrl.dart';
+import 'package:wgs_viewer/controller/check_box_ctrl.dart';
+import 'package:wgs_viewer/model/checkbox_model.dart';
 import 'package:wgs_viewer/view/widget/file_list_data_widget.dart';
 
 class FilePickerCtrl extends GetxController {
@@ -70,12 +72,6 @@ class FilePickerCtrl extends GetxController {
 
         // debugPrint('file csv data: ${fields[7][1]}');
         forfields = fields;
-
-        // debugPrint('forfields??: ${forfields[7][1]}');
-        // yAxisData = fields;
-        // xAxisData = fields[0];
-        // print('yAxisData : ${yAxisData}');
-        // print('xAxisData : ${xAxisData[6]}');
         List<String> aa = [];
 
         ///////////////////////////////////////////////////////////
@@ -93,6 +89,17 @@ class FilePickerCtrl extends GetxController {
         f2 = const CsvToListConverter().convert(aa[8]);
 
         selectedFileUrl.value = _fileUrls.toString();
+
+        //파일 리스트로 보여주는 것.
+        int nn = CheckboxCtrl.to.ckb.length;
+        CheckboxCtrl.to.ckb.add(
+          CheckBoxModel(
+            title: 'ds',
+            fileName: '$nn번 파일 : ${FilePickerCtrl.to.selectedFileName[nn]} ',
+            isChecked: false.obs,
+            range: RangeModel(start: nn, end: nn + 2),
+          ),
+        );
         if (
             //예외상황
             FilePickerCtrl.to.selectedFileName.length > 100) {

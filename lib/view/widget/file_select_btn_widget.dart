@@ -20,7 +20,7 @@ class _FileSelectBtnState extends State<FileSelectBtn> {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(primary: const Color(0xffFF9110)),
       onPressed: FilePickerCtrl.to.selectedFileFunc,
-      child: Text('File Select'),
+      child: const Text('File Select'),
     );
   }
 }
