@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:multi_split_view/multi_split_view.dart';
-import 'package:wgs_viewer/controller/chart_ctrl.dart';
+import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/check_box_ctrl.dart';
 import 'package:wgs_viewer/model/checkbox_model.dart';
 import 'package:wgs_viewer/view/widget/file_list_data_widget.dart';
@@ -25,8 +25,6 @@ class FilePickerCtrl extends GetxController {
   RxList filenameData = RxList.empty();
   RxList filenamelist = RxList.empty();
   RxString fileMaxAlertMsg = ''.obs;
-  List<List<dynamic>> _data = RxList.empty();
-  List<List<dynamic>> _listData = RxList.empty();
   List yAxisData = RxList.empty();
   List xAxisData = RxList.empty();
   List<List<dynamic>> f1 = RxList.empty();
@@ -73,27 +71,7 @@ class FilePickerCtrl extends GetxController {
             .transform(utf8.decoder)
             .transform(CsvToListConverter(csvSettingsDetector: d))
             .toList();
-        //csv파일을 효율적으로 parsing해오는 방법(밑에거보다 효율적)
-
-        // debugPrint('file csv data: ${fields[7][1]}');
         forfields = fields;
-        List<String> aa = [];
-
-        ///////////////////////////////////////////////////////////
-
-        ///////////////////////////////////////////////////////////2
-        final input = new File(_fileUrls[0]!).openRead();
-        await input
-            .map(utf8.decode)
-            .transform(const LineSplitter())
-            .forEach((l) {
-          aa.add(l);
-        });
-        //파장 시작
-        f1 = const CsvToListConverter().convert(aa[7]);
-        f2 = const CsvToListConverter().convert(aa[8]);
-
-        selectedFileUrl.value = _fileUrls.toString();
 
         //파일 리스트로 보여주는 것.
 

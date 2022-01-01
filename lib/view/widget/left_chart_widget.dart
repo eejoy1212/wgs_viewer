@@ -1,100 +1,169 @@
-import 'dart:async';
-import 'dart:io';
-
-import 'package:file_picker/file_picker.dart';
-import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wgs_viewer/controller/chart_ctrl.dart';
-import 'package:wgs_viewer/ing/chart_test.dart';
+import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 
 class LeftChartWidget extends StatelessWidget {
-  const LeftChartWidget({Key? key}) : super(key: key);
+  List<Color> gradientColors = [
+    const Color(0xff23b6e6),
+    const Color(0xff02d39a),
+  ];
+
+  bool showAvg = false;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        //left Chat 클릭 하면, left Chart만 보이게 하기.
-        Get.find<ChartCtrl>().visibleMode.value = 0;
-      },
-      onDoubleTap: () {
-        //left Chat 더블 클릭 하면, 양쪽 차트 다 보이게 하기.
-        Get.find<ChartCtrl>().visibleMode.value = 2;
-      },
-      child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              flex: 10,
-              child: LineChartSample2(),
-            ),
-            Expanded(
-              flex: 1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(primary: Colors.blueAccent),
-                    onPressed: () {
-                      exportCSV();
-                    },
-                    icon: const Icon(
-                      Icons.file_copy_outlined,
-                      size: 20,
+    List<FlSpot> aa = [FlSpot(0, 1), FlSpot(2, 3)];
+    return Stack(
+      children: [
+        GetBuilder<ChartCtrl>(
+            builder: (ctrl) => InteractiveViewer(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(18),
+                        ),
+                        color: Colors.transparent),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        right: 18.0,
+                        left: 12.0,
+                        top: 24,
+                        bottom: 12,
+                      ),
+                      child: leftData(
+                        ctrl: ctrl,
+                        lineBarsData: [
+                          if (ctrl.forfields[0].isNotEmpty)
+                            lineChartBarData(
+                              ctrl.forfields[0],
+                              Colors.green,
+                            ),
+                          if (ctrl.forfields[0].isNotEmpty)
+                            lineChartBarData(
+                              ctrl.forfields[1],
+                              Colors.red,
+                            ),
+                          if (ctrl.forfields[0].isNotEmpty)
+                            lineChartBarData(
+                              ctrl.forfields[2],
+                              Colors.purple,
+                            ),
+                          if (ctrl.forfields[0].isNotEmpty)
+                            lineChartBarData(
+                              ctrl.forfields[3],
+                              Colors.blueAccent,
+                            )
+                        ],
+                        bottomTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 20,
+                          getTextStyles: (bctx, dbl) => const TextStyle(
+                            color: Colors.blueGrey,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                          margin: 8,
+                        ),
+                        leftTitles: SideTitles(
+                          showTitles: false,
+                          getTextStyles: (bctx, dbl) => const TextStyle(
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                          reservedSize: 10,
+                          margin: 12,
+                        ),
+                      ),
                     ),
-                    label: const Text('Export'),
                   ),
-                ],
-              ),
+                )),
+        SizedBox(
+          width: 60,
+          height: 34,
+          child: TextButton(
+            onPressed: () {},
+            child: Text(
+              'avg',
+              style: TextStyle(
+                  fontSize: 12,
+                  color:
+                      showAvg ? Colors.white.withOpacity(0.5) : Colors.white),
             ),
-          ]),
-    );
-  }
-
-  LineChartData mainData() {
-    final leftMode = ChartCtrl.to.leftMode.value;
-
-    final rightMode = ChartCtrl.to.rightMode.value;
-
-    return LineChartData(
-      minY: 2300,
-      maxY: 2550,
-      minX: 0,
-      // maxX: 500,
-      lineTouchData: LineTouchData(
-        touchTooltipData: LineTouchTooltipData(
-          tooltipBgColor: Colors.blueAccent,
-// getTooltipItems: (List<LineBarSpot> touchedBarSpots){
-
-// }
+          ),
         ),
-      ),
-      gridData: FlGridData(
-        getDrawingHorizontalLine: (value) {
-          return FlLine(
-            color: Colors.black12,
-            strokeWidth: 1,
-          );
-        },
-        getDrawingVerticalLine: (value) {
-          return FlLine(
-            color: Colors.black12,
-            strokeWidth: 1,
-          );
-        },
-      ),
-      // lineBarsData: [sinLine(),]
+      ],
     );
   }
-}
 
-void exportCSV() async {
-  FilePickerCross myFile = await FilePickerCross.importFromStorage(
-      type: FileTypeCross.any, fileExtension: 'csv');
+  LineChart leftData({
+    required ChartCtrl ctrl,
+    required List<LineChartBarData> lineBarsData,
+    SideTitles? leftTitles,
+    SideTitles? bottomTitles,
+  }) {
+    return LineChart(
+      LineChartData(
+          minY: -50000,
+          maxY: 150000,
+          minX: 0,
+          maxX: 6,
+          lineTouchData: LineTouchData(
+              touchTooltipData: LineTouchTooltipData(
+            fitInsideHorizontally: true,
+            fitInsideVertically: true,
+          )),
+          clipData: FlClipData.all(),
+          titlesData: FlTitlesData(
+            show: true,
+            bottomTitles: bottomTitles,
+            leftTitles: leftTitles,
+            topTitles: SideTitles(
+              showTitles: false,
+            ),
+            rightTitles: SideTitles(
+              showTitles: true,
+              // getTitles: (value) {
+              // switch (value.toInt()) {
+              // case 0:
+              // return '2300';
+              // case 100:
+              // return '2300';
+              // case 2400:
+              // return '2400';
+              // case 2450:
+              // return '2450';
+              // case 2500:
+              // return '2450';
+              // case 2550:
+              // return '2450';
+              // }
+              // return '??';
+              // },
+            ),
+          ),
+          borderData: FlBorderData(
+            show: true,
+            border: Border.all(
+              color: Colors.red,
+              width: 1,
+            ),
+          ),
+          lineBarsData: lineBarsData),
+      swapAnimationDuration: Duration.zero,
+      //데이터 all side로 만듦 x축 y축 둘다 만든다는 소리..?
+    );
+  }
 
-  String? pathForExports = await myFile
-      .exportToStorage(); // <- will return the file's path on desktops
+  LineChartBarData lineChartBarData(List<FlSpot> points, color) {
+    return LineChartBarData(
+      spots: points,
+      dotData: FlDotData(
+        show: true,
+      ),
+      colors: [color],
+      barWidth: 1,
+    );
+  }
 }

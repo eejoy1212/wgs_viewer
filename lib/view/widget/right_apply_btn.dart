@@ -5,8 +5,8 @@ import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/right_chart_ctrl.dart';
 
-class ApplyBtn extends StatelessWidget {
-  const ApplyBtn({Key? key}) : super(key: key);
+class RightApplyBtn extends StatelessWidget {
+  const RightApplyBtn({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +19,10 @@ class ApplyBtn extends StatelessWidget {
                     ? Colors.grey
                     : Color(0xff5AEDCA),
               ),
-              onPressed: () async {
-                ChartCtrl.to.leftDataMode.value = true;
-
-                await ChartCtrl.to.updateLeftData();
+              onPressed: () {
+                if (FileSelectDropDownCtrl.to.rightData.isNotEmpty) {
+                  RightChartCtrl.to.updateRightData();
+                }
 
                 RangeSliderCtrl.to.minMaxFunc();
               },

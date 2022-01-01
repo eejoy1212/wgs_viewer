@@ -4,21 +4,22 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:resizable_widget/resizable_widget.dart';
-import 'package:wgs_viewer/controller/chart_ctrl.dart';
+import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/check_box_ctrl.dart';
 import 'package:wgs_viewer/controller/dark_mode_ctrl.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/left_menu_ctrl.dart';
+import 'package:wgs_viewer/controller/file_select_dropdown_ctrl.dart';
+import 'package:wgs_viewer/controller/right_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/controller/translator_ctrl.dart';
-import 'package:wgs_viewer/file_select_dropdown_widget.dart';
 import 'package:wgs_viewer/mode.dart';
 import 'package:wgs_viewer/view/widget/apply_btn_widget.dart';
 import 'package:wgs_viewer/view/widget/file_list_data_widget.dart';
 import 'package:wgs_viewer/view/widget/file_select_btn_widget.dart';
-import 'package:wgs_viewer/view/widget/right_chart_widget.dart';
+import 'package:wgs_viewer/view/page/right_chart_pg.dart';
 import 'package:wgs_viewer/view/widget/time_select_widget.dart';
-import 'package:wgs_viewer/view/widget/left_chart_widget.dart';
+import 'package:wgs_viewer/view/page/left_chart_pg.dart';
 import 'package:wgs_viewer/view/widget/window_btns_widget.dart';
 
 void main() {
@@ -32,7 +33,9 @@ void main() {
   Get.put(TranslatorCtrl());
   Get.put(RangeSliderCtrl());
   Get.put(FileSelectDropDownCtrl());
+  Get.put(RightChartCtrl());
   ChartCtrl.to.init();
+  RightChartCtrl.to.init();
   runApp(
     MyApp(),
   );
@@ -241,9 +244,9 @@ class _MyAppState extends State<MyApp> {
                                     Get.find<ChartCtrl>().visibleMode.value == 2
                                 ? true
                                 : false,
-                            child: Expanded(
+                            child: const Expanded(
                               flex: 1,
-                              child: LeftChartWidget(),
+                              child: LeftChartPg(),
                             ),
                           ),
                         ),
@@ -258,7 +261,7 @@ class _MyAppState extends State<MyApp> {
                                   : false,
                               child: const Expanded(
                                 flex: 1,
-                                child: RightChartWidget(),
+                                child: RightChartPg(),
                               ),
                             ))
                       ],

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/file_select_dropdown_widget.dart';
+import 'package:wgs_viewer/view/widget/right_apply_btn.dart';
 
 class TimeSelectTxtForm extends StatelessWidget {
   const TimeSelectTxtForm({Key? key}) : super(key: key);
@@ -42,17 +43,7 @@ class TimeSelectTxtForm extends StatelessWidget {
               const Spacer(),
               Row(
                 children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: const Color(0xff5AEDCA),
-                    ),
-                    onPressed: () {},
-                    child: const Text(
-                      'Apply',
-                      style: const TextStyle(
-                          color: Colors.blueGrey, fontWeight: FontWeight.bold),
-                    ),
-                  ),
+                  const RightApplyBtn(),
                   const SizedBox(
                     width: 20,
                   ),

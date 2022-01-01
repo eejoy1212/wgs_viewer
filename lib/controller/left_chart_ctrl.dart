@@ -84,12 +84,11 @@ class ChartCtrl extends GetxController {
   RxInt seriesCnt = 150.obs;
   RxDouble rangeEnd = 0.0.obs;
   RxBool leftMode = false.obs;
-  RxBool rightMode = false.obs;
+
   RxList<FlSpot> simData = RxList.empty();
   List<FlSpot> leftChartData = RxList.empty();
   RxList<List<FlSpot>> rightChartData = RxList.empty();
   RxBool leftDataMode = false.obs;
-  RxBool rightDataMode = false.obs;
   RxInt tempFileNum = 50.obs;
   RxInt tempWaveNum = 10.obs;
   RxList xAxisData = RxList.empty();
@@ -109,9 +108,7 @@ class ChartCtrl extends GetxController {
   List<RangeValue> rv3 = [];
   List<RangeValue> rv4 = [];
   List<RangeValue> rv5 = [];
-
   RxInt timeMaxLength = 0.obs;
-
   RxInt rvIdx = 0.obs;
 
 /*
@@ -138,9 +135,8 @@ class ChartCtrl extends GetxController {
 
       //시리즈 갯수는 파장 선택하는 레인지 갯수(5개) * 파일선택한 갯수
       //seriesCnt==5*FilePickerCtrl.to.selectedFileName.length
-      ChartCtrl.to.seriesCnt.value =
-          5 * FilePickerCtrl.to.selectedFileName.length.toInt();
-      var firstTime = FilePickerCtrl.to.forfields[7][0]; // 15:23:43.432
+      seriesCnt.value = 5 * FilePickerCtrl.to.selectedFileName.length.toInt();
+      // var firstTime = FilePickerCtrl.to.forfields[7][0]; // 15:23:43.432
 
       for (var ii = 0; ii < seriesCnt.value; ii++) {
         forfields[ii].clear();
@@ -157,7 +153,7 @@ class ChartCtrl extends GetxController {
         // int idx = i - 6;
 
         debugPrint('idx : $idx');
-        var time = FilePickerCtrl.to.forfields[i][0]; // 15:23:43.532
+        // var time = FilePickerCtrl.to.forfields[i][0]; // 15:23:43.532
 
         value.value = 0.0;
         for (var ii = 0; ii < seriesCnt.value; ii++) {
@@ -183,6 +179,7 @@ class ChartCtrl extends GetxController {
 
           //시리즈별로 리스트에 추가./
           forfields[ii].add(FlSpot(idx.toDouble(), value.value));
+          debugPrint('왼쪽 데이터??: $forfields');
           // RangeSliderCtrl.to.minVal.value = forfields[6].length;
           // RangeSliderCtrl.to.maxVal.value = forfields[6][1].y;
         }
