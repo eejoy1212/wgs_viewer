@@ -11,6 +11,7 @@ import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/left_menu_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/controller/translator_ctrl.dart';
+import 'package:wgs_viewer/file_select_dropdown_widget.dart';
 import 'package:wgs_viewer/mode.dart';
 import 'package:wgs_viewer/view/widget/apply_btn_widget.dart';
 import 'package:wgs_viewer/view/widget/file_list_data_widget.dart';
@@ -30,6 +31,7 @@ void main() {
   Get.put(CheckboxCtrl());
   Get.put(TranslatorCtrl());
   Get.put(RangeSliderCtrl());
+  Get.put(FileSelectDropDownCtrl());
   ChartCtrl.to.init();
   runApp(
     MyApp(),

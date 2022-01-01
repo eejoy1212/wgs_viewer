@@ -18,6 +18,7 @@ import 'package:wgs_viewer/view/widget/file_list_data_widget.dart';
 class FilePickerCtrl extends GetxController {
   static FilePickerCtrl get to => Get.find();
   RxList<String> selectedFileName = RxList.empty(); //<String>[].obs;
+  List<String?> selectedFileUrls = RxList.empty();
   var selectedFileUrl = ''.obs;
   RxInt selectedFileNum = 0.obs;
   RxString selectedFileContent = ''.obs;
@@ -54,13 +55,17 @@ class FilePickerCtrl extends GetxController {
         if (selectedFileName.length + _fileNames.length > 100) {
           var ableAddCnt = 100 - selectedFileName.length;
           selectedFileName.addAll(_fileNames.sublist(0, ableAddCnt));
+          selectedFileUrls.addAll(_fileUrls);
 
           FilePickerCtrl.to.fileMaxAlertMsg.value = 'File maximum is 100';
         } else {
           selectedFileName.addAll(_fileNames);
+          //나중에 fileName을 url로 바꾸자
+          selectedFileUrls.addAll(_fileUrls);
         }
         //////////////////////////////////////////////////////1
-
+        debugPrint('fileName : $selectedFileName');
+        debugPrint('fileurls : $selectedFileUrls');
         final input2 = File(_fileUrls[0]!).openRead();
         var d = const FirstOccurrenceSettingsDetector(
             eols: ['\r\n', '\n'], textDelimiters: ['"', "'"]);
