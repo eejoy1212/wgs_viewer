@@ -91,8 +91,11 @@ class FilePickerCtrl extends GetxController {
         selectedFileUrl.value = _fileUrls.toString();
 
         //파일 리스트로 보여주는 것.
+
         int nn = CheckboxCtrl.to.ckb.length;
-        CheckboxCtrl.to.ckb.add(
+        //addAll하려면 리스트에 담고 해줘야하므로 먼저 리스트에 추가
+        List<CheckBoxModel> ckbfirstList = [];
+        ckbfirstList.add(
           CheckBoxModel(
             title: 'ds',
             fileName: '$nn번 파일 : ${FilePickerCtrl.to.selectedFileName[nn]} ',
@@ -100,6 +103,16 @@ class FilePickerCtrl extends GetxController {
             range: RangeModel(start: nn, end: nn + 2),
           ),
         );
+        //addAll하면, 파일선택 여러개 하면 한번에 다 리스트에 추가돼야
+        CheckboxCtrl.to.ckb.addAll(ckbfirstList);
+        // CheckboxCtrl.to.ckb.add(
+        //   CheckBoxModel(
+        //     title: 'ds',
+        //     fileName: '$nn번 파일 : ${FilePickerCtrl.to.selectedFileName[nn]} ',
+        //     isChecked: false.obs,
+        //     range: RangeModel(start: nn, end: nn + 2),
+        //   ),
+        // );
         if (
             //예외상황
             FilePickerCtrl.to.selectedFileName.length > 100) {
