@@ -30,7 +30,10 @@ class FilePickerCtrl extends GetxController {
   List<List<dynamic>> f1 = RxList.empty();
   List<List<dynamic>> f2 = RxList.empty();
   List<List<dynamic>> forfields = RxList.empty();
+  List<dynamic> firstLine = RxList.empty();
   RxBool enableRangeSelect = false.obs;
+  RxInt maxIdx = 0.obs;
+  List<String> timeAxis = RxList.empty();
   Future<void> selectedFileFunc() async {
     //파일 셀렉트 버튼 누르면, 파장선택 가능하게 하기
     enableRangeSelect.value = true;
@@ -51,9 +54,10 @@ class FilePickerCtrl extends GetxController {
         List<String> _fileNames = _paths.map((e) => e.name).toList();
         List<String?> _fileUrls = _paths.map((e) => e.path).toList();
         if (selectedFileName.length + _fileNames.length > 100) {
-          var ableAddCnt = 100 - selectedFileName.length;
-          selectedFileName.addAll(_fileNames.sublist(0, ableAddCnt));
-          selectedFileUrls.addAll(_fileUrls);
+          // var ableAddCnt = 100 - selectedFileName.length;
+          var ableAddCnt = 100 - selectedFileUrls.length;
+          // selectedFileName.addAll(_fileNames.sublist(0, ableAddCnt));
+          selectedFileUrls.addAll(_fileUrls.sublist(0, ableAddCnt));
 
           FilePickerCtrl.to.fileMaxAlertMsg.value = 'File maximum is 100';
         } else {
@@ -64,17 +68,32 @@ class FilePickerCtrl extends GetxController {
         //////////////////////////////////////////////////////1
         debugPrint('fileName : $selectedFileName');
         debugPrint('fileurls : $selectedFileUrls');
-        final input2 = File(_fileUrls[0]!).openRead();
+        final input2 = File(_fileUrls[selectedFileUrls.length - 1]!).openRead();
+
         var d = const FirstOccurrenceSettingsDetector(
             eols: ['\r\n', '\n'], textDelimiters: ['"', "'"]);
         final fields = await input2
             .transform(utf8.decoder)
             .transform(CsvToListConverter(csvSettingsDetector: d))
             .toList();
-        forfields = fields;
 
+        forfields = fields;
+//레인지에 쓸거
+        firstLine = fields[6].sublist(1, fields[6].length);
+        print('firstLine $firstLine');
+        maxIdx.value = firstLine.indexOf(867.9015275);
+        print(
+            'FilePickerCtrl.to.firstLine.last ${FilePickerCtrl.to.firstLine.last}');
+        // for (var i = 7; i <
+
+        // fields[0].last.; i++) {
+        // fields[0]
+        // }
+
+        print('?? :  ${maxIdx}');
         //파일 리스트로 보여주는 것.
 
+        // int nn = CheckboxCtrl.to.ckb.length;
         int nn = CheckboxCtrl.to.ckb.length;
         //addAll하려면 리스트에 담고 해줘야하므로 먼저 리스트에 추가
         List<CheckBoxModel> ckbfirstList = [];
@@ -88,6 +107,7 @@ class FilePickerCtrl extends GetxController {
         );
         //addAll하면, 파일선택 여러개 하면 한번에 다 리스트에 추가돼야
         CheckboxCtrl.to.ckb.addAll(ckbfirstList);
+
         // CheckboxCtrl.to.ckb.add(
         //   CheckBoxModel(
         //     title: 'ds',

@@ -5,7 +5,6 @@ import 'package:csv/csv.dart';
 import 'package:csv/csv_settings_autodetection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:wgs_viewer/controller/right_chart_ctrl.dart';
 
 class FileSelectDropDownCtrl extends GetxController {
   static FileSelectDropDownCtrl get to => Get.find();

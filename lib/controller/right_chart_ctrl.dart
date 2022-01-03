@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/file_select_dropdown_ctrl.dart';
+import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 
 class RightChartCtrl extends GetxController {
   static RightChartCtrl get to => Get.find();
@@ -27,6 +28,9 @@ class RightChartCtrl extends GetxController {
       int idx = ii - 7;
       yVal.value = 0.0;
       for (var iii = 0; iii < seriesCnt.value; iii++) {
+        final int cnt =
+            (ChartCtrl.to.rv[ii].end - ChartCtrl.to.rv[ii].start + 1).toInt();
+
         rightSeriesData[ii].add(FlSpot(idx.toDouble(), yVal.value));
       }
     }

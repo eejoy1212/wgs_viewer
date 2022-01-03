@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/check_box_ctrl.dart';
@@ -134,26 +132,6 @@ class FileListData extends StatelessWidget {
         //     ),
         //   ),
         // ),
-        Row(
-          children: [
-            FloatingActionButton(
-              onPressed: () {
-                // FilePickerCtrl.to.selectedFileFunc();
-                int i = CheckboxCtrl.to.ckb.length;
-                CheckboxCtrl.to.ckb.add(
-                  CheckBoxModel(
-                    title: 'ds',
-                    fileName: '$i. ${FilePickerCtrl.to.selectedFileName[i]} ',
-                    isChecked: false.obs,
-                    range: RangeModel(start: i, end: i + 2),
-                  ),
-                );
-              },
-              tooltip: 'Add',
-              child: const Icon(Icons.add),
-            ),
-          ],
-        ),
       ],
     );
   }

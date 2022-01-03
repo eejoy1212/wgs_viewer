@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 
 class LeftChartWidget extends StatelessWidget {
@@ -10,10 +11,19 @@ class LeftChartWidget extends StatelessWidget {
   ];
 
   bool showAvg = false;
-
+  int seriesIdx = 0;
+  List xAxis = [];
   @override
   Widget build(BuildContext context) {
-    List<FlSpot> aa = [FlSpot(0, 1), FlSpot(2, 3)];
+    // DateTime last = DateTime(0, 0, 0, 0, 0);
+    // FilePickerCtrl.to.timeAxis.add(last);
+    // for (var i = 0; i < FilePickerCtrl.to.timeAxis.length + 1; i++) {
+    // var diff = FilePickerCtrl.to.timeAxis[i + 1]
+    // .difference(FilePickerCtrl.to.timeAxis[i]);
+    // xAxis.add(diff);
+    // }
+    // print(xAxis);
+
     return Stack(
       children: [
         GetBuilder<ChartCtrl>(
@@ -36,7 +46,7 @@ class LeftChartWidget extends StatelessWidget {
                         lineBarsData: [
                           if (ctrl.forfields[0].isNotEmpty)
                             lineChartBarData(
-                              ctrl.forfields[0],
+                              ctrl.forfields[seriesIdx],
                               Colors.green,
                             ),
                           if (ctrl.forfields[0].isNotEmpty)
@@ -52,11 +62,59 @@ class LeftChartWidget extends StatelessWidget {
                           if (ctrl.forfields[0].isNotEmpty)
                             lineChartBarData(
                               ctrl.forfields[3],
-                              Colors.blueAccent,
-                            )
+                              Colors.amberAccent,
+                            ),
+                          if (ctrl.forfields[0].isNotEmpty)
+                            lineChartBarData(
+                              ctrl.forfields[4],
+                              Colors.pink,
+                            ),
+                          if (ctrl.forfields[0].isNotEmpty)
+                            lineChartBarData(
+                              ctrl.forfields[5],
+                              Colors.grey,
+                            ),
+                          if (ctrl.forfields[0].isNotEmpty)
+                            lineChartBarData(
+                              ctrl.forfields[6],
+                              Colors.black,
+                            ),
+                          if (ctrl.forfields[0].isNotEmpty)
+                            lineChartBarData(
+                              ctrl.forfields[7],
+                              Colors.deepOrange,
+                            ),
+                          if (ctrl.forfields[0].isNotEmpty)
+                            lineChartBarData(
+                              ctrl.forfields[8],
+                              Colors.deepPurpleAccent,
+                            ),
+                          if (ctrl.forfields[0].isNotEmpty)
+                            lineChartBarData(
+                              ctrl.forfields[9],
+                              Colors.cyan,
+                            ),
                         ],
                         bottomTitles: SideTitles(
                           showTitles: true,
+                          getTitles: (value) {
+                            switch (value.toInt()) {
+                              // print()
+                              case 0:
+                                return '2300';
+                              case 100:
+                                return '2300';
+                              case 2400:
+                                return '2400';
+                              case 2450:
+                                return '2450';
+                              case 2500:
+                                return '2450';
+                              case 2550:
+                                return '2450';
+                            }
+                            return '??';
+                          },
                           reservedSize: 20,
                           getTextStyles: (bctx, dbl) => const TextStyle(
                             color: Colors.blueGrey,

@@ -25,7 +25,7 @@ import 'package:wgs_viewer/view/widget/window_btns_widget.dart';
 void main() {
   Get.put(ctrl());
   Get.put(LeftMenuCtrl());
-  Get.put(FilePickerCtrl());
+  Get.put(FilePickerCtrl(), permanent: true);
   Get.put(DarkModeCtrl());
   Get.put(TimeSelectCtrl());
   Get.put(ChartCtrl());
@@ -36,6 +36,7 @@ void main() {
   Get.put(RightChartCtrl());
   ChartCtrl.to.init();
   RightChartCtrl.to.init();
+
   runApp(
     MyApp(),
   );
@@ -62,8 +63,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // var allChecked = CheckBoxModel(title: 'All check', fileName: '', isChecked: true, range: );
-
   bool isDarkMode = false;
 
   toGetx() {
@@ -398,7 +397,7 @@ class _MyAppState extends State<MyApp> {
                                       const Spacer(),
                                       Obx(
                                         () => Text(
-                                            'File num : ${FilePickerCtrl.to.selectedFileName.length}'),
+                                            'File num : ${FilePickerCtrl.to.selectedFileUrls.length}'),
                                       ),
                                       const SizedBox(
                                         width: 20,
@@ -461,8 +460,8 @@ class _MyAppState extends State<MyApp> {
                   ),
                 ],
                 percentages: const [
-                  0.8,
-                  0.2,
+                  0.5,
+                  0.5,
                 ],
               ),
             ])));
