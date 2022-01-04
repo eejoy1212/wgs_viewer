@@ -1,7 +1,9 @@
 import 'package:dotted_border/dotted_border.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
+import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/file_select_dropdown_widget.dart';
 import 'package:wgs_viewer/view/widget/right_apply_btn.dart';
@@ -33,12 +35,10 @@ class TimeSelectTxtForm extends StatelessWidget {
                 if (FilePickerCtrl.to.firstLine.isNotEmpty) {
                   return Text(
                       '${controller.tempList[controller.firstTimeIdx.value]}');
-                } else if (controller.firstTimeIdx <
-                        controller.tempList
-                            .indexOf(controller.tempList.first) ||
-                    controller.firstTimeIdx >=
-                        controller.tempList.indexOf(controller.tempList.last)) {
-                  return const Text('Out of Selectable Range');
+                } else if (FilePickerCtrl.to.firstLine.isNotEmpty &&
+                    ChartCtrl.to.leftDataMode.value == true) {
+                  return Text(
+                      '${controller.tempList[controller.secondTimeIdx.value]}');
                 } else {
                   return Text('-');
                 }
@@ -95,13 +95,10 @@ class TimeSelectTxtForm extends StatelessWidget {
                     if (FilePickerCtrl.to.firstLine.isNotEmpty) {
                       return Text(
                           '${controller.tempList[controller.secondTimeIdx.value]}');
-                    } else if (controller.secondTimeIdx <
-                            controller.tempList
-                                .indexOf(controller.tempList.first) ||
-                        controller.secondTimeIdx >=
-                            controller.tempList
-                                .indexOf(controller.tempList.last)) {
-                      return const Text('Out of Selectable Range');
+                    } else if (FilePickerCtrl.to.firstLine.isNotEmpty &&
+                        ChartCtrl.to.leftDataMode.value == true) {
+                      return Text(
+                          '${controller.tempList[controller.secondTimeIdx.value]}');
                     } else {
                       return Text('-');
                     }

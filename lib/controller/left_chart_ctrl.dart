@@ -134,35 +134,19 @@ class ChartCtrl extends GetxController {
   }
 
   Future<void> updateLeftData() async {
-    //왼쪽 데이터 signal을 주었을 때
     if (leftDataMode.value == true) {
-      //시리즈갯수
-
-      //시리즈 갯수는 파장 선택하는 레인지 갯수(5개) * 파일선택한 갯수
-      //seriesCnt==5*FilePickerCtrl.to.selectedFileName.length
-      seriesCnt.value = 5 * FilePickerCtrl.to.selectedFileName.length.toInt();
-      // var firstTime = FilePickerCtrl.to.forfields[7][0]; // 15:23:43.432
+      seriesCnt.value = 5 * FilePickerCtrl.to.selectedFileUrls.length.toInt();
 
       for (var ii = 0; ii < seriesCnt.value; ii++) {
         forfields[ii].clear();
       }
-
-      //start[0] = 1 end[0] = 2
-      //start[1] = 5 end[1] =10
-      //debugPrint('firstTime $firstTime $dt');
-      // for (var i = 7; i < 14; i++) {
-      String firstTime = FilePickerCtrl.to.forfields[7][0]; // 15:23:43.532
       for (var i = 7; i < 14; i++) {
         int idx = i - 7;
-        //점이 7개 나와야하는데 위의 idx로하면 6개임
-        // int idx = i - 6;
-
         debugPrint('idx : $idx');
-        String time = FilePickerCtrl.to.forfields[i][0]; // 15:23:43.532
+        String time = FilePickerCtrl.to.forfields[i][0];
         print('time: $time');
         int min = int.parse(time.substring(0, 2));
         int sec = int.parse(time.substring(3, 5));
-        // int millisec = int.parse(time.substring(6, 7));
         DateTime time1 = DateTime(0, 0, 0, 0, min, sec);
         time1.difference(time1);
 
@@ -170,34 +154,28 @@ class ChartCtrl extends GetxController {
         print('stringT1 :$stringT1');
 
         print('time1 :$time1');
-        // FilePickerCtrl.to.timeAxis.add(FilePickerCtrl.to.forfields[i][0]);
 
         if (i == 7)
           FilePickerCtrl.to.timeAxis.add('00:00.0');
-        else {
-          //8일경우 8에서 FirstTime = 0:17.3
-          //9일경우 9에서 FirstTime = 0:34.7
-          //10일경우 10에서 FirstTime = 32323232
-
-          // time1.difference(firstTime);
-          // FilePickerCtrl.to.timeAxis.add(time1);
-        }
-
-        for (var i = 0; i < FilePickerCtrl.to.timeAxis.length; i++) {}
-
-        debugPrint('time축 : ${FilePickerCtrl.to.timeAxis}');
+        else {}
 
         value.value = 0.0;
         for (var ii = 0; ii < seriesCnt.value; ii++) {
 //cnt==범위 선택한 것.
           // final cnt = end[ii] - start[ii] + 1;
-          final int cnt = (rv[ii].end - rv[ii].start + 1).toInt();
+          // final int cnt = (rv[ii].end - rv[ii].start + 1).toInt();
+          final int cnt = (RangeSliderCtrl.to.currentRv[ii].end -
+                  RangeSliderCtrl.to.currentRv[ii].start +
+                  1)
+              .toInt();
 // 레인지 평균내는 식
 
           for (var iii = 0; iii < cnt; iii++) {
             // 2 - 1
 
-            final int avgIdx = 1 + rv[ii].start.toInt() + iii;
+            // final int avgIdx = 1 + rv[ii].start.toInt() + iii;
+            final int avgIdx =
+                1 + RangeSliderCtrl.to.currentRv[ii].start.toInt() + iii;
             // final int startIdx = rv.indexOf(rv[ii]);
             // final int avgIdx = 1 + startIdx + iii;
             // final int avgIdx = 1 + rv[ii].start.toInt() + iii;
@@ -219,7 +197,6 @@ class ChartCtrl extends GetxController {
             //     rv5[ii].start.toInt() + //650 170.34
             //     iii;
             //avgIdx에 인덱스가 아니라 값이 잘못들어간듯..?(ui상 툴팁에 보이는 레인지를 선택한 값이 avgIdx에 잘못들어가는중.)
-            final startValue = rv[ii].start;
 
             value.value += FilePickerCtrl.to.forfields[i][avgIdx];
             // rangeList.add(value.value);
@@ -253,255 +230,5 @@ class ChartCtrl extends GetxController {
     // update();
     //데이터 업데이트 하고나서 Apply 버튼 누를 수 있게.
     ChartCtrl.to.enableApply.value = true;
-  }
-}
-
-class RangeSliders extends StatelessWidget {
-  @override
-  Widget build(
-    BuildContext context,
-  ) {
-    return Container(
-      width: 500,
-      child: Column(
-        children: [
-          SizedBox(height: 50),
-          Padding(
-            padding: const EdgeInsets.only(left: 20.0),
-            child: Row(
-              children: [
-                Text('Wavelength 1'),
-              ],
-            ),
-          ),
-          Obx(() {
-            //file select onPessed 할 때 enableRangeSelect=true 해 주기
-            return IgnorePointer(
-              ignoring: ChartCtrl.to.forfields.isEmpty,
-              child: RangeSlider(
-                onChanged: (v) {
-                  RangeSliderCtrl.to.currentRv.value = v;
-                  //v.start는 값이 아니라 인덱스임
-                  RangeSliderCtrl.to.vStart =
-                      FilePickerCtrl.to.firstLine[v.start.round()];
-                  RangeSliderCtrl.to.vEnd =
-                      FilePickerCtrl.to.firstLine[v.end.round()];
-                  debugPrint(
-                      'firstLine length && onChanged : ${FilePickerCtrl.to.firstLine.length} $v');
-                },
-                values: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? RangeSliderCtrl.to.currentRv.value
-                    : const RangeValues(0, 0),
-                min: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.first)
-                        .toDouble()
-                    : 0,
-                max: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.last)
-                        .toDouble()
-                    : 1,
-                divisions: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.last)
-                    : 1,
-                labels: RangeLabels(
-                    RangeSliderCtrl.to.vStart.toStringAsFixed(3),
-                    RangeSliderCtrl.to.vEnd.toStringAsFixed(3)),
-              ),
-            );
-          }),
-          SizedBox(height: 50),
-          Padding(
-            padding: const EdgeInsets.only(left: 20.0),
-            child: Row(
-              children: [
-                Text('Wavelength 2'),
-              ],
-            ),
-          ),
-          Obx(() {
-            //file select onPessed 할 때 enableRangeSelect=true 해 주기
-            return IgnorePointer(
-              ignoring: ChartCtrl.to.forfields.isEmpty,
-              child: RangeSlider(
-                onChanged: (v) {
-                  RangeSliderCtrl.to.currentRv2.value = v;
-                  //v.start는 값이 아니라 인덱스임
-                  RangeSliderCtrl.to.vStart2 =
-                      FilePickerCtrl.to.firstLine[v.start.round()];
-                  RangeSliderCtrl.to.vEnd2 =
-                      FilePickerCtrl.to.firstLine[v.end.round()];
-                  debugPrint(
-                      'firstLine length && onChanged : ${FilePickerCtrl.to.firstLine.length} $v');
-                },
-                values: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? RangeSliderCtrl.to.currentRv2.value
-                    : const RangeValues(0, 0),
-                min: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.first)
-                        .toDouble()
-                    : 0,
-                max: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.last)
-                        .toDouble()
-                    : 1,
-                divisions: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.last)
-                    : 1,
-                labels: RangeLabels(
-                    RangeSliderCtrl.to.vStart2.toStringAsFixed(3),
-                    RangeSliderCtrl.to.vEnd2.toStringAsFixed(3)),
-              ),
-            );
-          }),
-          SizedBox(height: 50),
-          Padding(
-            padding: const EdgeInsets.only(left: 20.0),
-            child: Row(
-              children: [
-                Text('Wavelength 3'),
-              ],
-            ),
-          ),
-          Obx(() {
-            //file select onPessed 할 때 enableRangeSelect=true 해 주기
-            return IgnorePointer(
-              ignoring: ChartCtrl.to.forfields.isEmpty,
-              child: RangeSlider(
-                onChanged: (v) {
-                  RangeSliderCtrl.to.currentRv3.value = v;
-                  //v.start는 값이 아니라 인덱스임
-                  RangeSliderCtrl.to.vStart3 =
-                      FilePickerCtrl.to.firstLine[v.start.round()];
-                  RangeSliderCtrl.to.vEnd3 =
-                      FilePickerCtrl.to.firstLine[v.end.round()];
-                  debugPrint(
-                      'firstLine length && onChanged : ${FilePickerCtrl.to.firstLine.length} $v');
-                },
-                values: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? RangeSliderCtrl.to.currentRv3.value
-                    : const RangeValues(0, 0),
-                min: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.first)
-                        .toDouble()
-                    : 0,
-                max: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.last)
-                        .toDouble()
-                    : 1,
-                divisions: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.last)
-                    : 1,
-                labels: RangeLabels(
-                    RangeSliderCtrl.to.vStart3.toStringAsFixed(3),
-                    RangeSliderCtrl.to.vEnd3.toStringAsFixed(3)),
-              ),
-            );
-          }),
-          SizedBox(height: 50),
-          Padding(
-            padding: const EdgeInsets.only(left: 20.0),
-            child: Row(
-              children: [
-                Text('Wavelength 4'),
-              ],
-            ),
-          ),
-          Obx(() {
-            //file select onPessed 할 때 enableRangeSelect=true 해 주기
-            return IgnorePointer(
-              ignoring: ChartCtrl.to.forfields.isEmpty,
-              child: RangeSlider(
-                onChanged: (v) {
-                  RangeSliderCtrl.to.currentRv4.value = v;
-                  //v.start는 값이 아니라 인덱스임
-                  RangeSliderCtrl.to.vStart4 =
-                      FilePickerCtrl.to.firstLine[v.start.round()];
-                  RangeSliderCtrl.to.vEnd4 =
-                      FilePickerCtrl.to.firstLine[v.end.round()];
-                  debugPrint(
-                      'firstLine length && onChanged : ${FilePickerCtrl.to.firstLine.length} $v');
-                },
-                values: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? RangeSliderCtrl.to.currentRv4.value
-                    : const RangeValues(0, 0),
-                min: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.first)
-                        .toDouble()
-                    : 0,
-                max: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.last)
-                        .toDouble()
-                    : 1,
-                divisions: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.last)
-                    : 1,
-                labels: RangeLabels(
-                    RangeSliderCtrl.to.vStart4.toStringAsFixed(3),
-                    RangeSliderCtrl.to.vEnd4.toStringAsFixed(3)),
-              ),
-            );
-          }),
-          SizedBox(height: 50),
-          Padding(
-            padding: const EdgeInsets.only(left: 20.0),
-            child: Row(
-              children: [
-                Text('Wavelength 5'),
-              ],
-            ),
-          ),
-          Obx(() {
-            //file select onPessed 할 때 enableRangeSelect=true 해 주기
-            return IgnorePointer(
-              ignoring: ChartCtrl.to.forfields.isEmpty,
-              child: RangeSlider(
-                onChanged: (v) {
-                  RangeSliderCtrl.to.currentRv5.value = v;
-                  //v.start는 값이 아니라 인덱스임
-                  RangeSliderCtrl.to.vStart5 =
-                      FilePickerCtrl.to.firstLine[v.start.round()];
-                  RangeSliderCtrl.to.vEnd5 =
-                      FilePickerCtrl.to.firstLine[v.end.round()];
-                  debugPrint(
-                      'firstLine length && onChanged : ${FilePickerCtrl.to.firstLine.length} $v');
-                },
-                values: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? RangeSliderCtrl.to.currentRv5.value
-                    : const RangeValues(0, 0),
-                min: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.first)
-                        .toDouble()
-                    : 0,
-                max: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.last)
-                        .toDouble()
-                    : 1,
-                divisions: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.last)
-                    : 1,
-                labels: RangeLabels(
-                    RangeSliderCtrl.to.vStart5.toStringAsFixed(3),
-                    RangeSliderCtrl.to.vEnd.toStringAsFixed(3)),
-              ),
-            );
-          }),
-        ],
-      ),
-    );
   }
 }

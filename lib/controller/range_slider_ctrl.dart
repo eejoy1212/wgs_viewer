@@ -9,9 +9,13 @@ class RangeSliderCtrl extends GetxController {
   RxDouble originStart = 0.0.obs;
   RxDouble originEnd = 0.0.obs;
 
-  Rx<RangeValues> currentRv = const RangeValues(0, 0).obs;
-  double vStart = 0.0;
-  double vEnd = 0.0;
+  // Rx<RangeValues> currentRv = const RangeValues(0, 0).obs;
+
+  RxList<RangeValues> currentRv = RxList.empty();
+  // double vStart = 0.0;
+  // double vEnd = 0.0;
+  RxList<double> vStart = RxList.empty();
+  RxList<double> vEnd = RxList.empty();
   Rx<RangeValues> currentRv2 = const RangeValues(0, 0).obs;
   double vStart2 = 0.0;
   double vEnd2 = 0.0;
@@ -40,6 +44,15 @@ class RangeSliderCtrl extends GetxController {
   RxDouble minVal = 0.0.obs;
   List<dynamic> minMaxList = RxList.empty();
   // List<Range> rm = RxList.empty();
+
+  void init() {
+    for (var i = 0; i < 5; i++) {
+      RangeSliderCtrl.to.currentRv.add(RangeValues(0, 0));
+      RangeSliderCtrl.to.vStart.add(0.0);
+      RangeSliderCtrl.to.vEnd.add(0.0);
+    }
+  }
+
   void minMaxFunc() {
     if (ChartCtrl.to.enableApply.value == true &&
         ChartCtrl.to.rangeList.isNotEmpty) {

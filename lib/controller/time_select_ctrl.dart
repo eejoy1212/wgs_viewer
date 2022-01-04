@@ -5,7 +5,7 @@ class TimeSelectCtrl extends GetxController {
   static TimeSelectCtrl get to => Get.find();
   RxInt firstTimeIdx = 0.obs;
   RxInt secondTimeIdx = 0.obs;
-  List<double> tempList = [
+  RxList<double> tempList = [
     0.0,
     0.5,
     1.1,

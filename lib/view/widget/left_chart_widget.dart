@@ -11,15 +11,6 @@ class LeftChartWidget extends StatelessWidget {
   List xAxis = [];
   @override
   Widget build(BuildContext context) {
-    // DateTime last = DateTime(0, 0, 0, 0, 0);
-    // FilePickerCtrl.to.timeAxis.add(last);
-    // for (var i = 0; i < FilePickerCtrl.to.timeAxis.length + 1; i++) {
-    // var diff = FilePickerCtrl.to.timeAxis[i + 1]
-    // .difference(FilePickerCtrl.to.timeAxis[i]);
-    // xAxis.add(diff);
-    // }
-    // print(xAxis);
-
     return Stack(
       children: [
         GetBuilder<ChartCtrl>(
@@ -97,24 +88,6 @@ class LeftChartWidget extends StatelessWidget {
                             // RangeSliderCtrl.to.verticalRA()),
                             bottomTitles: SideTitles(
                               showTitles: true,
-                              // getTitles: (value) {
-                              // switch (value.toInt()) {
-                              //   // print()
-                              //   case 0:
-                              //     return '2300';
-                              //   case 100:
-                              //     return '2300';
-                              //   case 2400:
-                              //     return '2400';
-                              //   case 2450:
-                              //     return '2450';
-                              //   case 2500:
-                              //     return '2450';
-                              //   case 2550:
-                              //     return '2450';
-                              // }
-                              // return '??';
-                              // },
                               reservedSize: 20,
                               getTextStyles: (bctx, dbl) => const TextStyle(
                                 color: Colors.blueGrey,

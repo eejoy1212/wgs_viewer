@@ -19,6 +19,7 @@ import 'package:wgs_viewer/view/widget/apply_btn_widget.dart';
 import 'package:wgs_viewer/view/widget/file_list_data_widget.dart';
 import 'package:wgs_viewer/view/widget/file_select_btn_widget.dart';
 import 'package:wgs_viewer/view/page/right_chart_pg.dart';
+import 'package:wgs_viewer/view/widget/range_slider_widget.dart';
 import 'package:wgs_viewer/view/widget/time_select_widget.dart';
 import 'package:wgs_viewer/view/page/left_chart_pg.dart';
 import 'package:wgs_viewer/view/widget/window_btns_widget.dart';
@@ -35,9 +36,9 @@ void main() {
   Get.put(RangeSliderCtrl());
   Get.put(FileSelectDropDownCtrl());
   Get.put(RightChartCtrl());
+  RangeSliderCtrl.to.init();
   ChartCtrl.to.init();
   RightChartCtrl.to.init();
-
   runApp(
     MyApp(),
   );
