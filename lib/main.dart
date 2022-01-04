@@ -363,16 +363,16 @@ class _MyAppState extends State<MyApp> {
                                                       ChartCtrl.to.forfields
                                                           .clear();
                                                       FilePickerCtrl
-                                                          .to.selectedFileName
+                                                          .to.selectedFileUrls
                                                           .clear();
-                                                      FilePickerCtrl
-                                                              .to
-                                                              .selectedFileNum
-                                                              .value =
-                                                          FilePickerCtrl
-                                                              .to
-                                                              .selectedFileName
-                                                              .length;
+                                                      // FilePickerCtrl
+                                                      //         .to
+                                                      //         .selectedFileNum
+                                                      //         .value =
+                                                      //     FilePickerCtrl
+                                                      //         .to
+                                                      //         .selectedFileUrls
+                                                      //         .length;
 
                                                       //모든파일 삭제하기
                                                       CheckboxCtrl.to.ckb
