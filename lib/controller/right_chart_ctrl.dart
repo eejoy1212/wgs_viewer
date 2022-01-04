@@ -28,8 +28,9 @@ class RightChartCtrl extends GetxController {
       int idx = ii - 7;
       yVal.value = 0.0;
       for (var iii = 0; iii < seriesCnt.value; iii++) {
-        final int cnt =
-            (ChartCtrl.to.rv[ii].end - ChartCtrl.to.rv[ii].start + 1).toInt();
+        // final int cnt =
+
+        //     (ChartCtrl.to.rv[ii].end - ChartCtrl.to.rv[ii].start + 1).toInt();
 
         rightSeriesData[ii].add(FlSpot(idx.toDouble(), yVal.value));
       }

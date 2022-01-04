@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
+import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
 
 class LeftChartWidget extends StatelessWidget {
   List<Color> gradientColors = [
@@ -95,26 +96,29 @@ class LeftChartWidget extends StatelessWidget {
                               Colors.cyan,
                             ),
                         ],
+                        // rangeAnnotations: RangeAnnotations(
+                        // verticalRangeAnnotations:
+                        // RangeSliderCtrl.to.verticalRA()),
                         bottomTitles: SideTitles(
                           showTitles: true,
-                          getTitles: (value) {
-                            switch (value.toInt()) {
-                              // print()
-                              case 0:
-                                return '2300';
-                              case 100:
-                                return '2300';
-                              case 2400:
-                                return '2400';
-                              case 2450:
-                                return '2450';
-                              case 2500:
-                                return '2450';
-                              case 2550:
-                                return '2450';
-                            }
-                            return '??';
-                          },
+                          // getTitles: (value) {
+                          // switch (value.toInt()) {
+                          //   // print()
+                          //   case 0:
+                          //     return '2300';
+                          //   case 100:
+                          //     return '2300';
+                          //   case 2400:
+                          //     return '2400';
+                          //   case 2450:
+                          //     return '2450';
+                          //   case 2500:
+                          //     return '2450';
+                          //   case 2550:
+                          //     return '2450';
+                          // }
+                          // return '??';
+                          // },
                           reservedSize: 20,
                           getTextStyles: (bctx, dbl) => const TextStyle(
                             color: Colors.blueGrey,
@@ -160,6 +164,7 @@ class LeftChartWidget extends StatelessWidget {
     required List<LineChartBarData> lineBarsData,
     SideTitles? leftTitles,
     SideTitles? bottomTitles,
+    RangeAnnotations? rangeAnnotations,
   }) {
     return LineChart(
       LineChartData(
@@ -167,6 +172,8 @@ class LeftChartWidget extends StatelessWidget {
           maxY: 150000,
           minX: 0,
           maxX: 6,
+          rangeAnnotations: RangeAnnotations(
+              verticalRangeAnnotations: RangeSliderCtrl.to.verticalRA()),
           lineTouchData: LineTouchData(
               touchTooltipData: LineTouchTooltipData(
             fitInsideHorizontally: true,

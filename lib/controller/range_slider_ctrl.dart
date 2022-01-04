@@ -1,35 +1,101 @@
-// import 'package:get/get.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 
-// import 'package:flutter/foundation.dart';
-// import 'package:get/get.dart';
-// import 'package:wgs_viewer/controller/chart_ctrl.dart';
+class RangeSliderCtrl extends GetxController {
+  static RangeSliderCtrl get to => Get.find();
+  RxDouble originStart = 0.0.obs;
+  RxDouble originEnd = 0.0.obs;
 
-// class RangeSlidersCtrl extends GetxController {
-//   static RangeSliderCtrl get to => Get.find();
-//   var largestValue = 0.0.obs;
-//   vvv() {
-//     if (ChartCtrl.to.enableApply.value == true) {
-//       largestValue.value = ChartCtrl.to.rangeList[0];
-//       var smallestValue = ChartCtrl.to.rangeList[0];
+  Rx<RangeValues> currentRv = const RangeValues(0, 0).obs;
+  double vStart = 0.0;
+  double vEnd = 0.0;
+  Rx<RangeValues> currentRv2 = const RangeValues(0, 0).obs;
+  double vStart2 = 0.0;
+  double vEnd2 = 0.0;
+  Rx<RangeValues> currentRv3 = const RangeValues(0, 0).obs;
+  double vStart3 = 0.0;
+  double vEnd3 = 0.0;
+  Rx<RangeValues> currentRv4 = const RangeValues(0, 0).obs;
+  double vStart4 = 0.0;
+  double vEnd4 = 0.0;
+  Rx<RangeValues> currentRv5 = const RangeValues(0, 0).obs;
+  double vStart5 = 0.0;
+  double vEnd5 = 0.0;
 
-//       for (var i = 0; i < ChartCtrl.to.rangeList.length; i++) {
-//         if (ChartCtrl.to.rangeList[i] > largestValue.value) {
-//           largestValue.value = ChartCtrl.to.rangeList[i];
-//         }
+  Rx<RangeValues> currentRangeVal2 = const RangeValues(0, 0).obs;
 
-//         if (ChartCtrl.to.rangeList[i] < smallestValue) {
-//           smallestValue = ChartCtrl.to.rangeList[i];
-//         }
-//       }
+  Rx<RangeValues> currentRangeVal3 = const RangeValues(0, 0).obs;
 
-//       // Printing the values
-//       debugPrint("Smallest value in the list : $smallestValue");
-//       debugPrint("Largest value in the list : $largestValue.value");
-//     }
-//   }
+  Rx<RangeValues> currentRangeVal4 = const RangeValues(0, 0).obs;
 
-//   void setRangeVal(start, end) {
-//     if (start < 0) return;
-//     if (start > end) return;
-//   }
-// }
+  Rx<RangeValues> currentRangeVal5 = const RangeValues(0, 0).obs;
+  RxBool disabledBtn = false.obs;
+  RxString changedStart = ''.obs;
+  RxString changedEnd = ''.obs;
+  // late Rx<RangeWaveLength> rwl;
+  RxDouble maxVal = 867.901527512498.obs;
+  RxDouble minVal = 0.0.obs;
+  List<dynamic> minMaxList = RxList.empty();
+  // List<Range> rm = RxList.empty();
+  void minMaxFunc() {
+    if (ChartCtrl.to.enableApply.value == true &&
+        ChartCtrl.to.rangeList.isNotEmpty) {
+      //minMax
+
+      maxVal.value = ChartCtrl.to.rangeList[0];
+      minVal.value = ChartCtrl.to.rangeList[0];
+
+      for (var i = 0; i < ChartCtrl.to.rangeList.length; i++) {
+        if (ChartCtrl.to.rangeList[i] > maxVal.value) {
+          maxVal.value = ChartCtrl.to.rangeList[i];
+        }
+
+        if (ChartCtrl.to.rangeList[i] < minVal.value) {
+          minVal.value = ChartCtrl.to.rangeList[i];
+        }
+      }
+    }
+  }
+
+  void setRangeVal(start, end) {
+    if (start < 0) return;
+    if (start > end) return;
+  }
+
+  List<VerticalRangeAnnotation> verticalRA() {
+    List<VerticalRangeAnnotation> ra = [];
+//시간축을 x1 x2에 넣는거
+    ra.add(VerticalRangeAnnotation(
+      x1: 0,
+      x2: 0.5,
+      color: Colors.lightBlue,
+    ));
+    ra.add(VerticalRangeAnnotation(
+      x1: 1,
+      x2: 1.5,
+      color: Colors.lightGreenAccent,
+    ));
+    ra.add(VerticalRangeAnnotation(
+      x1: 4,
+      x2: 5,
+      color: Colors.brown[300],
+    ));
+    ra.add(VerticalRangeAnnotation(
+      x1: 3.8,
+      x2: 4.8,
+      color: Colors.pink,
+    ));
+    ra.add(VerticalRangeAnnotation(
+      x1: 3,
+      x2: 3.1,
+      color: Colors.deepPurple,
+    ));
+//////
+    return ra;
+  }
+
+  //레인지 선택
+  rangeSelectFunc() {}
+}
