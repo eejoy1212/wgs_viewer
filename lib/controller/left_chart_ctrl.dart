@@ -111,12 +111,10 @@ class ChartCtrl extends GetxController {
   RxInt timeMaxLength = 0.obs;
   RxInt rvIdx = 0.obs;
   List<Duration> diffList = RxList.empty();
+  RxList<dynamic> yVal = RxList.empty();
+  RxDouble sum = 0.0.obs;
+  RxDouble avg = 0.0.obs;
 
-/*
-1. 만약에 leftChartSignal==true면,
-2. count(==(아래 메뉴에서 파일 선택한 갯수)*(왼쪽 메뉴에서 파장 선택한 갯수))대로 시리즈가 들어오고,
-3.  leftChartData의 FlSpot에서 x축 , y축 값을 .add한다.
-*/
   void init() {
     for (var i = 0; i < ChartCtrl.to.seriesCnt.value; i++) {
       forfields.add([]);
@@ -133,98 +131,104 @@ class ChartCtrl extends GetxController {
     }
   }
 
+//   Future<void> updateLeftData() async {
+//     if (leftDataMode.value == true) {
+//       seriesCnt.value = 5 * FilePickerCtrl.to.selectedFileUrls.length.toInt();
+
+//       for (var ii = 0; ii < seriesCnt.value; ii++) {
+//         forfields[ii].clear();
+//       }
+//       for (var i = 7; i < 14; i++) {
+//         int idx = i - 7;
+//         debugPrint('idx : $idx');
+//         String time = FilePickerCtrl.to.forfields[i][0];
+//         int min = int.parse(time.substring(0, 2));
+//         int sec = int.parse(time.substring(3, 5));
+//         DateTime time1 = DateTime(0, 0, 0, 0, min, sec);
+//         time1.difference(time1);
+
+//         String stringT1 = DateFormat().add_Hms().format(time1);
+
+//         if (i == 7)
+//           FilePickerCtrl.to.timeAxis.add('00:00.0');
+//         else {}
+
+//         value.value = 0.0;
+//         for (var ii = 0; ii < seriesCnt.value; ii++) {
+// //cnt==범위 선택한 것.
+//           // final cnt = end[ii] - start[ii] + 1;
+//           // final int cnt = (rv[ii].end - rv[ii].start + 1).toInt();
+//           final int cnt = (RangeSliderCtrl.to.currentRv[ii].end -
+//                   RangeSliderCtrl.to.currentRv[ii].start +
+//                   1)
+//               .toInt();
+// // 레인지 평균내는 식
+
+//           for (var iii = 0; iii < cnt; iii++) {
+//             // 2 - 1
+
+//             // final int avgIdx = 1 + rv[ii].start.toInt() + iii;
+//             final int avgIdx =
+//                 1 + RangeSliderCtrl.to.currentRv[ii].start.toInt() + iii;
+
+//             value.value += FilePickerCtrl.to.forfields[i][avgIdx];
+//           }
+//           // 레인지 평균내는 식
+//           value.value /= cnt;
+
+//           forfields[ii].add(FlSpot(idx.toDouble(), value.value));
+
+//           debugPrint('왼쪽 차트?? : $forfields');
+//         }
+
+//         timeMaxLength.value = FilePickerCtrl.to.forfields[i][0].length;
+//         DateTime first = DateTime(0, 0, 0, 0, 0);
+//         String stringf = DateFormat().add_Hms().format(first);
+//         FilePickerCtrl.to.timeAxis.removeAt(0);
+//         FilePickerCtrl.to.timeAxis.insert(0, stringf);
+//         print('');
+//         update();
+//       }
+
+//       debugPrint('time축 after: ${FilePickerCtrl.to.timeAxis}');
+//     } else {}
+
+//     // update();
+//     //데이터 업데이트 하고나서 Apply 버튼 누를 수 있게.
+//     ChartCtrl.to.enableApply.value = true;
+//   }
+
   Future<void> updateLeftData() async {
     if (leftDataMode.value == true) {
-      seriesCnt.value = 5 * FilePickerCtrl.to.selectedFileUrls.length.toInt();
-
       for (var ii = 0; ii < seriesCnt.value; ii++) {
         forfields[ii].clear();
       }
-      for (var i = 7; i < 14; i++) {
-        int idx = i - 7;
-        debugPrint('idx : $idx');
-        String time = FilePickerCtrl.to.forfields[i][0];
-        print('time: $time');
-        int min = int.parse(time.substring(0, 2));
-        int sec = int.parse(time.substring(3, 5));
-        DateTime time1 = DateTime(0, 0, 0, 0, min, sec);
-        time1.difference(time1);
-
-        String stringT1 = DateFormat().add_Hms().format(time1);
-        print('stringT1 :$stringT1');
-
-        print('time1 :$time1');
-
-        if (i == 7)
-          FilePickerCtrl.to.timeAxis.add('00:00.0');
-        else {}
-
-        value.value = 0.0;
-        for (var ii = 0; ii < seriesCnt.value; ii++) {
-//cnt==범위 선택한 것.
-          // final cnt = end[ii] - start[ii] + 1;
-          // final int cnt = (rv[ii].end - rv[ii].start + 1).toInt();
-          final int cnt = (RangeSliderCtrl.to.currentRv[ii].end -
-                  RangeSliderCtrl.to.currentRv[ii].start +
-                  1)
-              .toInt();
-// 레인지 평균내는 식
-
-          for (var iii = 0; iii < cnt; iii++) {
-            // 2 - 1
-
-            // final int avgIdx = 1 + rv[ii].start.toInt() + iii;
-            final int avgIdx =
-                1 + RangeSliderCtrl.to.currentRv[ii].start.toInt() + iii;
-            // final int startIdx = rv.indexOf(rv[ii]);
-            // final int avgIdx = 1 + startIdx + iii;
-            // final int avgIdx = 1 + rv[ii].start.toInt() + iii;
-//0: 0~3;
-//1: 5~8;
-//2: 10~20;
-//3: 500~600;
-//4: 650~660;
-//0: 170.34~180.32;
-//1: 170.34~180.32;
-//2: 170.34~180.32;
-//3: 170.34~180.32;
-//4: 170.34~180.32;
-            // final int avgIdx = 1 +
-            //     rv[ii].start.toInt() + //0 170.34
-            //     rv2[ii].start.toInt() + //5 170.34
-            //     rv3[ii].start.toInt() + //10 170.34
-            //     rv4[ii].start.toInt() + //500 170.34
-            //     rv5[ii].start.toInt() + //650 170.34
-            //     iii;
-            //avgIdx에 인덱스가 아니라 값이 잘못들어간듯..?(ui상 툴팁에 보이는 레인지를 선택한 값이 avgIdx에 잘못들어가는중.)
-
-            value.value += FilePickerCtrl.to.forfields[i][avgIdx];
-            // rangeList.add(value.value);
-            // debugPrint('레인지 평균 : $value');
-            //레인지리스트==파장값들을 리스트에 담은거
-
+      //일단 시리즈 하나만
+      //시간축(x축)을 돌고
+      for (var a = 7; a < 14; a++) {
+        int idx = a - 7;
+        //레인지 인덱스 평균내기
+        for (var ii = 0; ii < 5; ii++) {
+          int cnt = RangeSliderCtrl.to.currentRv[ii].end.toInt() -
+              RangeSliderCtrl.to.currentRv[ii].start.toInt() +
+              1;
+          sum.value = 0.0;
+          for (var i = 1; i < cnt; i++) {
+            sum.value += FilePickerCtrl.to.forfields[a][i];
           }
-          // 레인지 평균내는 식
-          value.value /= cnt;
-
-          //시리즈별로 리스트에 추가./
-          // forfields[ii].add(FlSpot(idx.toDouble(), value.value));
-
-          forfields[ii].add(FlSpot(idx.toDouble(), value.value));
-
-          debugPrint('왼쪽 차트?? : $forfields');
+          avg.value = sum / cnt;
         }
 
-        timeMaxLength.value = FilePickerCtrl.to.forfields[i][0].length;
-        DateTime first = DateTime(0, 0, 0, 0, 0);
-        String stringf = DateFormat().add_Hms().format(first);
-        FilePickerCtrl.to.timeAxis.removeAt(0);
-        FilePickerCtrl.to.timeAxis.insert(0, stringf);
-        print('');
+        //y축(레인지로 파장 선택하는 것) 돌 것
+        // for (var b = 0; b < FilePickerCtrl.to.firstLine.length - 1; b++) {
+        //   if (FilePickerCtrl.to.forfields
+        //       .contains(FilePickerCtrl.to.forfields[rgAvgIdx1])) {
+        //     yVal.add(FilePickerCtrl.to.forfields[rgAvgIdx1]);
+        //   }
+        // }
+        forfields[idx].add(FlSpot(idx.toDouble(), avg.value));
         update();
       }
-
-      debugPrint('time축 after: ${FilePickerCtrl.to.timeAxis}');
     } else {}
 
     // update();

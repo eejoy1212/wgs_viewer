@@ -68,6 +68,7 @@ class FilePickerCtrl extends GetxController {
             .transform(CsvToListConverter(csvSettingsDetector: d))
             .toList();
         forfields = fields;
+        debugPrint('forfields : $forfields');
 //레인지에 쓸거
         firstLine.assignAll(fields[6].sublist(1, fields[6].length));
 //시간축 떼어오기
