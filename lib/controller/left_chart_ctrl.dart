@@ -234,8 +234,10 @@ class ChartCtrl extends GetxController {
           // forfields[ii].add(FlSpot(idx.toDouble(), value.value));
 
           forfields[ii].add(FlSpot(idx.toDouble(), value.value));
+
           debugPrint('왼쪽 차트?? : $forfields');
         }
+
         timeMaxLength.value = FilePickerCtrl.to.forfields[i][0].length;
         DateTime first = DateTime(0, 0, 0, 0, 0);
         String stringf = DateFormat().add_Hms().format(first);

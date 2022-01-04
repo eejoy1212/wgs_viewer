@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
+import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 
 class RangeSliderCtrl extends GetxController {
   static RangeSliderCtrl get to => Get.find();
@@ -68,31 +69,20 @@ class RangeSliderCtrl extends GetxController {
     List<VerticalRangeAnnotation> ra = [];
 //시간축을 x1 x2에 넣는거
     ra.add(VerticalRangeAnnotation(
-      x1: 0,
-      x2: 0.5,
+      x1: TimeSelectCtrl.to.tempList[TimeSelectCtrl.to.firstTimeIdx.value],
+      x2: TimeSelectCtrl.to.tempList[TimeSelectCtrl.to.firstTimeIdx.value] +
+          0.028,
       color: Colors.lightBlue,
     ));
     ra.add(VerticalRangeAnnotation(
-      x1: 1,
-      x2: 1.5,
-      color: Colors.lightGreenAccent,
+      x1: TimeSelectCtrl.to.tempList[TimeSelectCtrl.to.secondTimeIdx.value],
+      x2: TimeSelectCtrl.to.tempList[TimeSelectCtrl.to.secondTimeIdx.value] +
+          0.028,
+      color: Colors.deepOrange,
     ));
-    ra.add(VerticalRangeAnnotation(
-      x1: 4,
-      x2: 5,
-      color: Colors.brown[300],
-    ));
-    ra.add(VerticalRangeAnnotation(
-      x1: 3.8,
-      x2: 4.8,
-      color: Colors.pink,
-    ));
-    ra.add(VerticalRangeAnnotation(
-      x1: 3,
-      x2: 3.1,
-      color: Colors.deepPurple,
-    ));
+
 //////
+    debugPrint('ra : $ra');
     return ra;
   }
 

@@ -1,6 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/file_select_dropdown_widget.dart';
 import 'package:wgs_viewer/view/widget/right_apply_btn.dart';
@@ -29,7 +30,18 @@ class TimeSelectTxtForm extends StatelessWidget {
                 },
               ),
               GetBuilder<TimeSelectCtrl>(builder: (controller) {
-                return Text('${controller.firstTimeVal}');
+                if (FilePickerCtrl.to.firstLine.isNotEmpty) {
+                  return Text(
+                      '${controller.tempList[controller.firstTimeIdx.value]}');
+                } else if (controller.firstTimeIdx <
+                        controller.tempList
+                            .indexOf(controller.tempList.first) ||
+                    controller.firstTimeIdx >=
+                        controller.tempList.indexOf(controller.tempList.last)) {
+                  return const Text('Out of Selectable Range');
+                } else {
+                  return Text('-');
+                }
               }),
               InkWell(
                 child: const Icon(
@@ -80,8 +92,21 @@ class TimeSelectTxtForm extends StatelessWidget {
                   FirstTimeBtnWidget(),
 
                   GetBuilder<TimeSelectCtrl>(builder: (controller) {
-                    return Text('${controller.secondTimeVal}');
+                    if (FilePickerCtrl.to.firstLine.isNotEmpty) {
+                      return Text(
+                          '${controller.tempList[controller.secondTimeIdx.value]}');
+                    } else if (controller.secondTimeIdx <
+                            controller.tempList
+                                .indexOf(controller.tempList.first) ||
+                        controller.secondTimeIdx >=
+                            controller.tempList
+                                .indexOf(controller.tempList.last)) {
+                      return const Text('Out of Selectable Range');
+                    } else {
+                      return Text('-');
+                    }
                   }),
+
                   InkWell(
                     child: const Icon(
                       Icons.arrow_forward_ios,

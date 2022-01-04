@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:csv/csv_settings_autodetection.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/check_box_ctrl.dart';
@@ -24,12 +25,14 @@ class FilePickerCtrl extends GetxController {
   List<List<dynamic>> f2 = RxList.empty();
   List<List<dynamic>> forfields = RxList.empty();
   RxList<dynamic> firstLine = RxList.empty();
+  RxList<dynamic> testLine = RxList.empty();
   Rx<RangeValues> rv = const RangeValues(0, 0).obs;
   double vStart = 0.0;
   double vEnd = 0.0;
   RxBool enableRangeSelect = false.obs;
   RxInt maxIdx = 0.obs;
   List<String> timeAxis = RxList.empty();
+  RxList<dynamic> timeLine = RxList.empty();
   Future<void> selectedFileFunc() async {
     enableRangeSelect.value = true;
     try {
@@ -67,8 +70,14 @@ class FilePickerCtrl extends GetxController {
         forfields = fields;
 //레인지에 쓸거
         firstLine.assignAll(fields[6].sublist(1, fields[6].length));
-        print('firstLine ${firstLine.length}');
-        maxIdx.value = firstLine.indexOf(867.9015275);
+//시간축 떼어오기
+
+        print('firstLine ${firstLine}');
+
+        timeLine.assignAll(fields.sublist(7, fields[7].length)[0]);
+        // timeLine.value = fields.sublist(7, fields[7].length)[0];
+        debugPrint('timeLine?? : $timeLine');
+        // maxIdx.value = firstLine.indexOf(867.9015275);
         print(
             'FilePickerCtrl.to.firstLine.last ${FilePickerCtrl.to.firstLine.last}');
         print('?? :  ${maxIdx}');
