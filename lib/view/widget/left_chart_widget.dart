@@ -168,10 +168,10 @@ class LeftChartWidget extends StatelessWidget {
   }) {
     return LineChart(
       LineChartData(
-          minY: -50000,
-          maxY: 150000,
+          minY: 0,
+          maxY: 20000,
           minX: 0,
-          maxX: 6,
+          maxX: ChartCtrl.to.xValLast,
           rangeAnnotations: RangeAnnotations(
               verticalRangeAnnotations: RangeSliderCtrl.to.verticalRA()),
           lineTouchData: LineTouchData(
@@ -189,6 +189,7 @@ class LeftChartWidget extends StatelessWidget {
             ),
             rightTitles: SideTitles(
               showTitles: true,
+              reservedSize: 25,
               // getTitles: (value) {
               // switch (value.toInt()) {
               // case 0:

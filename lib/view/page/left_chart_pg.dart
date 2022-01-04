@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -86,9 +88,14 @@ class LeftChartPg extends StatelessWidget {
 }
 
 void exportCSV() async {
-  FilePickerCross myFile = await FilePickerCross.importFromStorage(
-      type: FileTypeCross.any, fileExtension: 'csv');
+  // FilePickerCross myFile = await FilePickerCross.importFromStorage(
+  //     type: FileTypeCross.any, fileExtension: 'csv');
 
-  String? pathForExports = await myFile
-      .exportToStorage(); // <- will return the file's path on desktops
+  // String? pathForExports = await myFile
+  //     .exportToStorage(); // <- will return the file's path on desktops
+  Directory('exportfiles').create(recursive: true);
+  File file = File("./exportfiles/1.csv");
+  List aa = [];
+
+  await file.writeAsString(aa.join(','));
 }
