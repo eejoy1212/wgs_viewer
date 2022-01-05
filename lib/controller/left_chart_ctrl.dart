@@ -114,7 +114,10 @@ class ChartCtrl extends GetxController {
   RxList<dynamic> yVal = RxList.empty();
   RxDouble sum = 0.0.obs;
   RxDouble avg = 0.0.obs;
-
+  RxList<dynamic> tempTime = RxList.empty();
+  RxInt Idx = 0.obs;
+  RxList<int> IdxList = RxList.empty();
+  List<FlSpot> flList = RxList.empty();
   void init() {
     for (var i = 0; i < ChartCtrl.to.seriesCnt.value; i++) {
       forfields.add([]);
@@ -205,34 +208,58 @@ class ChartCtrl extends GetxController {
       }
       //일단 시리즈 하나만
       //시간축(x축)을 돌고
+      // for (var a = 7; a < 14; a++) {
+      // int idx = a - 7;
+      //레인지 인덱스 평균내기
+
       for (var a = 7; a < 14; a++) {
-        int idx = a - 7;
-        //레인지 인덱스 평균내기
+        Idx.value = a - 7;
+        // IdxList.add(Idx.value);
+        //y축 찍는거
         for (var ii = 0; ii < 5; ii++) {
           int cnt = RangeSliderCtrl.to.currentRv[ii].end.toInt() -
               RangeSliderCtrl.to.currentRv[ii].start.toInt() +
               1;
           sum.value = 0.0;
-          for (var i = 1; i < cnt; i++) {
-            sum.value += FilePickerCtrl.to.forfields[a][i];
-          }
-          avg.value = sum / cnt;
-        }
 
-        //y축(레인지로 파장 선택하는 것) 돌 것
-        // for (var b = 0; b < FilePickerCtrl.to.firstLine.length - 1; b++) {
-        //   if (FilePickerCtrl.to.forfields
-        //       .contains(FilePickerCtrl.to.forfields[rgAvgIdx1])) {
-        //     yVal.add(FilePickerCtrl.to.forfields[rgAvgIdx1]);
-        //   }
-        // }
-        forfields[idx].add(FlSpot(idx.toDouble(), avg.value));
-        update();
+          for (int i = 0; i < cnt; i++) {
+            sum.value += FilePickerCtrl.to.forfields[a]
+                [RangeSliderCtrl.to.currentRv[ii].start.toInt() + i + 1];
+          }
+          avg.value = sum.value / cnt;
+          // Idx.value = a - 7;
+
+          debugPrint('${Idx.value}의x && y : ${avg.value}');
+          //flList.add(FlSpot(Idx.value.toDouble(), avg.value));
+          // List<double> lll=[0.0,1.0,2.0,]
+          //forfields[0] = Wavelength 1
+          //forfields[1] = Wavelength 2
+          //forfields[2] = Wavelength 3
+          forfields[ii].add(FlSpot(Idx.value.toDouble(), avg.value));
+          debugPrint('$ii/${Idx.value} forfileds: ${forfields[ii]}');
+        }
+        // Idx.value = a - 7;
+
+        // forfields[0].add(FlSpot(0, 2000));
+        // forfields[1].add(FlSpot(1, 1929));
+        // debugPrint('x && y : $forfields');
+        // debugPrint('avg : $avg');
       }
+      debugPrint('fllist : $flList');
+      //y축(레인지로 파장 선택하는 것) 돌 것
+      // for (var b = 0; b < FilePickerCtrl.to.firstLine.length - 1; b++) {
+      //   if (FilePickerCtrl.to.forfields
+      //       .contains(FilePickerCtrl.to.forfields[rgAvgIdx1])) {
+      //     yVal.add(FilePickerCtrl.to.forfields[rgAvgIdx1]);
+      //   }
+      // }
+
+      // }
     } else {}
 
     // update();
     //데이터 업데이트 하고나서 Apply 버튼 누를 수 있게.
     ChartCtrl.to.enableApply.value = true;
+    update();
   }
 }

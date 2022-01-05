@@ -36,8 +36,7 @@ class RangeSliders extends StatelessWidget {
                   RangeSliderCtrl.to.vEnd[0] =
                       FilePickerCtrl.to.firstLine[v.end.round()];
 // debugPrint('currentRv length && currentRv[0] && RangeSliderCtrl.to.currentRv && currentRv2 : ${RangeSliderCtrl.to.currentRv.length} && ${RangeSliderCtrl.to.currentRv[0]} && ${RangeSliderCtrl.to.currentRv[1]} && ${RangeSliderCtrl.to.currentRv[2]}');
-                  debugPrint(
-                      'firstLine length && onChanged : ${FilePickerCtrl.to.firstLine.length} ${RangeSliderCtrl.to.currentRv}');
+                  debugPrint('onChanged Idx: ${RangeSliderCtrl.to.currentRv}');
                 },
                 values: FilePickerCtrl.to.firstLine.isNotEmpty &&
                         RangeSliderCtrl.to.currentRv.isNotEmpty

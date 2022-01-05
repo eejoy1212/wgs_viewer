@@ -32,9 +32,9 @@ class LeftChartWidget extends StatelessWidget {
                           return leftData(
                             ctrl: ctrl,
                             lineBarsData: [
-                              if (ctrl.forfields[0].isNotEmpty)
+                              if (FilePickerCtrl.to.firstLine.isNotEmpty)
                                 lineChartBarData(
-                                  ctrl.forfields[seriesIdx],
+                                  ctrl.forfields[0],
                                   Colors.green,
                                 ),
                               if (ctrl.forfields[0].isNotEmpty)
@@ -137,12 +137,12 @@ class LeftChartWidget extends StatelessWidget {
   }) {
     return LineChart(
       LineChartData(
-          minY: -50000,
-          maxY: 150000,
+          // minY: -50000,
+          // maxY: 150000,
           minX: 0,
           maxX: 6,
-          rangeAnnotations: RangeAnnotations(
-              verticalRangeAnnotations: RangeSliderCtrl.to.verticalRA()),
+          // rangeAnnotations: RangeAnnotations(
+          //     verticalRangeAnnotations: RangeSliderCtrl.to.verticalRA()),
           lineTouchData: LineTouchData(
               touchTooltipData: LineTouchTooltipData(
             fitInsideHorizontally: true,
