@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:wgs_viewer/controller/file_select_dropdown_ctrl.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
@@ -22,9 +23,7 @@ class ApplyBtn extends StatelessWidget {
               ),
               onPressed: () async {
                 ChartCtrl.to.leftDataMode.value = true;
-
                 await ChartCtrl.to.updateLeftData();
-
                 RangeSliderCtrl.to.minMaxFunc();
               },
               child: const Text(

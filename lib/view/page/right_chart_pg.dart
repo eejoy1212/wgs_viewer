@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
+import 'package:wgs_viewer/view/page/left_chart_pg.dart';
 import 'package:wgs_viewer/view/widget/right_chart_widget.dart';
 
 class RightChartPg extends StatelessWidget {
@@ -32,7 +34,12 @@ class RightChartPg extends StatelessWidget {
               children: [
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(primary: Colors.blueAccent),
-                  onPressed: () {},
+                  onPressed: () {
+                    DateTime current = DateTime.now();
+                    ChartCtrl.to.fileName.value =
+                        DateFormat('yyyyMMdd_HHmmss').format(current);
+                    exportCSV(name: "Wavelength", data: []);
+                  },
                   icon: const Icon(
                     Icons.file_copy_outlined,
                     size: 20,

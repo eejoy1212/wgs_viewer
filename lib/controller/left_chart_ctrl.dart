@@ -11,6 +11,7 @@ import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
+import 'package:wgs_viewer/view/page/left_chart_pg.dart';
 
 class RangeValue {
   double start;
@@ -115,6 +116,9 @@ class ChartCtrl extends GetxController {
   List xVal = [];
   double xValLast = 0.0;
   List<DateTime> dateTime = [];
+  List csvData = [];
+  RxString fileName = ''.obs;
+  RxBool exportCsv = false.obs;
 
 /*
 1. 만약에 leftChartSignal==true면,
@@ -149,6 +153,7 @@ class ChartCtrl extends GetxController {
       for (var i = 7; i < 14; i++) {
         String time = FilePickerCtrl.to.forfields[i][0]; // 15:23:43.532
         // print('time: $time'); // 46:34.2
+        // csvData.add(time);
         String toConvert = '2022-01-01 12:' + time;
         final dateParse = DateTime.parse(toConvert);
         print('어떻게 들어가나 $dateParse');
