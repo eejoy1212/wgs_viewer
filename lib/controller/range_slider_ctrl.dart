@@ -82,20 +82,28 @@ class RangeSliderCtrl extends GetxController {
     List<VerticalRangeAnnotation> ra = [];
 //시간축을 x1 x2에 넣는거
     ra.add(VerticalRangeAnnotation(
-      x1: TimeSelectCtrl.to.tempList[TimeSelectCtrl.to.firstTimeIdx.value],
-      x2: TimeSelectCtrl.to.tempList[TimeSelectCtrl.to.firstTimeIdx.value] +
-          0.028,
+      x1: ChartCtrl.to.xVal.isNotEmpty
+          ? ChartCtrl.to.xVal[TimeSelectCtrl.to.firstTimeIdx.value]
+          : 0.0,
+      x2: ChartCtrl.to.xVal.isNotEmpty
+          ? ChartCtrl.to.xVal[TimeSelectCtrl.to.firstTimeIdx.value] +
+              (ChartCtrl.to.xVal.last / 1000)
+          : 0.28,
       color: Colors.lightBlue,
     ));
     ra.add(VerticalRangeAnnotation(
-      x1: TimeSelectCtrl.to.tempList[TimeSelectCtrl.to.secondTimeIdx.value],
-      x2: TimeSelectCtrl.to.tempList[TimeSelectCtrl.to.secondTimeIdx.value] +
-          0.028,
+      x1: ChartCtrl.to.xVal.isNotEmpty
+          ? ChartCtrl.to.xVal[TimeSelectCtrl.to.secondTimeIdx.value]
+          : 0.0,
+      x2: ChartCtrl.to.xVal.isNotEmpty
+          ? ChartCtrl.to.xVal[TimeSelectCtrl.to.secondTimeIdx.value] +
+              (ChartCtrl.to.xVal.last / 1000)
+          : 0.0,
       color: Colors.deepOrange,
     ));
 
 //////
-    debugPrint('ra : $ra');
+    debugPrint('annotation : $ra');
     return ra;
   }
 

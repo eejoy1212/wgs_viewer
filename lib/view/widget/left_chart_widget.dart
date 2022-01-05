@@ -1,7 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
 
@@ -28,84 +27,97 @@ class LeftChartWidget extends StatelessWidget {
                           top: 24,
                           bottom: 12,
                         ),
-                        child: leftData(
-                          ctrl: ctrl,
-                          lineBarsData: [
-                            if (ctrl.forfields[0].isNotEmpty)
-                              lineChartBarData(
-                                ctrl.forfields[0],
-                                Colors.green,
+                        child: Obx(() {
+                          return leftData(
+                            rangeAnnotations: RangeAnnotations(
+                                verticalRangeAnnotations:
+                                    RangeSliderCtrl.to.verticalRA()),
+                            ctrl: ctrl,
+                            lineBarsData: [
+                              if (ctrl.forfields[0].isNotEmpty)
+                                lineChartBarData(
+                                  ctrl.forfields[0],
+                                  Colors.green,
+                                ),
+                              if (ctrl.forfields[0].isNotEmpty)
+                                lineChartBarData(
+                                  ctrl.forfields[1],
+                                  Colors.red,
+                                ),
+                              if (ctrl.forfields[0].isNotEmpty)
+                                lineChartBarData(
+                                  ctrl.forfields[2],
+                                  Colors.purple,
+                                ),
+                              if (ctrl.forfields[0].isNotEmpty)
+                                lineChartBarData(
+                                  ctrl.forfields[3],
+                                  Colors.amberAccent,
+                                ),
+                              if (ctrl.forfields[0].isNotEmpty)
+                                lineChartBarData(
+                                  ctrl.forfields[4],
+                                  Colors.pink,
+                                ),
+                              if (ctrl.forfields[0].isNotEmpty)
+                                lineChartBarData(
+                                  ctrl.forfields[5],
+                                  Colors.grey,
+                                ),
+                              if (ctrl.forfields[0].isNotEmpty)
+                                lineChartBarData(
+                                  ctrl.forfields[6],
+                                  Colors.black,
+                                ),
+                              if (ctrl.forfields[0].isNotEmpty)
+                                lineChartBarData(
+                                  ctrl.forfields[7],
+                                  Colors.deepOrange,
+                                ),
+                              if (ctrl.forfields[0].isNotEmpty)
+                                lineChartBarData(
+                                  ctrl.forfields[8],
+                                  Colors.deepPurpleAccent,
+                                ),
+                              if (ctrl.forfields[0].isNotEmpty)
+                                lineChartBarData(
+                                  ctrl.forfields[9],
+                                  Colors.cyan,
+                                ),
+                            ],
+                            bottomTitles: SideTitles(
+                              // getTitles: (val) {
+                              //   switch (val.toInt()) {
+                              //     case 0:
+                              //       return '0';
+                              //     case 17000:
+                              //       return '1.7';
+                              //     case 34000:
+                              //       return '3.4';
+                              //   }
+                              //   return '';
+                              // },
+                              showTitles: true,
+                              reservedSize: 20,
+                              getTextStyles: (bctx, dbl) => const TextStyle(
+                                color: Colors.blueGrey,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
                               ),
-                            if (ctrl.forfields[0].isNotEmpty)
-                              lineChartBarData(
-                                ctrl.forfields[1],
-                                Colors.red,
-                              ),
-                            if (ctrl.forfields[0].isNotEmpty)
-                              lineChartBarData(
-                                ctrl.forfields[2],
-                                Colors.purple,
-                              ),
-                            if (ctrl.forfields[0].isNotEmpty)
-                              lineChartBarData(
-                                ctrl.forfields[3],
-                                Colors.amberAccent,
-                              ),
-                            if (ctrl.forfields[0].isNotEmpty)
-                              lineChartBarData(
-                                ctrl.forfields[4],
-                                Colors.pink,
-                              ),
-                            if (ctrl.forfields[0].isNotEmpty)
-                              lineChartBarData(
-                                ctrl.forfields[5],
-                                Colors.grey,
-                              ),
-                            if (ctrl.forfields[0].isNotEmpty)
-                              lineChartBarData(
-                                ctrl.forfields[6],
-                                Colors.black,
-                              ),
-                            if (ctrl.forfields[0].isNotEmpty)
-                              lineChartBarData(
-                                ctrl.forfields[7],
-                                Colors.deepOrange,
-                              ),
-                            if (ctrl.forfields[0].isNotEmpty)
-                              lineChartBarData(
-                                ctrl.forfields[8],
-                                Colors.deepPurpleAccent,
-                              ),
-                            if (ctrl.forfields[0].isNotEmpty)
-                              lineChartBarData(
-                                ctrl.forfields[9],
-                                Colors.cyan,
-                              ),
-                          ],
-                          // rangeAnnotations: RangeAnnotations(
-                          // verticalRangeAnnotations:
-                          // RangeSliderCtrl.to.verticalRA()),
-                          bottomTitles: SideTitles(
-                            showTitles: true,
-                            reservedSize: 20,
-                            getTextStyles: (bctx, dbl) => const TextStyle(
-                              color: Colors.blueGrey,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
+                              margin: 8,
                             ),
-                            margin: 8,
-                          ),
-                          leftTitles: SideTitles(
-                            showTitles: false,
-                            getTextStyles: (bctx, dbl) => const TextStyle(
-                              color: Colors.red,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
+                            leftTitles: SideTitles(
+                              showTitles: false,
+                              getTextStyles: (bctx, dbl) => const TextStyle(
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                              reservedSize: 10,
+                              margin: 12,
                             ),
-                            reservedSize: 10,
-                            margin: 12,
-                          ),
-                        )),
+                          );
+                        })),
                   ),
                 )),
         SizedBox(

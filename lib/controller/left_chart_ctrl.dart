@@ -109,9 +109,9 @@ class ChartCtrl extends GetxController {
   RxList<int> IdxList = RxList.empty();
   List<FlSpot> flList = RxList.empty();
 
-  List xVal = [];
+  RxList xVal = RxList.empty();
   double xValLast = 0.0;
-  List<DateTime> dateTime = [];
+  RxList<DateTime> dateTime = RxList.empty();
   List csvData = [];
   RxString fileName = ''.obs;
   RxBool exportCsv = false.obs;
@@ -144,26 +144,27 @@ class ChartCtrl extends GetxController {
         String toConvert = '2022-01-01 12:' + time;
         final dateParse = DateTime.parse(toConvert);
         dateTime.add(dateParse);
-        xVal.add(DateTime(
-                dateTime[Idx.value].year,
-                dateTime[Idx.value].month,
-                dateTime[Idx.value].day,
-                dateTime[Idx.value].hour,
-                dateTime[Idx.value].minute,
-                dateTime[Idx.value].second,
-                dateTime[Idx.value].millisecond)
-            .difference(
-              DateTime(
-                  dateTime[0].year,
-                  dateTime[0].month,
-                  dateTime[0].day,
-                  dateTime[0].hour,
-                  dateTime[0].minute,
-                  dateTime[0].second,
-                  dateTime[0].millisecond),
-            )
-            .inMilliseconds
-            .toDouble());
+        xVal.add((DateTime(
+                    dateTime[Idx.value].year,
+                    dateTime[Idx.value].month,
+                    dateTime[Idx.value].day,
+                    dateTime[Idx.value].hour,
+                    dateTime[Idx.value].minute,
+                    dateTime[Idx.value].second,
+                    dateTime[Idx.value].millisecond)
+                .difference(
+                  DateTime(
+                      dateTime[0].year,
+                      dateTime[0].month,
+                      dateTime[0].day,
+                      dateTime[0].hour,
+                      dateTime[0].minute,
+                      dateTime[0].second,
+                      dateTime[0].millisecond),
+                )
+                .inMilliseconds
+                .toDouble()) /
+            1000);
         for (var ii = 0; ii < 5; ii++) {
           int cnt = RangeSliderCtrl.to.currentRv[ii].end.toInt() -
               RangeSliderCtrl.to.currentRv[ii].start.toInt() +

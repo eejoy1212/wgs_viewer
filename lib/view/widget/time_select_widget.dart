@@ -23,7 +23,7 @@ class TimeSelectTxtForm extends StatelessWidget {
                   color: Colors.blueGrey, child: const Text('First Time : ')),
               const SizedBox(width: 20),
               InkWell(
-                child: const Icon(
+                child: Icon(
                   Icons.arrow_back_ios,
                   color: Colors.blueGrey,
                 ),
@@ -32,13 +32,11 @@ class TimeSelectTxtForm extends StatelessWidget {
                 },
               ),
               GetBuilder<TimeSelectCtrl>(builder: (controller) {
-                if (FilePickerCtrl.to.firstLine.isNotEmpty) {
+                if ((controller.firstTimeIdx.value > 0) &&
+                    (controller.firstTimeIdx.value < 7) &&
+                    ChartCtrl.to.xVal.isNotEmpty) {
                   return Text(
-                      '${controller.tempList[controller.firstTimeIdx.value]}');
-                } else if (FilePickerCtrl.to.firstLine.isNotEmpty &&
-                    ChartCtrl.to.leftDataMode.value == true) {
-                  return Text(
-                      '${controller.tempList[controller.secondTimeIdx.value]}');
+                      '${ChartCtrl.to.xVal[controller.firstTimeIdx.value]}');
                 } else {
                   return Text('-');
                 }
@@ -92,13 +90,11 @@ class TimeSelectTxtForm extends StatelessWidget {
                   FirstTimeBtnWidget(),
 
                   GetBuilder<TimeSelectCtrl>(builder: (controller) {
-                    if (FilePickerCtrl.to.firstLine.isNotEmpty) {
+                    if ((controller.secondTimeIdx.value > 0) &&
+                        (controller.secondTimeIdx.value < 7) &&
+                        ChartCtrl.to.xVal.isNotEmpty) {
                       return Text(
-                          '${controller.tempList[controller.secondTimeIdx.value]}');
-                    } else if (FilePickerCtrl.to.firstLine.isNotEmpty &&
-                        ChartCtrl.to.leftDataMode.value == true) {
-                      return Text(
-                          '${controller.tempList[controller.secondTimeIdx.value]}');
+                          '${ChartCtrl.to.xVal[controller.secondTimeIdx.value]}');
                     } else {
                       return Text('-');
                     }

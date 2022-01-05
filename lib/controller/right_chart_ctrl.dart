@@ -17,20 +17,14 @@ class RightChartCtrl extends GetxController {
   }
 
   Future<void> updateRightData() async {
-    //시리즈 갯수==FileSelectDropDownCtrl.to.firstList.length+FileSelectDropDownCtrl.to.secondList.length
     seriesCnt.value = FileSelectDropDownCtrl.to.firstList.length;
     for (var i = 0; i < seriesCnt.value; i++) {
       rightSeriesData[i].clear();
     }
-//시간축
     for (var ii = 7; ii < 14; ii++) {
       int idx = ii - 7;
       yVal.value = 0.0;
       for (var iii = 0; iii < seriesCnt.value; iii++) {
-        // final int cnt =
-
-        //     (ChartCtrl.to.rv[ii].end - ChartCtrl.to.rv[ii].start + 1).toInt();
-
         rightSeriesData[ii].add(FlSpot(idx.toDouble(), yVal.value));
       }
     }
