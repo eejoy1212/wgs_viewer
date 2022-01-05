@@ -73,7 +73,7 @@ class FilePickerCtrl extends GetxController {
         firstLine.assignAll(fields[6].sublist(1, fields[6].length));
 //시간축 떼어오기
 
-        print('firstLine ${firstLine}');
+        print('firstLine length ${firstLine}');
 
         timeLine.assignAll(fields.sublist(7, fields[7].length)[0]);
         // timeLine.value = fields.sublist(7, fields[7].length)[0];

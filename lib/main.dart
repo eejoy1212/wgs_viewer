@@ -31,11 +31,12 @@ void main() {
   Get.put(DarkModeCtrl());
   Get.put(TimeSelectCtrl());
   Get.put(ChartCtrl());
+  Get.put(RightChartCtrl());
   Get.put(CheckboxCtrl());
   Get.put(TranslatorCtrl());
   Get.put(RangeSliderCtrl());
   Get.put(FileSelectDropDownCtrl());
-  Get.put(RightChartCtrl());
+
   RangeSliderCtrl.to.init();
   ChartCtrl.to.init();
   RightChartCtrl.to.init();

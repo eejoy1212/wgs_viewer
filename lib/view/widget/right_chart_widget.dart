@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/file_select_dropdown_ctrl.dart';
+import 'package:wgs_viewer/controller/right_chart_ctrl.dart';
 
 class RightChartWidget extends StatelessWidget {
   List<Color> gradientColors = [
@@ -24,54 +25,47 @@ class RightChartWidget extends StatelessWidget {
                         ),
                         color: Colors.transparent),
                     child: Padding(
-                      padding: const EdgeInsets.only(
-                        right: 18.0,
-                        left: 12.0,
-                        top: 24,
-                        bottom: 12,
-                      ),
-                      child: rightData(
-                        ctrl: ctrl,
-                        lineBarsData: [
-                          if (ctrl.firstList.isNotEmpty)
-                            lineChartBarData(
-                              [
-                                FlSpot(10, 10),
-                                FlSpot(30, 70),
-                                FlSpot(30, 70),
-                                FlSpot(30, 70),
-                                FlSpot(30, 70),
-                                FlSpot(30, 70),
-                                FlSpot(30, 70),
-                                FlSpot(30, 70),
-                                FlSpot(30, 70),
-                                FlSpot(30, 70),
-                              ],
-                              Colors.green,
-                            )
-                        ],
-                        bottomTitles: SideTitles(
-                          showTitles: true,
-                          reservedSize: 20,
-                          getTextStyles: (bctx, dbl) => const TextStyle(
-                            color: Colors.blueGrey,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                          margin: 8,
+                        padding: const EdgeInsets.only(
+                          right: 18.0,
+                          left: 12.0,
+                          top: 24,
+                          bottom: 12,
                         ),
-                        leftTitles: SideTitles(
-                          showTitles: false,
-                          getTextStyles: (bctx, dbl) => const TextStyle(
-                            color: Colors.red,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                          reservedSize: 10,
-                          margin: 12,
-                        ),
-                      ),
-                    ),
+                        child: Obx(() {
+                          return rightData(
+                            ctrl: ctrl,
+                            lineBarsData: [
+                              lineChartBarData(
+                                RightChartCtrl.to.rightSeriesData[0],
+                                Colors.green,
+                              ),
+                              lineChartBarData(
+                                RightChartCtrl.to.rightSeriesData[1],
+                                Colors.pink,
+                              )
+                            ],
+                            bottomTitles: SideTitles(
+                              showTitles: true,
+                              reservedSize: 20,
+                              getTextStyles: (bctx, dbl) => const TextStyle(
+                                color: Colors.blueGrey,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                              margin: 8,
+                            ),
+                            leftTitles: SideTitles(
+                              showTitles: false,
+                              getTextStyles: (bctx, dbl) => const TextStyle(
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                              reservedSize: 10,
+                              margin: 12,
+                            ),
+                          );
+                        })),
                   ),
                 )),
         SizedBox(
@@ -100,10 +94,10 @@ class RightChartWidget extends StatelessWidget {
   }) {
     return LineChart(
       LineChartData(
-          minY: -50000,
-          maxY: 150000,
-          minX: 0,
-          maxX: 6,
+          minY: 0,
+          maxY: 10000,
+          minX: 180,
+          maxX: 1000,
           lineTouchData: LineTouchData(
               touchTooltipData: LineTouchTooltipData(
             fitInsideHorizontally: true,
