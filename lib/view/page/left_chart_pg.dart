@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/view/widget/left_chart_widget.dart';
 
@@ -35,7 +38,10 @@ class LeftChartPg extends StatelessWidget {
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(primary: Colors.blueAccent),
                     onPressed: () {
-                      exportCSV();
+                      DateTime current = DateTime.now();
+                      ChartCtrl.to.fileName.value =
+                          DateFormat('yyyyMMdd_HHmmss').format(current);
+                      exportCSV(name: "TimeBased", data: []);
                     },
                     icon: const Icon(
                       Icons.file_copy_outlined,
@@ -85,10 +91,16 @@ class LeftChartPg extends StatelessWidget {
   }
 }
 
-void exportCSV() async {
-  FilePickerCross myFile = await FilePickerCross.importFromStorage(
-      type: FileTypeCross.any, fileExtension: 'csv');
+void exportCSV({required String name, required List<dynamic> data}) async {
+  // FilePickerCross myFile = await FilePickerCross.importFromStorage(
+  //     type: FileTypeCross.any, fileExtension: 'csv');
 
-  String? pathForExports = await myFile
-      .exportToStorage(); // <- will return the file's path on desktops
+  // String? pathForExports = await myFile
+  //     .exportToStorage(); // <- will return the file's path on desktops
+  Directory('exportfiles').create(recursive: true);
+  File file = File("./exportfiles/${ChartCtrl.to.fileName.value}_$name.csv");
+  List<dynamic> initData = ["FileFormat : 1", "Save Time : ", "Wavelength : "];
+  String all = initData.join('\n') + '\n' + "Time" + '\n' + data.join('\n');
+
+  await file.writeAsString(all);
 }

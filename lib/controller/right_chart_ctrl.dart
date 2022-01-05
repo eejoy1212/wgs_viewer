@@ -2,7 +2,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/file_select_dropdown_ctrl.dart';
-import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 
 class RightChartCtrl extends GetxController {
   static RightChartCtrl get to => Get.find();
