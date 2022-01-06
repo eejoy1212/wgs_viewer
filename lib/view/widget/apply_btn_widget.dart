@@ -4,6 +4,7 @@ import 'package:csv/csv_settings_autodetection.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:wgs_viewer/controller/check_box_ctrl.dart';
 import 'package:wgs_viewer/controller/file_select_dropdown_ctrl.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
@@ -54,6 +55,9 @@ class ApplyBtn extends StatelessWidget {
                 await ChartCtrl.to.updateLeftData();
                 TimeSelectCtrl.to.ableTimeSelect.value = true;
                 RangeSliderCtrl.to.minMaxFunc();
+                CheckboxCtrl.to.ckb
+                    .indexWhere((element) => element.isChecked.isTrue);
+                // .removeWhere((element) => element.isChecked.isTrue);
               },
               child: const Text(
                 'Apply',

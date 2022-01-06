@@ -23,8 +23,8 @@ class _FileSelectBtnState extends State<FileSelectBtn> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(primary: const Color(0xffFF9110)),
-      onPressed: () {
-        // await FilePickerCtrl.to.selectedFileFunc();
+      onPressed: () async {
+        await FilePickerCtrl.to.selectedFileFunc();
         int nn = CheckboxCtrl.to.ckb.length;
         List<CheckBoxModel> ckbfirstList = [];
         ckbfirstList.add(
