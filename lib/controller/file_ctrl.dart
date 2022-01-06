@@ -61,6 +61,7 @@ class FilePickerCtrl extends GetxController {
         fileUrls = _paths.map((e) => e.path).toList();
         if (selectedFileName.length + _fileNames.length > 100) {
           var ableAddCnt = 100 - selectedFileUrls.length;
+          selectedFileName.addAll(_fileNames);
           selectedFileUrls.addAll(fileUrls.sublist(0, ableAddCnt));
 
           FilePickerCtrl.to.fileMaxAlertMsg.value = 'File maximum is 100';

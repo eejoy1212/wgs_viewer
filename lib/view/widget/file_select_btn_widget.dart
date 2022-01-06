@@ -25,7 +25,6 @@ class _FileSelectBtnState extends State<FileSelectBtn> {
       style: ElevatedButton.styleFrom(primary: const Color(0xffFF9110)),
       onPressed: () async {
         await FilePickerCtrl.to.selectedFileFunc();
-
         List<CheckBoxModel> ckbfirstList = [];
         for (var i = 0; i < FilePickerCtrl.to.selectedFileName.length; i++) {
           int nn = CheckboxCtrl.to.ckb.length + ckbfirstList.length + 1;

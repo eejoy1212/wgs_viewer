@@ -1,9 +1,12 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:csv/csv.dart';
 import 'package:csv/csv_settings_autodetection.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:wgs_viewer/controller/check_box_ctrl.dart';
 import 'package:wgs_viewer/controller/file_select_dropdown_ctrl.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
@@ -28,7 +31,14 @@ class ApplyBtn extends StatelessWidget {
               onPressed: () async {
                 ChartCtrl.to.leftDataMode.value = true;
                 //파일 열 개 까지 불러오기
-
+// if (CheckboxCtrl.to.isChecked.isTrue
+                // ) {
+// for (var i = 0; i < 10; i++) {
+                //  final input =await File()
+                // FilePickerCtrl.to.selectedFileUrls
+// }
+//
+// }
                 debugPrint(
                     '파일 몇 개 선택?? :${FilePickerCtrl.to.selectedFileUrls.length}');
                 // for (var f = 0; f <
@@ -54,6 +64,31 @@ class ApplyBtn extends StatelessWidget {
                 await ChartCtrl.to.updateLeftData();
                 TimeSelectCtrl.to.ableTimeSelect.value = true;
                 RangeSliderCtrl.to.minMaxFunc();
+
+                // int idx = CheckboxCtrl.to.ckb
+                //     .indexWhere((element) => element.isChecked.isTrue);
+                //    debugPrint('idx : $idx');
+//File Select 버튼 눌렀을 때, 리스트로 Url을 가지고 있다가,  apply btn눌렀을 때, 체크박스가 트루면 파일 오픈(.openRead())
+                // if (CheckboxCtrl.to.isChecked.isTrue) {
+                //   for (var i = 0;
+                //       i < FilePickerCtrl.to.selectedFileUrls.length;
+                //       i++) {
+                //     final input =
+                //         await File(FilePickerCtrl.to.selectedFileUrls[i]!)
+                //             .openRead();
+                //     var d = const FirstOccurrenceSettingsDetector(
+                //         eols: ['\r\n', '\n'], textDelimiters: ['"', "'"]);
+                //     var fields = await input
+                //         .transform(utf8.decoder)
+                //         .transform(CsvToListConverter(csvSettingsDetector: d))
+                //         .toList();
+                //     List<List<List<dynamic>>> fieldsList = [];
+                //     fieldsList[i].add(fields);
+                //     debugPrint('for몇번? : ${i}');
+                //   }
+                // } else {}
+
+                // .removeWhere((element) => element.isChecked.isTrue);
               },
               child: const Text(
                 'Apply',

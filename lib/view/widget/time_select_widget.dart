@@ -1,12 +1,14 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
 import 'package:wgs_viewer/controller/right_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/file_select_dropdown_widget.dart';
 import 'package:wgs_viewer/view/widget/right_apply_btn.dart';
+import 'package:wgs_viewer/view/widget/second_file_select_dropdown_widget.dart';
 
 class TimeSelectTxtForm extends StatelessWidget {
   const TimeSelectTxtForm({Key? key}) : super(key: key);
@@ -21,6 +23,12 @@ class TimeSelectTxtForm extends StatelessWidget {
             children: [
               DottedBorder(
                   color: Colors.blueGrey, child: const Text('First Time : ')),
+              const SizedBox(width: 20),
+              Container(
+                width: 20,
+                height: 20,
+                color: RightChartCtrl.to.selectedColor.value,
+              ),
               const SizedBox(width: 20),
               Obx(() {
                 return Tooltip(
@@ -83,13 +91,16 @@ class TimeSelectTxtForm extends StatelessWidget {
                   const SizedBox(
                     width: 20,
                   ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: const Color(0xffD83737),
-                    ),
-                    onPressed: () {},
-                    child: const Text(
-                      'File Delete',
+                  Visibility(
+                    visible: false,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: const Color(0xffD83737),
+                      ),
+                      onPressed: () {},
+                      child: const Text(
+                        'File Delete',
+                      ),
                     ),
                   )
                 ],
@@ -112,6 +123,14 @@ class TimeSelectTxtForm extends StatelessWidget {
                   DottedBorder(
                       color: Colors.blueGrey,
                       child: const Text('Second Time : ')),
+                  const SizedBox(width: 20),
+                  Obx(() {
+                    return Container(
+                      width: 20,
+                      height: 20,
+                      color: RightChartCtrl.to.selectedColor2.value,
+                    );
+                  }),
                   const SizedBox(width: 20),
                   FirstTimeBtnWidget(),
 
@@ -160,33 +179,44 @@ class TimeSelectTxtForm extends StatelessWidget {
                   const Spacer(),
                   Row(
                     children: [
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: const Color(0xff5AEDCA),
-                        ),
-                        onPressed: () async {
-                          //오른쪽 함수 부르는거
-                          TimeSelectCtrl.to.timeSelected.value = true;
-                          await RightChartCtrl.to.updateRightData2();
-                          RangeSliderCtrl.to.minMaxFunc();
-                        },
-                        child: const Text(
-                          'Apply',
-                          style: TextStyle(
-                              color: Colors.blueGrey,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
+                      Obx(() {
+                        return IgnorePointer(
+                          ignoring: FilePickerCtrl.to.selectedFileUrls.isEmpty,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary:
+                                  FilePickerCtrl.to.selectedFileName.isEmpty
+                                      ? Colors.grey
+                                      : Color(0xff5AEDCA),
+                            ),
+                            onPressed: () async {
+                              //오른쪽 함수 부르는거
+                              TimeSelectCtrl.to.timeSelected.value = true;
+                              RightChartCtrl.to.updateRightData2();
+                              RangeSliderCtrl.to.minMaxFunc();
+                            },
+                            child: const Text(
+                              'Apply',
+                              style: TextStyle(
+                                  color: Colors.blueGrey,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        );
+                      }),
                       const SizedBox(
                         width: 20,
                       ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: const Color(0xffD83737),
-                        ),
-                        onPressed: () {},
-                        child: const Text(
-                          'File Delete',
+                      Visibility(
+                        visible: false,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: const Color(0xffD83737),
+                          ),
+                          onPressed: () {},
+                          child: const Text(
+                            'File Delete',
+                          ),
                         ),
                       )
                     ],
@@ -198,7 +228,7 @@ class TimeSelectTxtForm extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-              FileSelectDropDown()
+              SecondFileSelectDropDown()
             ],
           ),
         ],

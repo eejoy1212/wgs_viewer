@@ -16,7 +16,10 @@ class FileSelectDropDownCtrl extends GetxController {
   List<List<dynamic>> rightData = RxList.empty();
   RxList<dynamic> timeList2 = RxList.empty();
   RxList<DateTime> dateTime = RxList.empty();
+  List<List<dynamic>> firstFields = RxList.empty();
+  List<List<dynamic>> secondFields = RxList.empty();
   RxInt idx = 0.obs;
+
   void firstTimeFunc(List<String?> firstList) async {
 /*
 1.첫번째 드롭다운에서 파일 선택하면 열림(ㅇ)
@@ -36,12 +39,12 @@ class FileSelectDropDownCtrl extends GetxController {
     var d = const FirstOccurrenceSettingsDetector(
         eols: ['\r\n', '\n'], textDelimiters: ['"', "'"]);
 //파일말고 파일 내용이 담긴 리스트(행,열로 떼어 옴.)
-    final firstFields = await firstInput
+    firstFields = await firstInput
         .transform(utf8.decoder)
         .transform(CsvToListConverter(csvSettingsDetector: d))
         .toList();
-//파일 열렸고, 내용을 rightData에 담아 차트로 보내기
-    rightData = firstFields;
+//파일 열렸고, 내용을 firstFields 담아 차트로 보내기
+    debugPrint('오른 드롭다운 파일 1?? : $firstFields');
   }
 
   void SecondTimeFunc(List<String?> secondList) async {
@@ -63,42 +66,42 @@ class FileSelectDropDownCtrl extends GetxController {
     var d = const FirstOccurrenceSettingsDetector(
         eols: ['\r\n', '\n'], textDelimiters: ['"', "'"]);
 //파일말고 파일 내용이 담긴 리스트(행,열로 떼어 옴.)
-    final secondFields = await secondInput
+    secondFields = await secondInput
         .transform(utf8.decoder)
         .transform(CsvToListConverter(csvSettingsDetector: d))
         .toList();
 //파일 열렸고, 내용을 rightData에 담아 차트로 보내기
-    rightData = secondFields;
+    debugPrint('오른 드롭다운 파일 2?? : ${secondFields[7][1]}');
     //시간 리스트 뽑아오기, 인덱스는 왼쪽에서 열린 첫번째파일 기준
-    for (var t = 7; t < 14; t++) {
-      idx.value = t - 7;
-      String time = FilePickerCtrl.to.forfields[t][0];
-      String toConvert = '2022-01-01 12:' + time;
-      final dateParse = DateTime.parse(toConvert);
-      dateTime.add(dateParse);
-      timeList2.add((DateTime(
-                  dateTime[idx.value].year,
-                  dateTime[idx.value].month,
-                  dateTime[idx.value].day,
-                  dateTime[idx.value].hour,
-                  dateTime[idx.value].minute,
-                  dateTime[idx.value].second,
-                  dateTime[idx.value].millisecond)
-              .difference(
-                DateTime(
-                    dateTime[0].year,
-                    dateTime[0].month,
-                    dateTime[0].day,
-                    dateTime[0].hour,
-                    dateTime[0].minute,
-                    dateTime[0].second,
-                    dateTime[0].millisecond),
-              )
-              .inMilliseconds
-              .toDouble()) /
-          1000);
+    // for (var t = 7; t < 14; t++) {
+    //   idx.value = t - 7;
+    //   String time = FilePickerCtrl.to.forfields[t][0];
+    //   String toConvert = '2022-01-01 12:' + time;
+    //   final dateParse = DateTime.parse(toConvert);
+    //   dateTime.add(dateParse);
+    //   timeList2.add((DateTime(
+    //               dateTime[idx.value].year,
+    //               dateTime[idx.value].month,
+    //               dateTime[idx.value].day,
+    //               dateTime[idx.value].hour,
+    //               dateTime[idx.value].minute,
+    //               dateTime[idx.value].second,
+    //               dateTime[idx.value].millisecond)
+    //           .difference(
+    //             DateTime(
+    //                 dateTime[0].year,
+    //                 dateTime[0].month,
+    //                 dateTime[0].day,
+    //                 dateTime[0].hour,
+    //                 dateTime[0].minute,
+    //                 dateTime[0].second,
+    //                 dateTime[0].millisecond),
+    //           )
+    //           .inMilliseconds
+    //           .toDouble()) /
+    //       1000);
 
-      debugPrint('시간리스트 두번째거 : $timeList2');
-    }
+    //   debugPrint('시간리스트 두번째거 : $timeList2');
+    // }
   }
 }

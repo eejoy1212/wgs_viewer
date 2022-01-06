@@ -17,8 +17,14 @@ class CkbViewWidget extends StatelessWidget {
             onChanged: (val) {
               if (val != null) {
                 ckb.isChecked.value = val;
-                // CheckboxCtrl.to.isChecked.value = true;
-                debugPrint('isChecked $val!');
+                CheckboxCtrl.to.isChecked.value = ckb.isChecked.value;
+                if (ckb.isChecked.isTrue) {
+                  var oo = FilePickerCtrl.to.selectedFileName
+                      .indexWhere((element) => element.contains(ckb.fileName));
+
+                  debugPrint(
+                      '${ckb.fileName}의 체크박스 idx $oo ${FilePickerCtrl.to.selectedFileName}');
+                }
               }
             }),
       ),
@@ -31,54 +37,51 @@ class FileListData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Obx(() {
-          return SizedBox(
-            child: ListTile(
-              horizontalTitleGap: 200,
-              selected: CheckboxCtrl.to.isChecked.isTrue ? true : false,
-              // onTap: () {},
-              selectedTileColor: Colors.cyan[100],
-              title: Row(
-                children: [
-                  SizedBox(
-                    height: 300,
-                    width: 500,
-                    child: Obx(() => Scrollbar(
-                        isAlwaysShown: true,
-                        child: ListView.builder(
-                          itemCount: CheckboxCtrl.to.ckb.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return CkbViewWidget(
-                                ckb: CheckboxCtrl.to.ckb[index]);
-                          },
-                        ))),
-                  )
-                  //////////////////////////////이 라인 위에가 새로 만들고 있는 부분....
-                  ,
-                  // Obx(
-                  //   () => Checkbox(
-                  //     checkColor: Colors.black,
-                  //     value: CheckboxCtrl.to.isChecked.value,
-                  //     onChanged: (value) => {
-                  //       CheckboxCtrl.to.isChecked.value =
-                  //           !CheckboxCtrl.to.isChecked.value
-                  //     },
-                  //   ),
-                  // )
-                ],
-              ),
-              // leading: Text(
-              //   'File name',
-              //   style: TextStyle(
-              //     fontWeight: FontWeight.bold,
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      SizedBox(
+        child: ListTile(
+          horizontalTitleGap: 200,
+          // selected: CheckboxCtrl.to.isChecked.isTrue ? true : false,
+
+          // selectedTileColor: Colors.cyan[100],
+          title: Row(
+            children: [
+              SizedBox(
+                height: 300,
+                width: 500,
+                child: Obx(() => Scrollbar(
+                    isAlwaysShown: true,
+                    child: ListView.builder(
+                      itemCount: CheckboxCtrl.to.ckb.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return CkbViewWidget(ckb: CheckboxCtrl.to.ckb[index]);
+                      },
+                    ))),
+              )
+              //////////////////////////////이 라인 위에가 새로 만들고 있는 부분....
+              ,
+              // Obx(
+              //   () => Checkbox(
+              //     checkColor: Colors.black,
+              //     value: CheckboxCtrl.to.isChecked.value,
+              //     onChanged: (value) => {
+              //       CheckboxCtrl.to.isChecked.value =
+              //           !CheckboxCtrl.to.isChecked.value
+              //     },
               //   ),
-              // ),
-            ),
-          );
-        })
+              // )
+            ],
+          ),
+          // leading: Text(
+          //   'File name',
+          //   style: TextStyle(
+          //     fontWeight: FontWeight.bold,
+          //   ),
+          // ),
+        ),
+      )
+    ]
+
         // Divider(),
 
         ///ListView.builder부터 파일이름 나오는 곳
@@ -141,8 +144,7 @@ class FileListData extends StatelessWidget {
         //     ),
         //   ),
         // ),
-      ],
-    );
+        );
   }
 }
 
