@@ -36,58 +36,94 @@ class LeftChartWidget extends StatelessWidget {
                             lineBarsData: [
                               ctrl.forfields.isEmpty
                                   ? lineChartBarData(
-                                      ctrl.forfields[0],
+                                      [FlSpot(10, 10)],
                                       Colors.transparent,
                                     )
                                   : lineChartBarData(
                                       ctrl.forfields[0],
                                       Colors.green,
                                     ),
-                              if (ctrl.forfields[0].isNotEmpty)
-                                lineChartBarData(
-                                  ctrl.forfields[1],
-                                  Colors.red,
-                                ),
-                              if (ctrl.forfields[0].isNotEmpty)
-                                lineChartBarData(
-                                  ctrl.forfields[2],
-                                  Colors.purple,
-                                ),
-                              if (ctrl.forfields[0].isNotEmpty)
-                                lineChartBarData(
-                                  ctrl.forfields[3],
-                                  Colors.amberAccent,
-                                ),
-                              if (ctrl.forfields[0].isNotEmpty)
-                                lineChartBarData(
-                                  ctrl.forfields[4],
-                                  Colors.pink,
-                                ),
-                              if (ctrl.forfields[0].isNotEmpty)
-                                lineChartBarData(
-                                  ctrl.forfields[5],
-                                  Colors.grey,
-                                ),
-                              if (ctrl.forfields[0].isNotEmpty)
-                                lineChartBarData(
-                                  ctrl.forfields[6],
-                                  Colors.black,
-                                ),
-                              if (ctrl.forfields[0].isNotEmpty)
-                                lineChartBarData(
-                                  ctrl.forfields[7],
-                                  Colors.deepOrange,
-                                ),
-                              if (ctrl.forfields[0].isNotEmpty)
-                                lineChartBarData(
-                                  ctrl.forfields[8],
-                                  Colors.deepPurpleAccent,
-                                ),
-                              if (ctrl.forfields[0].isNotEmpty)
-                                lineChartBarData(
-                                  ctrl.forfields[9],
-                                  Colors.cyan,
-                                ),
+                              ctrl.forfields.isEmpty
+                                  ? lineChartBarData(
+                                      [FlSpot(10, 10)],
+                                      Colors.transparent,
+                                    )
+                                  : lineChartBarData(
+                                      ctrl.forfields[1],
+                                      Colors.red,
+                                    ),
+                              ctrl.forfields.isEmpty
+                                  ? lineChartBarData(
+                                      [FlSpot(10, 10)],
+                                      Colors.transparent,
+                                    )
+                                  : lineChartBarData(
+                                      ctrl.forfields[2],
+                                      Colors.purple,
+                                    ),
+                              ctrl.forfields.isEmpty
+                                  ? lineChartBarData(
+                                      [FlSpot(10, 10)],
+                                      Colors.transparent,
+                                    )
+                                  : lineChartBarData(
+                                      ctrl.forfields[3],
+                                      Colors.amberAccent,
+                                    ),
+                              ctrl.forfields.isEmpty
+                                  ? lineChartBarData(
+                                      [FlSpot(10, 10)],
+                                      Colors.transparent,
+                                    )
+                                  : lineChartBarData(
+                                      ctrl.forfields[4],
+                                      Colors.pink,
+                                    ),
+                              ctrl.forfields.isEmpty
+                                  ? lineChartBarData(
+                                      [FlSpot(10, 10)],
+                                      Colors.transparent,
+                                    )
+                                  : lineChartBarData(
+                                      ctrl.forfields[5],
+                                      Colors.grey,
+                                    ),
+                              ctrl.forfields.isEmpty
+                                  ? lineChartBarData(
+                                      [FlSpot(10, 10)],
+                                      Colors.transparent,
+                                    )
+                                  : lineChartBarData(
+                                      ctrl.forfields[6],
+                                      Colors.black,
+                                    ),
+                              ctrl.forfields.isEmpty
+                                  ? lineChartBarData(
+                                      [FlSpot(10, 10)],
+                                      Colors.transparent,
+                                    )
+                                  : lineChartBarData(
+                                      ctrl.forfields[7],
+                                      Colors.deepOrange,
+                                    ),
+                              ctrl.forfields.isEmpty
+                                  ? lineChartBarData(
+                                      [FlSpot(10, 10)],
+                                      Colors.transparent,
+                                    )
+                                  : lineChartBarData(
+                                      ctrl.forfields[8],
+                                      Colors.deepPurpleAccent,
+                                    ),
+                              ctrl.forfields.isEmpty
+                                  ? lineChartBarData(
+                                      [FlSpot(10, 10)],
+                                      Colors.transparent,
+                                    )
+                                  : lineChartBarData(
+                                      ctrl.forfields[9],
+                                      Colors.cyan,
+                                    ),
                             ],
                             // bottomTitles: SideTitles(
                             //   // getTitles: (val) {

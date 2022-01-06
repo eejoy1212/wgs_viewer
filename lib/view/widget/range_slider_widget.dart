@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
@@ -15,10 +16,20 @@ class RangeSliders extends StatelessWidget {
         children: [
           SizedBox(height: 50),
           Padding(
-            padding: const EdgeInsets.only(left: 20.0),
+            padding: const EdgeInsets.only(left: 20.0, right: 20),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Wavelength 1'),
+                DottedBorder(
+                  color: Colors.white,
+                  child: Text('Wavelength 1 :'),
+                ),
+                Obx(() {
+                  return RangeSliderCtrl.to.vStart.isNotEmpty
+                      ? Text(
+                          '${RangeSliderCtrl.to.vStart[0].toStringAsFixed(3)} ~${RangeSliderCtrl.to.vEnd[0].toStringAsFixed(3)}')
+                      : Text('-');
+                })
               ],
             ),
           ),
@@ -68,10 +79,20 @@ class RangeSliders extends StatelessWidget {
           }),
           SizedBox(height: 50),
           Padding(
-            padding: const EdgeInsets.only(left: 20.0),
+            padding: const EdgeInsets.only(left: 20.0, right: 20),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Wavelength 2'),
+                DottedBorder(
+                  color: Colors.white,
+                  child: Text('Wavelength 2 :'),
+                ),
+                Obx(() {
+                  return RangeSliderCtrl.to.vStart.isNotEmpty
+                      ? Text(
+                          '${RangeSliderCtrl.to.vStart[1].toStringAsFixed(3)} ~${RangeSliderCtrl.to.vEnd[1].toStringAsFixed(3)}')
+                      : Text('-');
+                })
               ],
             ),
           ),
@@ -117,10 +138,20 @@ class RangeSliders extends StatelessWidget {
           }),
           SizedBox(height: 50),
           Padding(
-            padding: const EdgeInsets.only(left: 20.0),
+            padding: const EdgeInsets.only(left: 20.0, right: 20),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Wavelength 3'),
+                DottedBorder(
+                  color: Colors.white,
+                  child: Text('Wavelength 3 :'),
+                ),
+                Obx(() {
+                  return RangeSliderCtrl.to.vStart.isNotEmpty
+                      ? Text(
+                          '${RangeSliderCtrl.to.vStart[2].toStringAsFixed(3)} ~${RangeSliderCtrl.to.vEnd[2].toStringAsFixed(3)}')
+                      : Text('-');
+                })
               ],
             ),
           ),
@@ -166,10 +197,20 @@ class RangeSliders extends StatelessWidget {
           }),
           SizedBox(height: 50),
           Padding(
-            padding: const EdgeInsets.only(left: 20.0),
+            padding: const EdgeInsets.only(left: 20.0, right: 20),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Wavelength 4'),
+                DottedBorder(
+                  color: Colors.white,
+                  child: Text('Wavelength 4 :'),
+                ),
+                Obx(() {
+                  return RangeSliderCtrl.to.vStart.isNotEmpty
+                      ? Text(
+                          '${RangeSliderCtrl.to.vStart[3].toStringAsFixed(3)} ~${RangeSliderCtrl.to.vEnd[3].toStringAsFixed(3)}')
+                      : Text('-');
+                })
               ],
             ),
           ),
@@ -215,10 +256,20 @@ class RangeSliders extends StatelessWidget {
           }),
           SizedBox(height: 50),
           Padding(
-            padding: const EdgeInsets.only(left: 20.0),
+            padding: const EdgeInsets.only(left: 20.0, right: 20),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Wavelength 5'),
+                DottedBorder(
+                  color: Colors.white,
+                  child: Text('Wavelength 5 :'),
+                ),
+                Obx(() {
+                  return RangeSliderCtrl.to.vStart.isNotEmpty
+                      ? Text(
+                          '${RangeSliderCtrl.to.vStart[4].toStringAsFixed(3)} ~${RangeSliderCtrl.to.vEnd[4].toStringAsFixed(3)}')
+                      : Text('-');
+                })
               ],
             ),
           ),
