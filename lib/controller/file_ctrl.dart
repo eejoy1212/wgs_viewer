@@ -90,6 +90,7 @@ class FilePickerCtrl extends GetxController {
               .transform(utf8.decoder)
               .transform(CsvToListConverter(csvSettingsDetector: d))
               .toList();
+          firstLine.assignAll(fileData[6].sublist(1, fileData[6].length));
           String toConvert = '2022-01-01 ' + fileData[7][0];
           final DateTime firstTime = DateTime.parse(toConvert);
           for (var i = 7; i < fileData.length; i++) {
@@ -117,6 +118,7 @@ class FilePickerCtrl extends GetxController {
                     .toDouble()) /
                 1000);
           }
+          //FilePickerCtrl.to.firstLine.assignAll(TimeSelectCtrl.to.timeIdxList);
           debugPrint(
               '첫번째 파일의 시간 인덱스가 떼어와 졌나?? : ${TimeSelectCtrl.to.timeIdxList}');
         }

@@ -371,6 +371,9 @@ class _MyAppState extends State<MyApp> {
                                                       FilePickerCtrl
                                                           .to.selectedFileUrls
                                                           .clear();
+                                                      FilePickerCtrl
+                                                          .to.selectedFileName
+                                                          .clear();
                                                       // FilePickerCtrl
                                                       //         .to
                                                       //         .selectedFileNum
@@ -382,10 +385,7 @@ class _MyAppState extends State<MyApp> {
 
                                                       //모든파일 삭제하기
                                                       CheckboxCtrl.to.ckb
-                                                          .removeRange(
-                                                              0,
-                                                              CheckboxCtrl.to
-                                                                  .ckb.length);
+                                                          .clear();
                                                     },
                                                     onConfirm: () {
                                                       Navigator.of(context)
@@ -404,7 +404,7 @@ class _MyAppState extends State<MyApp> {
                                       const Spacer(),
                                       Obx(
                                         () => Text(
-                                            'File num : ${FilePickerCtrl.to.selectedFileUrls.length}'),
+                                            'File num : ${FilePickerCtrl.to.selectedFileName.length}'),
                                       ),
                                       const SizedBox(
                                         width: 20,

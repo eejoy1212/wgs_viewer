@@ -27,6 +27,7 @@ class _FileSelectBtnState extends State<FileSelectBtn> {
         await FilePickerCtrl.to.selectedFileFunc();
         List<CheckBoxModel> ckbfirstList = [];
         for (var i = 0; i < FilePickerCtrl.to.selectedFileName.length; i++) {
+          debugPrint('select ${FilePickerCtrl.to.selectedFileName}');
           int nn = CheckboxCtrl.to.ckb.length + ckbfirstList.length + 1;
           ckbfirstList.add(
             CheckBoxModel(

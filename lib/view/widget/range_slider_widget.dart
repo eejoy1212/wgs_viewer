@@ -1,4 +1,5 @@
 import 'package:dotted_border/dotted_border.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
@@ -36,7 +37,7 @@ class RangeSliders extends StatelessWidget {
           Obx(() {
             //file select onPessed 할 때 enableRangeSelect=true 해 주기
             return IgnorePointer(
-              ignoring: ChartCtrl.to.forfields.isEmpty ||
+              ignoring: FilePickerCtrl.to.firstLine.isEmpty ||
                   RangeSliderCtrl.to.currentRv.isEmpty,
               child: RangeSlider(
                 onChanged: (RangeValues v) {
@@ -99,7 +100,7 @@ class RangeSliders extends StatelessWidget {
           Obx(() {
             //file select onPessed 할 때 enableRangeSelect=true 해 주기
             return IgnorePointer(
-              ignoring: ChartCtrl.to.forfields.isEmpty ||
+              ignoring: FilePickerCtrl.to.firstLine.isEmpty ||
                   RangeSliderCtrl.to.currentRv.isEmpty,
               child: RangeSlider(
                 onChanged: (RangeValues v) {
@@ -158,7 +159,7 @@ class RangeSliders extends StatelessWidget {
           Obx(() {
             //file select onPessed 할 때 enableRangeSelect=true 해 주기
             return IgnorePointer(
-              ignoring: ChartCtrl.to.forfields.isEmpty ||
+              ignoring: FilePickerCtrl.to.firstLine.isEmpty ||
                   RangeSliderCtrl.to.currentRv.isEmpty,
               child: RangeSlider(
                 onChanged: (RangeValues v) {
@@ -217,7 +218,7 @@ class RangeSliders extends StatelessWidget {
           Obx(() {
             //file select onPessed 할 때 enableRangeSelect=true 해 주기
             return IgnorePointer(
-              ignoring: ChartCtrl.to.forfields.isEmpty ||
+              ignoring: FilePickerCtrl.to.firstLine.isEmpty ||
                   RangeSliderCtrl.to.currentRv.isEmpty,
               child: RangeSlider(
                 onChanged: (RangeValues v) {
@@ -276,7 +277,7 @@ class RangeSliders extends StatelessWidget {
           Obx(() {
             //file select onPessed 할 때 enableRangeSelect=true 해 주기
             return IgnorePointer(
-              ignoring: ChartCtrl.to.forfields.isEmpty ||
+              ignoring: FilePickerCtrl.to.firstLine.isEmpty ||
                   RangeSliderCtrl.to.currentRv.isEmpty,
               child: RangeSlider(
                 onChanged: (RangeValues v) {
