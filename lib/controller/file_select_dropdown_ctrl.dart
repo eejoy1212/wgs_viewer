@@ -16,7 +16,9 @@ class FileSelectDropDownCtrl extends GetxController {
   List<List<dynamic>> rightData = RxList.empty();
   RxList<dynamic> timeList2 = RxList.empty();
   RxList<DateTime> dateTime = RxList.empty();
+  List<List<dynamic>> firstFields = RxList.empty();
   RxInt idx = 0.obs;
+
   void firstTimeFunc(List<String?> firstList) async {
 /*
 1.첫번째 드롭다운에서 파일 선택하면 열림(ㅇ)
@@ -36,12 +38,12 @@ class FileSelectDropDownCtrl extends GetxController {
     var d = const FirstOccurrenceSettingsDetector(
         eols: ['\r\n', '\n'], textDelimiters: ['"', "'"]);
 //파일말고 파일 내용이 담긴 리스트(행,열로 떼어 옴.)
-    final firstFields = await firstInput
+    firstFields = await firstInput
         .transform(utf8.decoder)
         .transform(CsvToListConverter(csvSettingsDetector: d))
         .toList();
-//파일 열렸고, 내용을 rightData에 담아 차트로 보내기
-    rightData = firstFields;
+//파일 열렸고, 내용을 firstFields 담아 차트로 보내기
+    debugPrint('오른 드롭다운 파일 1?? : $firstFields');
   }
 
   void SecondTimeFunc(List<String?> secondList) async {

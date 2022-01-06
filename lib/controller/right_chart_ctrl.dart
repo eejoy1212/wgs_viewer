@@ -38,7 +38,8 @@ class RightChartCtrl extends GetxController {
       rightSeriesData[0].clear();
       for (var b = 1; b < 2049; b++) {
         idx.value = b - 1;
-        yVal.value = FilePickerCtrl.to.forfields[slectedTimeIdx1 + 7][b];
+        yVal.value =
+            FileSelectDropDownCtrl.to.firstFields[slectedTimeIdx1 + 7][b];
         //f[선택한 시간인덱스][1~2047]들어옴
         //yValList.add(FilePickerCtrl.to.forfields[slectedTimeIdx][b]);
         // debugPrint('오른쪽의 y축 : $yValList');

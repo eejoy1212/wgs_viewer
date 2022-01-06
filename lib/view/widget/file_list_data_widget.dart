@@ -17,8 +17,8 @@ class CkbViewWidget extends StatelessWidget {
             onChanged: (val) {
               if (val != null) {
                 ckb.isChecked.value = val;
-                // CheckboxCtrl.to.isChecked.value = true;
-                debugPrint('isChecked $val!');
+                CheckboxCtrl.to.isChecked.value = val;
+                debugPrint('isChecked val ${CheckboxCtrl.to.isChecked.value}!');
               }
             }),
       ),
@@ -40,7 +40,7 @@ class FileListData extends StatelessWidget {
               horizontalTitleGap: 200,
               selected: CheckboxCtrl.to.isChecked.isTrue ? true : false,
               // onTap: () {},
-              selectedTileColor: Colors.cyan[100],
+              // selectedTileColor: Colors.cyan[100],
               title: Row(
                 children: [
                   SizedBox(

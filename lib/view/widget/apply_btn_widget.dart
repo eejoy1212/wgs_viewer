@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:csv/csv.dart';
 import 'package:csv/csv_settings_autodetection.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -55,8 +57,30 @@ class ApplyBtn extends StatelessWidget {
                 await ChartCtrl.to.updateLeftData();
                 TimeSelectCtrl.to.ableTimeSelect.value = true;
                 RangeSliderCtrl.to.minMaxFunc();
-                CheckboxCtrl.to.ckb
-                    .indexWhere((element) => element.isChecked.isTrue);
+
+                // int idx = CheckboxCtrl.to.ckb
+                //     .indexWhere((element) => element.isChecked.isTrue);
+                //    debugPrint('idx : $idx');
+//apply btn눌렀을 때, 체크박스가 트루면 파일 오픈
+                if (CheckboxCtrl.to.isChecked.isTrue) {
+                  for (var i = 0;
+                      i < FilePickerCtrl.to.selectedFileUrls.length;
+                      i++) {
+                    final input =
+                        await File(FilePickerCtrl.to.selectedFileUrls[i]!)
+                            .openRead();
+                    var d = const FirstOccurrenceSettingsDetector(
+                        eols: ['\r\n', '\n'], textDelimiters: ['"', "'"]);
+                    var fields = await input
+                        .transform(utf8.decoder)
+                        .transform(CsvToListConverter(csvSettingsDetector: d))
+                        .toList();
+                    List<List<List<dynamic>>> fieldsList = [];
+                    fieldsList[i].add(fields);
+                    debugPrint('for몇번? : ${i}');
+                  }
+                } else {}
+
                 // .removeWhere((element) => element.isChecked.isTrue);
               },
               child: const Text(
