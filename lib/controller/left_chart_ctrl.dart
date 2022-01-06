@@ -2,13 +2,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math' as math;
 import 'package:date_time_format/date_time_format.dart';
+import 'package:flutter/gestures.dart';
 import 'package:intl/intl.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
-
 import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
 import 'package:wgs_viewer/view/page/left_chart_pg.dart';
@@ -114,11 +114,12 @@ class ChartCtrl extends GetxController {
   RxInt rvIdx = 0.obs;
   List<Duration> diffList = RxList.empty();
   List xVal = [];
-  double xValLast = 0.0;
+
   List<DateTime> dateTime = [];
   List csvData = [];
   RxString fileName = ''.obs;
-  RxBool exportCsv = false.obs;
+  late RxDouble minX = 0.0.obs;
+  RxDouble maxX = 0.0.obs;
 
 /*
 1. 만약에 leftChartSignal==true면,
@@ -156,15 +157,7 @@ class ChartCtrl extends GetxController {
         // csvData.add(time);
         String toConvert = '2022-01-01 12:' + time;
         final dateParse = DateTime.parse(toConvert);
-        print('어떻게 들어가나 $dateParse');
         dateTime.add(dateParse);
-        print('새로운 리스트 $dateTime');
-
-        //수진
-        // final dataStr = DateFormat('mm:ss').parse(time);
-        // print('이건 뭘까 ? $dataStr');
-        // aaa.add(dataStr);
-        // print('리스트가 $aaa');
 
         value.value = 0.0;
         for (var ii = 0; ii < seriesCnt.value; ii++) {
@@ -215,11 +208,8 @@ class ChartCtrl extends GetxController {
             )
             .inMilliseconds
             .toDouble());
-        print('날짜 뺄셈 $i : ${xVal[i - 1]}');
-        print('왜안돼 ${dateTime[i - 1]}');
       }
-      print('마지막 ${xVal.last}');
-      xValLast = double.parse(xVal.last.toString()) / 1000;
+      maxX.value = double.parse(xVal.last.toString()) / 1000;
       for (int ii = 0; ii < 7; ii++) {
         for (var i = 0; i < 5; i++) {
           forfields[i].add(
@@ -231,6 +221,50 @@ class ChartCtrl extends GetxController {
     // update();
     //데이터 업데이트 하고나서 Apply 버튼 누를 수 있게.
     ChartCtrl.to.enableApply.value = true;
+  }
+
+  zoomFunction({required Widget child}) {
+    return Listener(
+        onPointerSignal: (signal) {
+          if (signal is PointerScrollEvent) {
+            //확대
+            if (signal.scrollDelta.dy.isNegative) {
+              if (maxX.value - 6 > minX.value) {
+                minX.value += 3;
+                maxX.value -= 3;
+              }
+              print('확대minxxxxxxxxxx : $minX max: $maxX');
+            }
+            //축소
+            else {
+              if (maxX.value + 6 > minX.value && minX > 0) {
+                minX.value -= 3;
+                maxX.value += 3;
+              }
+              print('축소 minxxxxxxxx : $minX max: $maxX');
+            }
+          }
+        },
+        child: child);
+    // Listener(
+    //     onPointerSignal: (signal) {
+    //       if (signal is PointerScrollEvent) {
+    //         if (signal.scrollDelta.dy.isNegative) {
+    //           if (minX.value < maxX.value - (maxX * 0.1) * 2) {
+    //             print('확대minxxxxxxxxxx : $minX max: $maxX');
+    //             minX.value += maxX * 0.1;
+    //             maxX.value -= maxX * 0.1;
+    //           }
+    //         } else {
+    //           if (minX > 0 && maxX <= xVal.length) {
+    //             print('축소minxxxxxxxxxx : $minX max: $maxX');
+    //             minX.value -= maxX * 0.1;
+    //             maxX.value += maxX * 0.1;
+    //           }
+    //         }
+    //       }
+    //     },
+    //     child: child);
   }
 }
 
