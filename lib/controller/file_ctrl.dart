@@ -84,16 +84,6 @@ class FilePickerCtrl extends GetxController {
         print(
             'FilePickerCtrl.to.firstLine.last ${FilePickerCtrl.to.firstLine.last}');
         print('?? :  ${maxIdx}');
-        // int nn = CheckboxCtrl.to.ckb.length;
-        // ckbfirstList.add(
-        //   CheckBoxModel(
-        //     title: 'ds',
-        //     fileName: '$nn번 파일 : ${FilePickerCtrl.to.selectedFileUrls[nn]} ',
-        //     isChecked: false.obs,
-        //     range: RangeModel(start: nn, end: nn + 2),
-        //   ),
-        // );
-        // CheckboxCtrl.to.ckb.addAll(ckbfirstList);
         if (FilePickerCtrl.to.selectedFileName.length > 100) {
           throw new Exception("파일의 최대 갯수는 100개");
         }

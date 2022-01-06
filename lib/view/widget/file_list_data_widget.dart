@@ -17,7 +17,7 @@ class CkbViewWidget extends StatelessWidget {
             onChanged: (val) {
               if (val != null) {
                 ckb.isChecked.value = val;
-                CheckboxCtrl.to.isChecked.value = true;
+                // CheckboxCtrl.to.isChecked.value = true;
                 debugPrint('isChecked $val!');
               }
             }),
@@ -34,49 +34,51 @@ class FileListData extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        ListTile(
-          horizontalTitleGap: 200,
-          selected: CheckboxCtrl.to.isChecked.isTrue ? true : false,
-          onTap: () {},
-          selectedTileColor: Colors.cyan[100],
-          title: Row(
-            children: [
-              Expanded(
-                flex: 1,
-                child: SizedBox(
-                  height: 500,
-                  width: 500,
-                  child: Obx(() => Scrollbar(
-                      isAlwaysShown: true,
-                      child: ListView.builder(
-                        itemCount: CheckboxCtrl.to.ckb.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return CkbViewWidget(ckb: CheckboxCtrl.to.ckb[index]);
-                        },
-                      ))),
-                ),
-              )
-              //////////////////////////////이 라인 위에가 새로 만들고 있는 부분....
-              ,
-              // Obx(
-              //   () => Checkbox(
-              //     checkColor: Colors.black,
-              //     value: CheckboxCtrl.to.isChecked.value,
-              //     onChanged: (value) => {
-              //       CheckboxCtrl.to.isChecked.value =
-              //           !CheckboxCtrl.to.isChecked.value
-              //     },
+        Obx(() {
+          return SizedBox(
+            child: ListTile(
+              horizontalTitleGap: 200,
+              selected: CheckboxCtrl.to.isChecked.isTrue ? true : false,
+              // onTap: () {},
+              selectedTileColor: Colors.cyan[100],
+              title: Row(
+                children: [
+                  SizedBox(
+                    height: 300,
+                    width: 500,
+                    child: Obx(() => Scrollbar(
+                        isAlwaysShown: true,
+                        child: ListView.builder(
+                          itemCount: CheckboxCtrl.to.ckb.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return CkbViewWidget(
+                                ckb: CheckboxCtrl.to.ckb[index]);
+                          },
+                        ))),
+                  )
+                  //////////////////////////////이 라인 위에가 새로 만들고 있는 부분....
+                  ,
+                  // Obx(
+                  //   () => Checkbox(
+                  //     checkColor: Colors.black,
+                  //     value: CheckboxCtrl.to.isChecked.value,
+                  //     onChanged: (value) => {
+                  //       CheckboxCtrl.to.isChecked.value =
+                  //           !CheckboxCtrl.to.isChecked.value
+                  //     },
+                  //   ),
+                  // )
+                ],
+              ),
+              // leading: Text(
+              //   'File name',
+              //   style: TextStyle(
+              //     fontWeight: FontWeight.bold,
               //   ),
-              // )
-            ],
-          ),
-          // leading: Text(
-          //   'File name',
-          //   style: TextStyle(
-          //     fontWeight: FontWeight.bold,
-          //   ),
-          // ),
-        ),
+              // ),
+            ),
+          );
+        })
         // Divider(),
 
         ///ListView.builder부터 파일이름 나오는 곳

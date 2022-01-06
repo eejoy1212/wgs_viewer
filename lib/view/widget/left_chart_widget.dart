@@ -89,27 +89,27 @@ class LeftChartWidget extends StatelessWidget {
                                   Colors.cyan,
                                 ),
                             ],
-                            bottomTitles: SideTitles(
-                              // getTitles: (val) {
-                              //   switch (val.toInt()) {
-                              //     case 0:
-                              //       return '0';
-                              //     case 17000:
-                              //       return '1.7';
-                              //     case 34000:
-                              //       return '3.4';
-                              //   }
-                              //   return '';
-                              // },
-                              showTitles: true,
-                              reservedSize: 20,
-                              getTextStyles: (bctx, dbl) => const TextStyle(
-                                color: Colors.blueGrey,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                              margin: 8,
-                            ),
+                            // bottomTitles: SideTitles(
+                            //   // getTitles: (val) {
+                            //   //   switch (val.toInt()) {
+                            //   //     case 0:
+                            //   //       return '0';
+                            //   //     case 17000:
+                            //   //       return '1.7';
+                            //   //     case 34000:
+                            //   //       return '3.4';
+                            //   //   }
+                            //   //   return '';
+                            //   // },
+                            //   showTitles: true,
+                            //   reservedSize: 20,
+                            //   getTextStyles: (bctx, dbl) => const TextStyle(
+                            //     color: Colors.blueGrey,
+                            //     fontWeight: FontWeight.bold,
+                            //     fontSize: 16,
+                            //   ),
+                            //   margin: 8,
+                            // ),
                             leftTitles: SideTitles(
                               showTitles: false,
                               getTextStyles: (bctx, dbl) => const TextStyle(
@@ -151,10 +151,10 @@ class LeftChartWidget extends StatelessWidget {
   }) {
     return LineChart(
       LineChartData(
-          minY: 0,
-          // maxY: 20000,
-          // minX: 0,
-          // maxX: 6,
+          minY: ChartCtrl.to.leftDataMode.isFalse ? 0 : null,
+          maxY: ChartCtrl.to.leftDataMode.isFalse ? 1000 : null,
+          minX: ChartCtrl.to.leftDataMode.isFalse ? 0 : null,
+          maxX: ChartCtrl.to.leftDataMode.isFalse ? 50 : null,
           // ChartCtrl.to.xValLast,
           rangeAnnotations: RangeAnnotations(
               verticalRangeAnnotations: RangeSliderCtrl.to.verticalRA()),
@@ -171,32 +171,11 @@ class LeftChartWidget extends StatelessWidget {
             topTitles: SideTitles(
               showTitles: false,
             ),
-            rightTitles: SideTitles(
-              showTitles: true,
-              reservedSize: 25,
-              // getTitles: (value) {
-              // switch (value.toInt()) {
-              // case 0:
-              // return '2300';
-              // case 100:
-              // return '2300';
-              // case 2400:
-              // return '2400';
-              // case 2450:
-              // return '2450';
-              // case 2500:
-              // return '2450';
-              // case 2550:
-              // return '2450';
-              // }
-              // return '??';
-              // },
-            ),
           ),
           borderData: FlBorderData(
             show: true,
             border: Border.all(
-              color: Colors.red,
+              color: Colors.blueGrey,
               width: 1,
             ),
           ),

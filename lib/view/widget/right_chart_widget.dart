@@ -126,7 +126,7 @@ class RightChartWidget extends StatelessWidget {
           borderData: FlBorderData(
             show: true,
             border: Border.all(
-              color: Colors.red,
+              color: Colors.blueGrey,
               width: 1,
             ),
           ),
