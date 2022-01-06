@@ -237,15 +237,53 @@ class ChartCtrl extends GetxController {
             }
             //축소
             else {
-              if (maxX.value + 6 > minX.value && minX > 0) {
-                minX.value -= 3;
-                maxX.value += 3;
+              if (ChartCtrl.to.minX.value > 0 &&
+                  ChartCtrl.to.maxX.value < ChartCtrl.to.xVal.last / 1000) {
+                ChartCtrl.to.minX.value -= 3;
+                ChartCtrl.to.maxX.value += 3;
+              }
+              if (ChartCtrl.to.maxX.value + 3 ==
+                      ChartCtrl.to.xVal.last / 1000 &&
+                  ChartCtrl.to.minX.value > 0) {
+                ChartCtrl.to.minX.value -= 3;
+              }
+              if (ChartCtrl.to.minX.value == 0 &&
+                  ChartCtrl.to.maxX.value < ChartCtrl.to.xVal.last / 1000) {
+                ChartCtrl.to.maxX.value += 3;
+              }
+              if (ChartCtrl.to.maxX.value == ChartCtrl.to.xVal.last / 1000 &&
+                  ChartCtrl.to.minX.value > 0) {
+                ChartCtrl.to.minX.value -= 3;
               }
               print('축소 minxxxxxxxx : $minX max: $maxX');
             }
           }
         },
-        child: child);
+        child: GestureDetector(
+            onHorizontalDragUpdate: (dragUpdate) {
+              double primeDelta = dragUpdate.primaryDelta ?? 0.0;
+              if (primeDelta != 0) {
+                if (primeDelta.isNegative) {
+                  if (maxX.value > minX.value &&
+                      maxX.value <= (xVal.last / 1000) - 3) {
+                    minX.value += 3;
+                    maxX.value += 3;
+                    print('드래그 증가 min : $minX max: $maxX');
+                  }
+                } else {
+                  if (maxX.value > minX.value &&
+                      minX > 0 &&
+                      minX < xVal.last / 1000 &&
+                      maxX.value <= xVal.last / 1000) {
+                    minX.value -= 3;
+                    maxX.value -= 3;
+                    print('드래그 감소 min : $minX max: $maxX');
+                  }
+                }
+              }
+              update();
+            },
+            child: child));
     // Listener(
     //     onPointerSignal: (signal) {
     //       if (signal is PointerScrollEvent) {

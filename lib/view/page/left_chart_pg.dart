@@ -33,8 +33,51 @@ class LeftChartPg extends StatelessWidget {
             Expanded(
               flex: 1,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  Row(
+                    children: [
+                      ElevatedButton(
+                          onPressed: () {
+                            if (ChartCtrl.to.maxX.value - 6 >
+                                ChartCtrl.to.minX.value) {
+                              ChartCtrl.to.minX.value += 3;
+                              ChartCtrl.to.maxX.value -= 3;
+                              print(
+                                  '확대minxxxxxxxxxx : ${ChartCtrl.to.minX} max: ${ChartCtrl.to.maxX}');
+                            }
+                          },
+                          child: const Text("+")),
+                      const SizedBox(width: 30),
+                      ElevatedButton(
+                          onPressed: () {
+                            if (ChartCtrl.to.minX.value > 0 &&
+                                ChartCtrl.to.maxX.value <
+                                    ChartCtrl.to.xVal.last / 1000) {
+                              ChartCtrl.to.minX.value -= 3;
+                              ChartCtrl.to.maxX.value += 3;
+                            }
+                            if (ChartCtrl.to.maxX.value + 3 ==
+                                    ChartCtrl.to.xVal.last / 1000 &&
+                                ChartCtrl.to.minX.value > 0) {
+                              ChartCtrl.to.minX.value -= 3;
+                            }
+                            if (ChartCtrl.to.minX.value == 0 &&
+                                ChartCtrl.to.maxX.value <
+                                    ChartCtrl.to.xVal.last / 1000) {
+                              ChartCtrl.to.maxX.value += 3;
+                            }
+                            if (ChartCtrl.to.maxX.value ==
+                                    ChartCtrl.to.xVal.last / 1000 &&
+                                ChartCtrl.to.minX.value > 0) {
+                              ChartCtrl.to.minX.value -= 3;
+                            }
+                            print(
+                                '축소 minxxxxxxxx : ${ChartCtrl.to.minX} max: ${ChartCtrl.to.maxX}');
+                          },
+                          child: const Text("-")),
+                    ],
+                  ),
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(primary: Colors.blueAccent),
                     onPressed: () {
