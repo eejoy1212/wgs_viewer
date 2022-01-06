@@ -1,8 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
+import 'package:csv/csv.dart';
+import 'package:csv/csv_settings_autodetection.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:wgs_viewer/controller/check_box_ctrl.dart';
 
 import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
@@ -85,7 +89,7 @@ class ChartCtrl extends GetxController {
   RxInt tempFileNum = 50.obs;
   RxInt tempWaveNum = 10.obs;
   RxList xAxisData = RxList.empty();
-  RxList<List<FlSpot>> forfields = RxList.empty();
+  RxList<RxList<List<FlSpot>>> forfields = RxList.empty();
   List<List<FlSpot>> newList = RxList.empty();
   List<List<FlSpot>> seriesList = RxList.empty();
   RxBool enableApply = false.obs;
@@ -117,9 +121,9 @@ class ChartCtrl extends GetxController {
   RxBool exportCsv = false.obs;
 
   void init() {
-    for (var i = 0; i < ChartCtrl.to.seriesCnt.value; i++) {
-      forfields.add([]);
-    }
+    // for (var i = 0; i < ChartCtrl.to.seriesCnt.value; i++) {
+    //   forfields.add([]);
+    // }
     for (var i = 0; i < ChartCtrl.to.seriesCnt.value; i++) {
       rv.add(RangeValue(start: 0.0, end: 0.0, tableX: []));
       rv2.add(RangeValue(start: 0.0, end: 0.0, tableX: []));
@@ -133,61 +137,57 @@ class ChartCtrl extends GetxController {
   }
 
   Future<void> updateLeftData() async {
-    // filesCnt.value = FilePickerCtrl.to.selectedFileUrls.length;
+    //레인지에 쓸거
+    //firstLine.assignAll(fields[6].sublist(1, fields[6].length));
+    //시간축 떼어오기
+    //timeLine.assignAll(fields[0].sublist(7, fields[7].length)[0]);
+
     if (leftDataMode.value == true) {
       //seriesCnt==5(파장 레인지 갯수)*10(파일갯수)
-      for (var ii = 0; ii < 5; ii++) {
-        forfields[ii].clear();
-      }
-      for (var s = 0; s < FilePickerCtrl.to.selectedFileUrls.length; s++) {
-        for (var a = 7; a < 14; a++) {
-          Idx.value = a - 7;
-          String time = FilePickerCtrl.to.forfields[a][0]; // 15:23:43.532
-          csvData.add(time);
-          String toConvert = '2022-01-01 12:' + time;
-          final dateParse = DateTime.parse(toConvert);
-          dateTime.add(dateParse);
-          xVal.add((DateTime(
-                      dateTime[Idx.value].year,
-                      dateTime[Idx.value].month,
-                      dateTime[Idx.value].day,
-                      dateTime[Idx.value].hour,
-                      dateTime[Idx.value].minute,
-                      dateTime[Idx.value].second,
-                      dateTime[Idx.value].millisecond)
-                  .difference(
-                    DateTime(
-                        dateTime[0].year,
-                        dateTime[0].month,
-                        dateTime[0].day,
-                        dateTime[0].hour,
-                        dateTime[0].minute,
-                        dateTime[0].second,
-                        dateTime[0].millisecond),
-                  )
-                  .inMilliseconds
-                  .toDouble()) /
-              1000);
+      forfields.clear();
+      for (int s = 0; s < FilePickerCtrl.to.selectedFileUrls.length; s++) {
+        forfields.add(RxList.empty());
+        if (CheckboxCtrl.to.ckb[s].isChecked.value == false) continue;
+        List<List<dynamic>> fileData = [];
+        final input2 =
+            await File(FilePickerCtrl.to.selectedFileUrls[s]!).openRead();
+        var d = const FirstOccurrenceSettingsDetector(
+            eols: ['\r\n', '\n'], textDelimiters: ['"', "'"]);
+        fileData = await input2
+            .transform(utf8.decoder)
+            .transform(CsvToListConverter(csvSettingsDetector: d))
+            .toList();
+
+        const int headRowSize = 7;
+        for (int a = headRowSize; a < fileData.length; a++) {
+          Idx.value = a - headRowSize;
+
           //처음 파일기준 인덱스 떼어올 것.
-          if (s == 0) {
-            TimeSelectCtrl.to.timeIdxList.value = xVal;
-            debugPrint(
-                '첫번째 파일의 시간 인덱스가 떼어와 졌나?? : ${TimeSelectCtrl.to.timeIdxList}');
-          }
-          // forfields.clear();
+
           for (var ii = 0; ii < 5; ii++) {
+            forfields[s].add([]);
             int cnt = RangeSliderCtrl.to.currentRv[ii].end.toInt() -
                 RangeSliderCtrl.to.currentRv[ii].start.toInt() +
                 1;
             sum.value = 0.0;
-
+            int inc = 0;
             for (int i = 0; i < cnt; i++) {
-              sum.value += FilePickerCtrl.to.forfields[a]
-                  [RangeSliderCtrl.to.currentRv[ii].start.toInt() + i + 1];
+              if (fileData[a].length > i) {
+                sum.value += fileData[a]
+                    [RangeSliderCtrl.to.currentRv[ii].start.toInt() + i + 1];
+                inc++;
+              }
             }
-            avg.value = sum.value / cnt;
-            forfields[ii].add(FlSpot(xVal[Idx.value], avg.value));
+            avg.value = sum.value / inc;
+            if (TimeSelectCtrl.to.timeIdxList.length > Idx.value) {
+              forfields[s][ii].add(
+                  FlSpot(TimeSelectCtrl.to.timeIdxList[Idx.value], avg.value));
+            }
+            debugPrint('forfields ${forfields[s][ii]}');
           }
+
+          // forfields.clear();
+
         }
       }
     } else {}

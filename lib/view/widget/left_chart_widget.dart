@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
 
@@ -8,6 +9,25 @@ class LeftChartWidget extends StatelessWidget {
   bool showAvg = false;
   int seriesIdx = 0;
   List xAxis = [];
+
+  List<LineChartBarData> lineChartBarDatas() {
+    List<LineChartBarData> rt = [];
+    for (var i = 0; i < ChartCtrl.to.forfields.length; i++) {
+      for (var ii = 0; ii < ChartCtrl.to.forfields[i].length; ii++) {
+        if (ChartCtrl.to.forfields[i][ii].isNotEmpty) {
+          rt.add(
+            lineChartBarData(
+              ChartCtrl.to.forfields[i][ii],
+              Colors.green,
+            ),
+          );
+        }
+      }
+    }
+
+    return rt;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -33,98 +53,7 @@ class LeftChartWidget extends StatelessWidget {
                                 verticalRangeAnnotations:
                                     RangeSliderCtrl.to.verticalRA()),
                             ctrl: ctrl,
-                            lineBarsData: [
-                              ctrl.forfields.isEmpty
-                                  ? lineChartBarData(
-                                      [FlSpot(10, 10)],
-                                      Colors.transparent,
-                                    )
-                                  : lineChartBarData(
-                                      ctrl.forfields[0],
-                                      Colors.green,
-                                    ),
-                              ctrl.forfields.isEmpty
-                                  ? lineChartBarData(
-                                      [FlSpot(10, 10)],
-                                      Colors.transparent,
-                                    )
-                                  : lineChartBarData(
-                                      ctrl.forfields[1],
-                                      Colors.red,
-                                    ),
-                              ctrl.forfields.isEmpty
-                                  ? lineChartBarData(
-                                      [FlSpot(10, 10)],
-                                      Colors.transparent,
-                                    )
-                                  : lineChartBarData(
-                                      ctrl.forfields[2],
-                                      Colors.purple,
-                                    ),
-                              ctrl.forfields.isEmpty
-                                  ? lineChartBarData(
-                                      [FlSpot(10, 10)],
-                                      Colors.transparent,
-                                    )
-                                  : lineChartBarData(
-                                      ctrl.forfields[3],
-                                      Colors.amberAccent,
-                                    ),
-                              ctrl.forfields.isEmpty
-                                  ? lineChartBarData(
-                                      [FlSpot(10, 10)],
-                                      Colors.transparent,
-                                    )
-                                  : lineChartBarData(
-                                      ctrl.forfields[4],
-                                      Colors.pink,
-                                    ),
-                              ctrl.forfields.isEmpty
-                                  ? lineChartBarData(
-                                      [FlSpot(10, 10)],
-                                      Colors.transparent,
-                                    )
-                                  : lineChartBarData(
-                                      ctrl.forfields[5],
-                                      Colors.grey,
-                                    ),
-                              ctrl.forfields.isEmpty
-                                  ? lineChartBarData(
-                                      [FlSpot(10, 10)],
-                                      Colors.transparent,
-                                    )
-                                  : lineChartBarData(
-                                      ctrl.forfields[6],
-                                      Colors.black,
-                                    ),
-                              ctrl.forfields.isEmpty
-                                  ? lineChartBarData(
-                                      [FlSpot(10, 10)],
-                                      Colors.transparent,
-                                    )
-                                  : lineChartBarData(
-                                      ctrl.forfields[7],
-                                      Colors.deepOrange,
-                                    ),
-                              ctrl.forfields.isEmpty
-                                  ? lineChartBarData(
-                                      [FlSpot(10, 10)],
-                                      Colors.transparent,
-                                    )
-                                  : lineChartBarData(
-                                      ctrl.forfields[8],
-                                      Colors.deepPurpleAccent,
-                                    ),
-                              ctrl.forfields.isEmpty
-                                  ? lineChartBarData(
-                                      [FlSpot(10, 10)],
-                                      Colors.transparent,
-                                    )
-                                  : lineChartBarData(
-                                      ctrl.forfields[9],
-                                      Colors.cyan,
-                                    ),
-                            ],
+                            lineBarsData: lineChartBarDatas(),
                             // bottomTitles: SideTitles(
                             //   // getTitles: (val) {
                             //   //   switch (val.toInt()) {

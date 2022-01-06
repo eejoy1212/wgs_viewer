@@ -23,19 +23,24 @@ class _FileSelectBtnState extends State<FileSelectBtn> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(primary: const Color(0xffFF9110)),
-      onPressed: () {
-        // await FilePickerCtrl.to.selectedFileFunc();
-        int nn = CheckboxCtrl.to.ckb.length;
+      onPressed: () async {
+        await FilePickerCtrl.to.selectedFileFunc();
+
         List<CheckBoxModel> ckbfirstList = [];
-        ckbfirstList.add(
-          CheckBoxModel(
-            title: 'ds',
-            fileName: '$nn번 파일 : ${FilePickerCtrl.to.selectedFileName[nn]} ',
-            isChecked: false.obs,
-            range: RangeModel(start: nn, end: nn + 2),
-          ),
-        );
-        CheckboxCtrl.to.ckb.addAll(ckbfirstList);
+        for (var i = 0; i < FilePickerCtrl.to.selectedFileName.length; i++) {
+          int nn = CheckboxCtrl.to.ckb.length + ckbfirstList.length + 1;
+          ckbfirstList.add(
+            CheckBoxModel(
+              title: 'ds',
+              fileName:
+                  '${i + 1} 파일 : ${FilePickerCtrl.to.selectedFileName[i]} ',
+              isChecked: false.obs,
+              range: RangeModel(start: nn, end: nn + 2),
+            ),
+          );
+        }
+
+        CheckboxCtrl.to.ckb.assignAll(ckbfirstList);
       },
       child: const Text('File Select'),
     );
