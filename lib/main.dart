@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -179,7 +181,9 @@ class _MyAppState extends State<MyApp> {
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          print('시간인덱스?? : ${TimeSelectCtrl.to.timeIdxList}');
+                        },
                         child: Text('add test'),
                       ),
 

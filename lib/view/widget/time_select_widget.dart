@@ -2,6 +2,8 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
+import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
+import 'package:wgs_viewer/controller/right_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/file_select_dropdown_widget.dart';
 import 'package:wgs_viewer/view/widget/right_apply_btn.dart';
@@ -20,34 +22,60 @@ class TimeSelectTxtForm extends StatelessWidget {
               DottedBorder(
                   color: Colors.blueGrey, child: const Text('First Time : ')),
               const SizedBox(width: 20),
-              InkWell(
-                child: Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.blueGrey,
-                ),
-                onTap: () {
-                  Get.find<TimeSelectCtrl>().firstDecrease();
-                },
-              ),
+              Obx(() {
+                return Tooltip(
+                  message: 'Press Left Apply Button',
+                  child: IgnorePointer(
+                    ignoring: TimeSelectCtrl.to.ableTimeSelect.isFalse,
+                    child: InkWell(
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        color: TimeSelectCtrl.to.ableTimeSelect.isFalse
+                            ? Colors.grey
+                            : Colors.blueGrey,
+                      ),
+                      onTap: () {
+                        Get.find<TimeSelectCtrl>().firstDecrease();
+                      },
+                    ),
+                  ),
+                );
+              }),
               GetBuilder<TimeSelectCtrl>(builder: (controller) {
-                if ((controller.firstTimeIdx.value > 0) &&
-                    (controller.firstTimeIdx.value < 7) &&
-                    ChartCtrl.to.xVal.isNotEmpty) {
-                  return Text(
-                      '${ChartCtrl.to.xVal[controller.firstTimeIdx.value]}');
-                } else {
+                if (controller.timeIdxList.isEmpty) {
                   return Text('-');
+                } else if (controller.firstTimeIdx.isNegative ||
+                    controller.firstTimeIdx.value <
+                        controller.timeIdxList
+                            .indexOf(controller.timeIdxList.first) ||
+                    controller.firstTimeIdx.value >
+                        controller.timeIdxList
+                            .indexOf(controller.timeIdxList.last)) {
+                  return Text('${controller.timeIdxList[0]}');
+                } else {
+                  return Text(
+                      '${controller.timeIdxList[controller.firstTimeIdx.value]}');
                 }
               }),
-              InkWell(
-                child: const Icon(
-                  Icons.arrow_forward_ios,
-                  color: Colors.blueGrey,
-                ),
-                onTap: () {
-                  Get.find<TimeSelectCtrl>().firstIncrease();
-                },
-              ),
+              Obx(() {
+                return Tooltip(
+                  message: 'Press Left Apply Button',
+                  child: IgnorePointer(
+                    ignoring: TimeSelectCtrl.to.ableTimeSelect.isFalse,
+                    child: InkWell(
+                      child: Icon(
+                        Icons.arrow_forward_ios,
+                        color: TimeSelectCtrl.to.ableTimeSelect.isFalse
+                            ? Colors.grey
+                            : Colors.blueGrey,
+                      ),
+                      onTap: () {
+                        Get.find<TimeSelectCtrl>().firstIncrease();
+                      },
+                    ),
+                  ),
+                );
+              }),
               const Spacer(),
               Row(
                 children: [
@@ -88,28 +116,47 @@ class TimeSelectTxtForm extends StatelessWidget {
                   FirstTimeBtnWidget(),
 
                   GetBuilder<TimeSelectCtrl>(builder: (controller) {
-                    if ((controller.secondTimeIdx.value > 0) &&
-                        (controller.secondTimeIdx.value < 7) &&
-                        ChartCtrl.to.xVal.isNotEmpty) {
-                      return Text(
-                          '${ChartCtrl.to.xVal[controller.secondTimeIdx.value]}');
-                    } else {
+                    if (controller.timeIdxList.isEmpty) {
                       return Text('-');
+                    } else if (controller.secondTimeIdx.isNegative ||
+                        controller.secondTimeIdx.value <
+                            controller.timeIdxList
+                                .indexOf(controller.timeIdxList.first) ||
+                        controller.secondTimeIdx.value >
+                            controller.timeIdxList
+                                .indexOf(controller.timeIdxList.last)) {
+                      return Text('${controller.timeIdxList[0]}');
+                    } else {
+                      return Text(
+                          '${controller.timeIdxList[controller.secondTimeIdx.value]}');
                     }
                   }),
+                  Obx(() {
+                    return Tooltip(
+                      message: 'Press Left Apply Button',
+                      child: IgnorePointer(
+                        ignoring: TimeSelectCtrl.to.ableTimeSelect.isFalse,
+                        child: InkWell(
+                          child: Icon(
+                            Icons.arrow_forward_ios,
+                            color: TimeSelectCtrl.to.ableTimeSelect.isFalse
+                                ? Colors.grey
+                                : Colors.blueGrey,
+                          ),
+                          // onLongPress: () {
+                          //   Get.find<TimeSelectCtrl>().secondIncrease();
+                          // },
+                          onTap: () {
+                            Get.find<TimeSelectCtrl>().secondIncrease();
+                          },
+                          // onDoubleTap: () {
+                          //   return null;
+                          // },
+                        ),
+                      ),
+                    );
+                  }),
 
-                  InkWell(
-                    child: const Icon(
-                      Icons.arrow_forward_ios,
-                      color: Colors.blueGrey,
-                    ),
-                    onLongPress: () {
-                      Get.find<TimeSelectCtrl>().secondIncrease();
-                    },
-                    onTap: () {
-                      Get.find<TimeSelectCtrl>().secondIncrease();
-                    },
-                  ),
                   const Spacer(),
                   Row(
                     children: [
@@ -117,7 +164,12 @@ class TimeSelectTxtForm extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           primary: const Color(0xff5AEDCA),
                         ),
-                        onPressed: () {},
+                        onPressed: () async {
+                          //오른쪽 함수 부르는거
+                          TimeSelectCtrl.to.timeSelected.value = true;
+                          await RightChartCtrl.to.updateRightData2();
+                          RangeSliderCtrl.to.minMaxFunc();
+                        },
                         child: const Text(
                           'Apply',
                           style: TextStyle(
@@ -155,14 +207,23 @@ class TimeSelectTxtForm extends StatelessWidget {
   }
 
   Widget FirstTimeBtnWidget() {
-    return InkWell(
-      child: const Icon(
-        Icons.arrow_back_ios,
-        color: Colors.blueGrey,
-      ),
-      onTap: () {
-        Get.find<TimeSelectCtrl>().secondDecrease();
-      },
-    );
+    return Obx(() {
+      return Tooltip(
+        message: 'Press Left Apply Button',
+        child: IgnorePointer(
+            ignoring: TimeSelectCtrl.to.ableTimeSelect.isFalse,
+            child: InkWell(
+              child: Icon(
+                Icons.arrow_back_ios,
+                color: TimeSelectCtrl.to.ableTimeSelect.isFalse
+                    ? Colors.grey
+                    : Colors.blueGrey,
+              ),
+              onTap: () {
+                Get.find<TimeSelectCtrl>().secondDecrease();
+              },
+            )),
+      );
+    });
   }
 }

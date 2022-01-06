@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
+import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 
 class RangeValue {
   double start;
@@ -108,7 +109,6 @@ class ChartCtrl extends GetxController {
   RxInt Idx = 0.obs;
   RxList<int> IdxList = RxList.empty();
   List<FlSpot> flList = RxList.empty();
-
   RxList xVal = RxList.empty();
   double xValLast = 0.0;
   RxList<DateTime> dateTime = RxList.empty();
@@ -133,53 +133,61 @@ class ChartCtrl extends GetxController {
   }
 
   Future<void> updateLeftData() async {
+    // filesCnt.value = FilePickerCtrl.to.selectedFileUrls.length;
     if (leftDataMode.value == true) {
-      for (var ii = 0; ii < seriesCnt.value; ii++) {
+      //seriesCnt==5(파장 레인지 갯수)*10(파일갯수)
+      for (var ii = 0; ii < 5; ii++) {
         forfields[ii].clear();
       }
-      for (var a = 7; a < 14; a++) {
-        Idx.value = a - 7;
-        String time = FilePickerCtrl.to.forfields[a][0]; // 15:23:43.532
-        csvData.add(time);
-        String toConvert = '2022-01-01 12:' + time;
-        final dateParse = DateTime.parse(toConvert);
-        dateTime.add(dateParse);
-        xVal.add((DateTime(
-                    dateTime[Idx.value].year,
-                    dateTime[Idx.value].month,
-                    dateTime[Idx.value].day,
-                    dateTime[Idx.value].hour,
-                    dateTime[Idx.value].minute,
-                    dateTime[Idx.value].second,
-                    dateTime[Idx.value].millisecond)
-                .difference(
-                  DateTime(
-                      dateTime[0].year,
-                      dateTime[0].month,
-                      dateTime[0].day,
-                      dateTime[0].hour,
-                      dateTime[0].minute,
-                      dateTime[0].second,
-                      dateTime[0].millisecond),
-                )
-                .inMilliseconds
-                .toDouble()) /
-            1000);
-        for (var ii = 0; ii < 5; ii++) {
-          int cnt = RangeSliderCtrl.to.currentRv[ii].end.toInt() -
-              RangeSliderCtrl.to.currentRv[ii].start.toInt() +
-              1;
-          sum.value = 0.0;
-
-          for (int i = 0; i < cnt; i++) {
-            sum.value += FilePickerCtrl.to.forfields[a]
-                [RangeSliderCtrl.to.currentRv[ii].start.toInt() + i + 1];
+      for (var s = 0; s < FilePickerCtrl.to.selectedFileUrls.length; s++) {
+        for (var a = 7; a < 14; a++) {
+          Idx.value = a - 7;
+          String time = FilePickerCtrl.to.forfields[a][0]; // 15:23:43.532
+          csvData.add(time);
+          String toConvert = '2022-01-01 12:' + time;
+          final dateParse = DateTime.parse(toConvert);
+          dateTime.add(dateParse);
+          xVal.add((DateTime(
+                      dateTime[Idx.value].year,
+                      dateTime[Idx.value].month,
+                      dateTime[Idx.value].day,
+                      dateTime[Idx.value].hour,
+                      dateTime[Idx.value].minute,
+                      dateTime[Idx.value].second,
+                      dateTime[Idx.value].millisecond)
+                  .difference(
+                    DateTime(
+                        dateTime[0].year,
+                        dateTime[0].month,
+                        dateTime[0].day,
+                        dateTime[0].hour,
+                        dateTime[0].minute,
+                        dateTime[0].second,
+                        dateTime[0].millisecond),
+                  )
+                  .inMilliseconds
+                  .toDouble()) /
+              1000);
+          //처음 파일기준 인덱스 떼어올 것.
+          if (s == 0) {
+            TimeSelectCtrl.to.timeIdxList.value = xVal;
+            debugPrint(
+                '첫번째 파일의 시간 인덱스가 떼어와 졌나?? : ${TimeSelectCtrl.to.timeIdxList}');
           }
-          avg.value = sum.value / cnt;
-          debugPrint('${Idx.value}의x && y : ${avg.value}');
-          debugPrint('xVal[0] // xVal[1]에 0?? : $xVal');
-          forfields[ii].add(FlSpot(xVal[Idx.value], avg.value));
-          debugPrint('$ii/${Idx.value} forfileds: ${forfields[ii]}');
+          // forfields.clear();
+          for (var ii = 0; ii < 5; ii++) {
+            int cnt = RangeSliderCtrl.to.currentRv[ii].end.toInt() -
+                RangeSliderCtrl.to.currentRv[ii].start.toInt() +
+                1;
+            sum.value = 0.0;
+
+            for (int i = 0; i < cnt; i++) {
+              sum.value += FilePickerCtrl.to.forfields[a]
+                  [RangeSliderCtrl.to.currentRv[ii].start.toInt() + i + 1];
+            }
+            avg.value = sum.value / cnt;
+            forfields[ii].add(FlSpot(xVal[Idx.value], avg.value));
+          }
         }
       }
     } else {}

@@ -17,6 +17,7 @@ class CkbViewWidget extends StatelessWidget {
             onChanged: (val) {
               if (val != null) {
                 ckb.isChecked.value = val;
+                CheckboxCtrl.to.isChecked.value = true;
                 debugPrint('isChecked $val!');
               }
             }),
@@ -35,19 +36,25 @@ class FileListData extends StatelessWidget {
       children: [
         ListTile(
           horizontalTitleGap: 200,
+          selected: CheckboxCtrl.to.isChecked.isTrue ? true : false,
+          onTap: () {},
+          selectedTileColor: Colors.cyan[100],
           title: Row(
             children: [
-              SizedBox(
-                height: 300,
-                width: 300,
-                child: Obx(() => Scrollbar(
-                    isAlwaysShown: true,
-                    child: ListView.builder(
-                      itemCount: CheckboxCtrl.to.ckb.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return CkbViewWidget(ckb: CheckboxCtrl.to.ckb[index]);
-                      },
-                    ))),
+              Expanded(
+                flex: 1,
+                child: SizedBox(
+                  height: 500,
+                  width: 500,
+                  child: Obx(() => Scrollbar(
+                      isAlwaysShown: true,
+                      child: ListView.builder(
+                        itemCount: CheckboxCtrl.to.ckb.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return CkbViewWidget(ckb: CheckboxCtrl.to.ckb[index]);
+                        },
+                      ))),
+                ),
               )
               //////////////////////////////이 라인 위에가 새로 만들고 있는 부분....
               ,

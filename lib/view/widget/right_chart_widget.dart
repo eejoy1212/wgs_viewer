@@ -1,17 +1,22 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/file_select_dropdown_ctrl.dart';
 import 'package:wgs_viewer/controller/right_chart_ctrl.dart';
 
 class RightChartWidget extends StatelessWidget {
-  List<Color> gradientColors = [
-    const Color(0xff23b6e6),
-    const Color(0xff02d39a),
-  ];
-
   bool showAvg = false;
 
+  // double maxY = ;
+  double? minY = FilePickerCtrl.to.firstLine.isNotEmpty ? 0 : 0;
+  double? maxY = FilePickerCtrl.to.firstLine.isNotEmpty ? 10000 : 0;
+  double? minX = FilePickerCtrl.to.firstLine.isNotEmpty
+      ? FilePickerCtrl.to.firstLine.first
+      : 180;
+  double? maxX = FilePickerCtrl.to.firstLine.isNotEmpty
+      ? FilePickerCtrl.to.firstLine.last
+      : 870;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -37,11 +42,11 @@ class RightChartWidget extends StatelessWidget {
                             lineBarsData: [
                               lineChartBarData(
                                 RightChartCtrl.to.rightSeriesData[0],
-                                Colors.green,
+                                Color.fromARGB(255, 106, 141, 137),
                               ),
                               lineChartBarData(
                                 RightChartCtrl.to.rightSeriesData[1],
-                                Colors.pink,
+                                Colors.indigo,
                               )
                             ],
                             bottomTitles: SideTitles(
@@ -68,20 +73,6 @@ class RightChartWidget extends StatelessWidget {
                         })),
                   ),
                 )),
-        SizedBox(
-          width: 60,
-          height: 34,
-          child: TextButton(
-            onPressed: () {},
-            child: Text(
-              'avg',
-              style: TextStyle(
-                  fontSize: 12,
-                  color:
-                      showAvg ? Colors.white.withOpacity(0.5) : Colors.white),
-            ),
-          ),
-        ),
       ],
     );
   }
@@ -96,8 +87,8 @@ class RightChartWidget extends StatelessWidget {
       LineChartData(
           minY: 0,
           maxY: 10000,
-          minX: 180,
-          maxX: 1000,
+          minX: minX,
+          maxX: maxX,
           lineTouchData: LineTouchData(
               touchTooltipData: LineTouchTooltipData(
             fitInsideHorizontally: true,

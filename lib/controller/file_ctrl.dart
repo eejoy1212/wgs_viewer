@@ -33,6 +33,8 @@ class FilePickerCtrl extends GetxController {
   RxInt maxIdx = 0.obs;
   List<String> timeAxis = RxList.empty();
   RxList<dynamic> timeLine = RxList.empty();
+
+  RxList<CheckBoxModel> ckbfirstList = RxList.empty();
   Future<void> selectedFileFunc() async {
     enableRangeSelect.value = true;
     try {
@@ -75,24 +77,23 @@ class FilePickerCtrl extends GetxController {
 
         print('firstLine length ${firstLine}');
 
-        timeLine.assignAll(fields.sublist(7, fields[7].length)[0]);
+        timeLine.assignAll(fields[0].sublist(7, fields[7].length)[0]);
         // timeLine.value = fields.sublist(7, fields[7].length)[0];
         debugPrint('timeLine?? : $timeLine');
         // maxIdx.value = firstLine.indexOf(867.9015275);
         print(
             'FilePickerCtrl.to.firstLine.last ${FilePickerCtrl.to.firstLine.last}');
         print('?? :  ${maxIdx}');
-        int nn = CheckboxCtrl.to.ckb.length;
-        List<CheckBoxModel> ckbfirstList = [];
-        ckbfirstList.add(
-          CheckBoxModel(
-            title: 'ds',
-            fileName: '$nn번 파일 : ${FilePickerCtrl.to.selectedFileUrls[nn]} ',
-            isChecked: false.obs,
-            range: RangeModel(start: nn, end: nn + 2),
-          ),
-        );
-        CheckboxCtrl.to.ckb.addAll(ckbfirstList);
+        // int nn = CheckboxCtrl.to.ckb.length;
+        // ckbfirstList.add(
+        //   CheckBoxModel(
+        //     title: 'ds',
+        //     fileName: '$nn번 파일 : ${FilePickerCtrl.to.selectedFileUrls[nn]} ',
+        //     isChecked: false.obs,
+        //     range: RangeModel(start: nn, end: nn + 2),
+        //   ),
+        // );
+        // CheckboxCtrl.to.ckb.addAll(ckbfirstList);
         if (FilePickerCtrl.to.selectedFileName.length > 100) {
           throw new Exception("파일의 최대 갯수는 100개");
         }

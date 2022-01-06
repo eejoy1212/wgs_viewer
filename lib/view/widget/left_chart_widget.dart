@@ -34,11 +34,15 @@ class LeftChartWidget extends StatelessWidget {
                                     RangeSliderCtrl.to.verticalRA()),
                             ctrl: ctrl,
                             lineBarsData: [
-                              if (ctrl.forfields[0].isNotEmpty)
-                                lineChartBarData(
-                                  ctrl.forfields[0],
-                                  Colors.green,
-                                ),
+                              ctrl.forfields.isEmpty
+                                  ? lineChartBarData(
+                                      ctrl.forfields[0],
+                                      Colors.transparent,
+                                    )
+                                  : lineChartBarData(
+                                      ctrl.forfields[0],
+                                      Colors.green,
+                                    ),
                               if (ctrl.forfields[0].isNotEmpty)
                                 lineChartBarData(
                                   ctrl.forfields[1],
@@ -147,7 +151,7 @@ class LeftChartWidget extends StatelessWidget {
   }) {
     return LineChart(
       LineChartData(
-          // minY: 0,
+          minY: 0,
           // maxY: 20000,
           // minX: 0,
           // maxX: 6,
