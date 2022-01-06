@@ -49,16 +49,16 @@ class RightChartWidget extends StatelessWidget {
                                 Colors.indigo,
                               )
                             ],
-                            bottomTitles: SideTitles(
-                              showTitles: true,
-                              reservedSize: 20,
-                              getTextStyles: (bctx, dbl) => const TextStyle(
-                                color: Colors.blueGrey,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                              margin: 8,
-                            ),
+                            // bottomTitles: SideTitles(
+                            //   showTitles: true,
+                            //   reservedSize: 20,
+                            //   getTextStyles: (bctx, dbl) => const TextStyle(
+                            //     color: Colors.blueGrey,
+                            //     fontWeight: FontWeight.bold,
+                            //     fontSize: 16,
+                            //   ),
+                            //   margin: 8,
+                            // ),
                             leftTitles: SideTitles(
                               showTitles: false,
                               getTextStyles: (bctx, dbl) => const TextStyle(

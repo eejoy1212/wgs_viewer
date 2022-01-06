@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/file_select_dropdown_ctrl.dart';
@@ -15,6 +16,8 @@ class RightChartCtrl extends GetxController {
   RxList<double> yValList = RxList.empty();
   RxInt idx = 0.obs;
   Rx<double?> maxXLength = 0.0.obs;
+  Rx<Color> selectedColor = Colors.blueGrey.obs;
+  Rx<Color> selectedColor2 = Colors.indigo.obs;
 //리스트에 담긴 차트에 그려줄 내용 초기화
   void init() {
     for (var i = 0; i < 99; i++) {

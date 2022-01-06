@@ -31,7 +31,14 @@ class ApplyBtn extends StatelessWidget {
               onPressed: () async {
                 ChartCtrl.to.leftDataMode.value = true;
                 //파일 열 개 까지 불러오기
-
+// if (CheckboxCtrl.to.isChecked.isTrue
+                // ) {
+// for (var i = 0; i < 10; i++) {
+                //  final input =await File()
+                // FilePickerCtrl.to.selectedFileUrls
+// }
+//
+// }
                 debugPrint(
                     '파일 몇 개 선택?? :${FilePickerCtrl.to.selectedFileUrls.length}');
                 // for (var f = 0; f <
@@ -61,25 +68,25 @@ class ApplyBtn extends StatelessWidget {
                 // int idx = CheckboxCtrl.to.ckb
                 //     .indexWhere((element) => element.isChecked.isTrue);
                 //    debugPrint('idx : $idx');
-//apply btn눌렀을 때, 체크박스가 트루면 파일 오픈
-                if (CheckboxCtrl.to.isChecked.isTrue) {
-                  for (var i = 0;
-                      i < FilePickerCtrl.to.selectedFileUrls.length;
-                      i++) {
-                    final input =
-                        await File(FilePickerCtrl.to.selectedFileUrls[i]!)
-                            .openRead();
-                    var d = const FirstOccurrenceSettingsDetector(
-                        eols: ['\r\n', '\n'], textDelimiters: ['"', "'"]);
-                    var fields = await input
-                        .transform(utf8.decoder)
-                        .transform(CsvToListConverter(csvSettingsDetector: d))
-                        .toList();
-                    List<List<List<dynamic>>> fieldsList = [];
-                    fieldsList[i].add(fields);
-                    debugPrint('for몇번? : ${i}');
-                  }
-                } else {}
+//File Select 버튼 눌렀을 때, 리스트로 Url을 가지고 있다가,  apply btn눌렀을 때, 체크박스가 트루면 파일 오픈(.openRead())
+                // if (CheckboxCtrl.to.isChecked.isTrue) {
+                //   for (var i = 0;
+                //       i < FilePickerCtrl.to.selectedFileUrls.length;
+                //       i++) {
+                //     final input =
+                //         await File(FilePickerCtrl.to.selectedFileUrls[i]!)
+                //             .openRead();
+                //     var d = const FirstOccurrenceSettingsDetector(
+                //         eols: ['\r\n', '\n'], textDelimiters: ['"', "'"]);
+                //     var fields = await input
+                //         .transform(utf8.decoder)
+                //         .transform(CsvToListConverter(csvSettingsDetector: d))
+                //         .toList();
+                //     List<List<List<dynamic>>> fieldsList = [];
+                //     fieldsList[i].add(fields);
+                //     debugPrint('for몇번? : ${i}');
+                //   }
+                // } else {}
 
                 // .removeWhere((element) => element.isChecked.isTrue);
               },

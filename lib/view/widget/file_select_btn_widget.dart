@@ -26,6 +26,7 @@ class _FileSelectBtnState extends State<FileSelectBtn> {
       onPressed: () async {
         await FilePickerCtrl.to.selectedFileFunc();
         int nn = CheckboxCtrl.to.ckb.length;
+        // int nn = FilePickerCtrl.to.selectedFileUrls.length;
         List<CheckBoxModel> ckbfirstList = [];
         ckbfirstList.add(
           CheckBoxModel(
