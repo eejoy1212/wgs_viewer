@@ -7,6 +7,7 @@ import 'package:wgs_viewer/controller/right_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/file_select_dropdown_widget.dart';
 import 'package:wgs_viewer/view/widget/right_apply_btn.dart';
+import 'package:wgs_viewer/view/widget/second_file_select_dropdown_widget.dart';
 
 class TimeSelectTxtForm extends StatelessWidget {
   const TimeSelectTxtForm({Key? key}) : super(key: key);
@@ -167,7 +168,7 @@ class TimeSelectTxtForm extends StatelessWidget {
                         onPressed: () async {
                           //오른쪽 함수 부르는거
                           TimeSelectCtrl.to.timeSelected.value = true;
-                          await RightChartCtrl.to.updateRightData2();
+                          RightChartCtrl.to.updateRightData2();
                           RangeSliderCtrl.to.minMaxFunc();
                         },
                         child: const Text(
@@ -198,7 +199,7 @@ class TimeSelectTxtForm extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-              FileSelectDropDown()
+              SecondFileSelectDropDown()
             ],
           ),
         ],
