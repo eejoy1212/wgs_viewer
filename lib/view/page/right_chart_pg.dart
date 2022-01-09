@@ -1,7 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
+import 'package:wgs_viewer/controller/right_chart_ctrl.dart';
 import 'package:wgs_viewer/view/page/left_chart_pg.dart';
 import 'package:wgs_viewer/view/widget/right_chart_widget.dart';
 
@@ -38,7 +43,7 @@ class RightChartPg extends StatelessWidget {
                     DateTime current = DateTime.now();
                     ChartCtrl.to.fileName.value =
                         DateFormat('yyyyMMdd_HHmmss').format(current);
-                    exportCSV(name: "Wavelength", data: []);
+                    rightExportCSV("Wavelength");
                   },
                   icon: const Icon(
                     Icons.file_copy_outlined,
@@ -53,4 +58,46 @@ class RightChartPg extends StatelessWidget {
       ),
     );
   }
+}
+
+void rightExportCSV(String name, [List<dynamic> data = const []]) async {
+  final List<List<double>> list = [];
+  int timeLen = 0;
+  int sidx = 0;
+  for (int i = 0; i < ChartCtrl.to.forfields.length; i++) {
+    final series = ChartCtrl.to.forfields[i];
+    if (series.isNotEmpty) {
+      final int len = series[0].length;
+      if (timeLen < len) {
+        timeLen = len;
+        sidx = i;
+      }
+    }
+  }
+  for (var t = 0; t < timeLen; t++) {
+    list.add([ChartCtrl.to.forfields[sidx][0][t].x]); // 시간 삽입
+    // 시리즈별 접근
+    for (var i = 0; i < ChartCtrl.to.forfields.length; i++) {
+      if (ChartCtrl.to.forfields[i].isNotEmpty) {
+        list[t].add(ChartCtrl.to.forfields[i][0][t].y);
+      }
+    }
+  }
+
+  debugPrint(">>>>>>>>>>>>>>>>>>> test: " + list.toString());
+
+  final directory = await getApplicationDocumentsDirectory();
+  FilePickerCtrl.to.path.value = directory.path;
+  debugPrint('path : ${FilePickerCtrl.to.path.value}');
+  File file = File(
+      "${FilePickerCtrl.to.path.value}/${ChartCtrl.to.fileName.value}_$name.csv");
+  List<dynamic> initData = ["FileFormat : 1", "Save Time : ", "Wavelength : "];
+
+  String all = initData.join('\n') +
+      '\n' +
+      "Time" +
+      '\n' +
+      list.map((line) => line.join(",")).join('\n');
+  debugPrint('export');
+  file.writeAsString(all);
 }

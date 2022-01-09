@@ -42,7 +42,7 @@ class RangeSliderCtrl extends GetxController {
   // late Rx<RangeWaveLength> rwl;
   RxDouble maxVal = 867.901527512498.obs;
   RxDouble minVal = 0.0.obs;
-  List<dynamic> minMaxList = RxList.empty();
+  // List<dynamic> minMaxList = RxList.empty();
   // List<Range> rm = RxList.empty();
 
   void init() {
@@ -53,30 +53,25 @@ class RangeSliderCtrl extends GetxController {
     }
   }
 
-  void minMaxFunc() {
-    if (ChartCtrl.to.enableApply.value == true &&
-        ChartCtrl.to.rangeList.isNotEmpty) {
-      //minMax
+  // void minMaxFunc() {
+  //   if (ChartCtrl.to.enableApply.value == true &&
+  //       ChartCtrl.to.rangeList.isNotEmpty) {
+  //     //minMax
 
-      maxVal.value = ChartCtrl.to.rangeList[0];
-      minVal.value = ChartCtrl.to.rangeList[0];
+  //     maxVal.value = ChartCtrl.to.rangeList[0];
+  //     minVal.value = ChartCtrl.to.rangeList[0];
 
-      for (var i = 0; i < ChartCtrl.to.rangeList.length; i++) {
-        if (ChartCtrl.to.rangeList[i] > maxVal.value) {
-          maxVal.value = ChartCtrl.to.rangeList[i];
-        }
+  //     for (var i = 0; i < ChartCtrl.to.rangeList.length; i++) {
+  //       if (ChartCtrl.to.rangeList[i] > maxVal.value) {
+  //         maxVal.value = ChartCtrl.to.rangeList[i];
+  //       }
 
-        if (ChartCtrl.to.rangeList[i] < minVal.value) {
-          minVal.value = ChartCtrl.to.rangeList[i];
-        }
-      }
-    }
-  }
-
-  void setRangeVal(start, end) {
-    if (start < 0) return;
-    if (start > end) return;
-  }
+  //       if (ChartCtrl.to.rangeList[i] < minVal.value) {
+  //         minVal.value = ChartCtrl.to.rangeList[i];
+  //       }
+  //     }
+  //   }
+  // }
 
   List<VerticalRangeAnnotation> verticalRA() {
     List<VerticalRangeAnnotation> ra = [];

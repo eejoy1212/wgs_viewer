@@ -26,7 +26,7 @@ class RightApplyBtn extends StatelessWidget {
                 //오른쪽 함수 부르는거
                 TimeSelectCtrl.to.timeSelected.value = true;
                 await RightChartCtrl.to.updateRightData1();
-                RangeSliderCtrl.to.minMaxFunc();
+                // RangeSliderCtrl.to.minMaxFunc();
               },
               child: const Text(
                 'Apply',

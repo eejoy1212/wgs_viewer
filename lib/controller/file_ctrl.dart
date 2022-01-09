@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:csv/csv_settings_autodetection.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
@@ -19,7 +20,6 @@ class FilePickerCtrl extends GetxController {
   RxList filenamelist = RxList.empty();
   RxString fileMaxAlertMsg = ''.obs;
   List yAxisData = RxList.empty();
-  List xAxisData = RxList.empty();
   List<List<dynamic>> f1 = RxList.empty();
   List<List<dynamic>> f2 = RxList.empty();
   List<List<dynamic>> forfields = RxList.empty();
@@ -36,7 +36,10 @@ class FilePickerCtrl extends GetxController {
   List<List<dynamic>> fields = RxList.empty();
   List<List<String?>> inputList = RxList.empty();
   List<String?> fileUrls = RxList.empty();
-
+  RxString path = ''.obs;
+  // Rx<FilePickerCross> path = FilePickerCross(_bytes).obs;
+  List<List<dynamic>> fileData = RxList.empty();
+  List<List<double>> exportList = RxList.empty();
   void init() {
     for (var i = 0; i < 9; i++) {}
   }
@@ -82,7 +85,7 @@ class FilePickerCtrl extends GetxController {
         // .toList();
         // forfields = fields;
         if (first) {
-          List<List<dynamic>> fileData = RxList.empty();
+          // List<List<dynamic>> fileData = RxList.empty();
           final input2 = await File(selectedFileName[0]).openRead();
           var d = const FirstOccurrenceSettingsDetector(
               eols: ['\r\n', '\n'], textDelimiters: ['"', "'"]);
@@ -95,7 +98,9 @@ class FilePickerCtrl extends GetxController {
           final DateTime firstTime = DateTime.parse(toConvert);
           for (var i = 7; i < fileData.length; i++) {
             String toConvert = '2022-01-01 ' + fileData[i][0];
+
             final DateTime dateTime = DateTime.parse(toConvert);
+
             TimeSelectCtrl.to.timeIdxList.add((DateTime(
                         dateTime.year,
                         dateTime.month,

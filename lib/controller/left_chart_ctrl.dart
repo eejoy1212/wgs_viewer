@@ -12,66 +12,6 @@ import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 
-class RangeValue {
-  double start;
-  double end;
-  List<double> tableX;
-  RangeValue({
-    required this.start,
-    required this.end,
-    required this.tableX,
-  });
-
-  RangeValue copyWith({
-    double? start,
-    double? end,
-    List<double>? tableX,
-  }) {
-    return RangeValue(
-      start: start ?? this.start,
-      end: end ?? this.end,
-      tableX: tableX ?? this.tableX,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'start': start,
-      'end': end,
-      'tableX': tableX,
-    };
-  }
-
-  factory RangeValue.fromMap(Map<String, dynamic> map) {
-    return RangeValue(
-      start: map['start']?.toDouble() ?? 0.0,
-      end: map['end']?.toDouble() ?? 0.0,
-      tableX: List<double>.from(map['tableX']),
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory RangeValue.fromJson(String source) =>
-      RangeValue.fromMap(json.decode(source));
-
-  @override
-  String toString() => 'RangeValue(start: $start, end: $end, tableX: $tableX)';
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is RangeValue &&
-        other.start == start &&
-        other.end == end &&
-        listEquals(other.tableX, tableX);
-  }
-
-  @override
-  int get hashCode => start.hashCode ^ end.hashCode ^ tableX.hashCode;
-}
-
 class ChartCtrl extends GetxController {
   static ChartCtrl get to => Get.find();
   /*visible mode == 0 ->left chart
@@ -79,60 +19,26 @@ class ChartCtrl extends GetxController {
   visible mode == 2 ->all chart
   */
   RxInt visibleMode = 2.obs;
-  RxInt seriesCnt = 150.obs;
-  RxDouble rangeEnd = 0.0.obs;
-  RxBool leftMode = false.obs;
-  RxList<FlSpot> simData = RxList.empty();
-  List<FlSpot> leftChartData = RxList.empty();
-  RxList<List<FlSpot>> rightChartData = RxList.empty();
+  // RxInt seriesCnt = 150.obs;
   RxBool leftDataMode = false.obs;
-  RxInt tempFileNum = 50.obs;
-  RxInt tempWaveNum = 10.obs;
-  RxList xAxisData = RxList.empty();
   RxList<RxList<List<FlSpot>>> forfields = RxList.empty();
-  List<List<FlSpot>> newList = RxList.empty();
-  List<List<FlSpot>> seriesList = RxList.empty();
   RxBool enableApply = false.obs;
-  List timeList = RxList.empty();
   RxDouble value = 0.0.obs;
-  List<double> rangeList = RxList.empty();
-  List<double> startList = RxList.empty();
-  List<double> endList = RxList.empty();
-  List<RangeValue> rv = [];
-  List<RangeValue> rv2 = [];
-  List<RangeValue> rv3 = [];
-  List<RangeValue> rv4 = [];
-  List<RangeValue> rv5 = [];
-  RxInt timeMaxLength = 0.obs;
-  RxInt rvIdx = 0.obs;
-  List<Duration> diffList = RxList.empty();
-  RxList<dynamic> yVal = RxList.empty();
+  // List<double> rangeList = RxList.empty();
+  // List<RangeValue> rv = [];
   RxDouble sum = 0.0.obs;
   RxDouble avg = 0.0.obs;
-  RxList<dynamic> tempTime = RxList.empty();
   RxInt Idx = 0.obs;
-  RxList<int> IdxList = RxList.empty();
-  List<FlSpot> flList = RxList.empty();
+  //레인지 슬라이더 변수
   RxList xVal = RxList.empty();
-  double xValLast = 0.0;
-  RxList<DateTime> dateTime = RxList.empty();
-  List csvData = [];
   RxString fileName = ''.obs;
-  RxBool exportCsv = false.obs;
 
   void init() {
     // for (var i = 0; i < ChartCtrl.to.seriesCnt.value; i++) {
-    //   forfields.add([]);
+    //   rv.add(RangeValue(start: 0.0, end: 0.0, tableX: []));
     // }
-    for (var i = 0; i < ChartCtrl.to.seriesCnt.value; i++) {
-      rv.add(RangeValue(start: 0.0, end: 0.0, tableX: []));
-      rv2.add(RangeValue(start: 0.0, end: 0.0, tableX: []));
-      rv3.add(RangeValue(start: 0.0, end: 0.0, tableX: []));
-      rv4.add(RangeValue(start: 0.0, end: 0.0, tableX: []));
-      rv5.add(RangeValue(start: 0.0, end: 0.0, tableX: []));
-    }
     for (var i = 1; i < 2048; i++) {
-      RangeSliderCtrl.to.minMaxList.add([]);
+      // RangeSliderCtrl.to.minMaxList.add([]);
     }
   }
 
@@ -182,6 +88,7 @@ class ChartCtrl extends GetxController {
             if (TimeSelectCtrl.to.timeIdxList.length > Idx.value) {
               forfields[s][ii].add(
                   FlSpot(TimeSelectCtrl.to.timeIdxList[Idx.value], avg.value));
+              debugPrint('nnn forfields :  $forfields');
             }
             debugPrint('forfields ${forfields[s][ii]}');
           }

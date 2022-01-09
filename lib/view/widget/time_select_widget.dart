@@ -193,7 +193,7 @@ class TimeSelectTxtForm extends StatelessWidget {
                               //오른쪽 함수 부르는거
                               TimeSelectCtrl.to.timeSelected.value = true;
                               RightChartCtrl.to.updateRightData2();
-                              RangeSliderCtrl.to.minMaxFunc();
+                              // RangeSliderCtrl.to.minMaxFunc();
                             },
                             child: const Text(
                               'Apply',

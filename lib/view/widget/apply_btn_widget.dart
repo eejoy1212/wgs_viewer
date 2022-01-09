@@ -63,7 +63,7 @@ class ApplyBtn extends StatelessWidget {
                 //     '파일 열개까지 불러와야함: 리스트 길이 ${fileUrls.length} 이고 리스트항목은 $fileUrls');
                 await ChartCtrl.to.updateLeftData();
                 TimeSelectCtrl.to.ableTimeSelect.value = true;
-                RangeSliderCtrl.to.minMaxFunc();
+                // RangeSliderCtrl.to.minMaxFunc();
 
                 // int idx = CheckboxCtrl.to.ckb
                 //     .indexWhere((element) => element.isChecked.isTrue);

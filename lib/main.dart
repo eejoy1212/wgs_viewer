@@ -38,7 +38,7 @@ void main() {
   Get.put(TranslatorCtrl());
   Get.put(RangeSliderCtrl());
   Get.put(FileSelectDropDownCtrl());
-
+  // Get.put(ExportCtrl());
   RangeSliderCtrl.to.init();
   ChartCtrl.to.init();
   RightChartCtrl.to.init();
