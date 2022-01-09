@@ -121,9 +121,9 @@ class LeftChartWidget extends StatelessWidget {
           minX: ChartCtrl.to.leftDataMode.isFalse ? 0 : null,
           maxX: ChartCtrl.to.leftDataMode.isFalse ? 50 : null,
           // minY: 0,
-          // maxY: 2200,
-          // minX: 0,
-          // maxX: 5,
+          // maxY: 1300,
+          // minX: -1,
+          // maxX: 1,
           // ChartCtrl.to.xValLast,
           rangeAnnotations: RangeAnnotations(
               verticalRangeAnnotations: RangeSliderCtrl.to.verticalRA()),

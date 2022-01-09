@@ -413,6 +413,7 @@ class _MyAppState extends State<MyApp> {
                                   ),
                                 ),
                                 //파일 셀렉트하면 파일 나타나는 구간.
+
                                 Expanded(
                                   flex: 5,
                                   child: FileListData(),
