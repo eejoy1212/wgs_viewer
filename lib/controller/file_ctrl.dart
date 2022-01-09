@@ -93,7 +93,9 @@ class FilePickerCtrl extends GetxController {
               .transform(utf8.decoder)
               .transform(CsvToListConverter(csvSettingsDetector: d))
               .toList();
+          print('fileData : ${fileData.length}');
           firstLine.assignAll(fileData[6].sublist(1, fileData[6].length));
+
           String toConvert = '2022-01-01 ' + fileData[7][0];
           final DateTime firstTime = DateTime.parse(toConvert);
           for (var i = 7; i < fileData.length; i++) {

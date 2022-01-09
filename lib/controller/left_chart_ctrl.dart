@@ -33,14 +33,7 @@ class ChartCtrl extends GetxController {
   RxList xVal = RxList.empty();
   RxString fileName = ''.obs;
 
-  void init() {
-    // for (var i = 0; i < ChartCtrl.to.seriesCnt.value; i++) {
-    //   rv.add(RangeValue(start: 0.0, end: 0.0, tableX: []));
-    // }
-    for (var i = 1; i < 2048; i++) {
-      // RangeSliderCtrl.to.minMaxList.add([]);
-    }
-  }
+  void init() {}
 
   Future<void> updateLeftData() async {
     //레인지에 쓸거
@@ -64,7 +57,11 @@ class ChartCtrl extends GetxController {
             .transform(CsvToListConverter(csvSettingsDetector: d))
             .toList();
 
-        const int headRowSize = 7;
+        // const int headRowSize = 7;
+
+        int headRowSize =
+            fileData.indexWhere((element) => element.contains('Time'));
+        debugPrint('$s번쨰 파일의 time idx : $headRowSize');
         for (int a = headRowSize; a < fileData.length; a++) {
           Idx.value = a - headRowSize;
 
