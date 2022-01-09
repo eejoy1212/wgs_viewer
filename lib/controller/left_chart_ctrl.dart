@@ -60,7 +60,7 @@ class ChartCtrl extends GetxController {
         // const int headRowSize = 7;
 
         int headRowSize =
-            fileData.indexWhere((element) => element.contains('Time'));
+            fileData.indexWhere((element) => element.contains('Time')) + 1;
         debugPrint('$s번쨰 파일의 time idx : $headRowSize');
         for (int a = headRowSize; a < fileData.length; a++) {
           Idx.value = a - headRowSize;
