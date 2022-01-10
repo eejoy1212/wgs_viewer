@@ -100,37 +100,11 @@ class RightChartCtrl extends GetxController {
             }
             //축소
             else {
-              debugPrint(
-                  'x축 마지막값 비어있나?? ${TimeSelectCtrl.to.timeIdxList.last}');
-              // RightChartCtrl.to.minX.value -= 3;
-              // RightChartCtrl.to.maxX.value += 3;
-              if (RightChartCtrl.to.minX.value > 0 &&
-                  RightChartCtrl.to.maxX.value <
-                      TimeSelectCtrl.to.timeIdxList.last / 1000) {
-                debugPrint('1 if : true');
+              if (RightChartCtrl.to.minX.value >
+                  FilePickerCtrl.to.firstLine.first) {
                 RightChartCtrl.to.minX.value -= 3;
                 RightChartCtrl.to.maxX.value += 3;
               }
-              if (RightChartCtrl.to.maxX.value + 3 ==
-                      TimeSelectCtrl.to.timeIdxList.last / 1000 &&
-                  RightChartCtrl.to.minX.value > 0) {
-                debugPrint('2 if : true');
-                RightChartCtrl.to.minX.value -= 3;
-              }
-              if (RightChartCtrl.to.minX.value == 0 &&
-                  RightChartCtrl.to.maxX.value <
-                      TimeSelectCtrl.to.timeIdxList.last / 1000) {
-                debugPrint('3 if : true');
-                RightChartCtrl.to.maxX.value += 3;
-              }
-              if (RightChartCtrl.to.maxX.value ==
-                      TimeSelectCtrl.to.timeIdxList.last / 1000 &&
-                  RightChartCtrl.to.minX.value > 0) {
-                debugPrint('4 if : true');
-                RightChartCtrl.to.minX.value -= 3;
-              }
-
-              debugPrint('축소 minxxxxxxxx : $minX max: $maxX');
             }
           }
         },
@@ -141,7 +115,7 @@ class RightChartCtrl extends GetxController {
                 if (primeDelta.isNegative) {
                   if (maxX.value > minX.value &&
                       maxX.value <=
-                          (TimeSelectCtrl.to.timeIdxList.last / 1000) - 3) {
+                          (FilePickerCtrl.to.firstLine.last / 1000) - 3) {
                     minX.value += 3;
                     maxX.value += 3;
                     print('드래그 증가 min : $minX max: $maxX');
@@ -149,8 +123,8 @@ class RightChartCtrl extends GetxController {
                 } else {
                   if (maxX.value > minX.value &&
                       minX > 0 &&
-                      minX < TimeSelectCtrl.to.timeIdxList.last / 1000 &&
-                      maxX.value <= TimeSelectCtrl.to.timeIdxList.last / 1000) {
+                      minX < FilePickerCtrl.to.firstLine.last / 1000 &&
+                      maxX.value <= FilePickerCtrl.to.firstLine.last / 1000) {
                     minX.value -= 3;
                     maxX.value -= 3;
                     print('드래그 감소 min : $minX max: $maxX');

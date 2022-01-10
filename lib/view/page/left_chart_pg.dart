@@ -39,41 +39,47 @@ class LeftChartPg extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     GestureDetector(
-                      child: FloatingActionButton(
-                          onPressed: () {
-                            if (ChartCtrl.to.maxX.value - 6 >
-                                ChartCtrl.to.minX.value) {
-                              ChartCtrl.to.minX.value += 3;
-                              ChartCtrl.to.maxX.value -= 3;
-                            }
-                          },
-                          child: const Text("+")),
+                      child: SizedBox(
+                        width: 30,
+                        child: FloatingActionButton(
+                            onPressed: () {
+                              if (ChartCtrl.to.maxX.value - 6 >
+                                  ChartCtrl.to.minX.value) {
+                                ChartCtrl.to.minX.value += 3;
+                                ChartCtrl.to.maxX.value -= 3;
+                              }
+                            },
+                            child: const Text("+")),
+                      ),
                     ),
                     const SizedBox(width: 30),
-                    FloatingActionButton(
-                        onPressed: () {
-                          debugPrint(
-                              'minX : ${ChartCtrl.to.minX.value} && timeIdxList.first : ${TimeSelectCtrl.to.timeIdxList.first} && timeIdxList.last ${TimeSelectCtrl.to.timeIdxList.last}');
-                          if (ChartCtrl.to.minX.value >
-                              TimeSelectCtrl.to.timeIdxList.first) {
+                    SizedBox(
+                      width: 30,
+                      child: FloatingActionButton(
+                          onPressed: () {
                             debugPrint(
                                 'minX : ${ChartCtrl.to.minX.value} && timeIdxList.first : ${TimeSelectCtrl.to.timeIdxList.first} && timeIdxList.last ${TimeSelectCtrl.to.timeIdxList.last}');
+                            if (ChartCtrl.to.minX.value >
+                                TimeSelectCtrl.to.timeIdxList.first) {
+                              debugPrint(
+                                  'minX : ${ChartCtrl.to.minX.value} && timeIdxList.first : ${TimeSelectCtrl.to.timeIdxList.first} && timeIdxList.last ${TimeSelectCtrl.to.timeIdxList.last}');
 
-                            ChartCtrl.to.minX.value -= 3;
-                            ChartCtrl.to.maxX.value += 3;
-                          }
-                          if (ChartCtrl.to.minX.value <
-                              TimeSelectCtrl.to.timeIdxList.first) {
-                            ChartCtrl.to.minX.value =
-                                TimeSelectCtrl.to.timeIdxList.first;
-                          }
-                          // if (ChartCtrl.to.maxX.value >
-                          //     TimeSelectCtrl.to.timeIdxList.last) {
-                          //   ChartCtrl.to.maxX.value =
-                          //       TimeSelectCtrl.to.timeIdxList.last;
-                          // }
-                        },
-                        child: const Text("-")),
+                              ChartCtrl.to.minX.value -= 3;
+                              ChartCtrl.to.maxX.value += 3;
+                            }
+                            if (ChartCtrl.to.minX.value <
+                                TimeSelectCtrl.to.timeIdxList.first) {
+                              ChartCtrl.to.minX.value =
+                                  TimeSelectCtrl.to.timeIdxList.first;
+                            }
+                            // if (ChartCtrl.to.maxX.value >
+                            //     TimeSelectCtrl.to.timeIdxList.last) {
+                            //   ChartCtrl.to.maxX.value =
+                            //       TimeSelectCtrl.to.timeIdxList.last;
+                            // }
+                          },
+                          child: const Text("-")),
+                    ),
                     const Spacer(),
                     ElevatedButton.icon(
                       style:

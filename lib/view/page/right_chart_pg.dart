@@ -40,45 +40,37 @@ class RightChartPg extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  ElevatedButton(
-                      onPressed: () {
-                        if (RightChartCtrl.to.maxX.value - 6 >
-                            RightChartCtrl.to.minX.value) {
-                          RightChartCtrl.to.minX.value += 3;
-                          RightChartCtrl.to.maxX.value -= 3;
-                          debugPrint(
-                              '확대minxxxxxxxxxx : ${RightChartCtrl.to.minX} max: ${RightChartCtrl.to.maxX}');
-                        }
-                      },
-                      child: const Text("+")),
+                  SizedBox(
+                    width: 30,
+                    child: FloatingActionButton(
+                        onPressed: () {
+                          if (RightChartCtrl.to.maxX.value - 6 >
+                              RightChartCtrl.to.minX.value) {
+                            RightChartCtrl.to.minX.value += 3;
+                            RightChartCtrl.to.maxX.value -= 3;
+                            debugPrint('오른쪽 확대???  ');
+                          }
+                        },
+                        child: const Text("+")),
+                  ),
                   const SizedBox(width: 30),
-                  ElevatedButton(
-                      onPressed: () {
-                        if (RightChartCtrl.to.minX.value > 0 &&
-                            RightChartCtrl.to.maxX.value <
-                                FilePickerCtrl.to.firstLine.last / 1000) {
-                          RightChartCtrl.to.minX.value -= 3;
-                          RightChartCtrl.to.maxX.value += 3;
-                        }
-                        if (RightChartCtrl.to.maxX.value + 3 ==
-                                FilePickerCtrl.to.firstLine.last / 1000 &&
-                            RightChartCtrl.to.minX.value > 0) {
-                          RightChartCtrl.to.minX.value -= 3;
-                        }
-                        if (RightChartCtrl.to.minX.value == 0 &&
-                            RightChartCtrl.to.maxX.value <
-                                FilePickerCtrl.to.firstLine.last / 1000) {
-                          RightChartCtrl.to.maxX.value += 3;
-                        }
-                        if (RightChartCtrl.to.maxX.value ==
-                                FilePickerCtrl.to.firstLine.last / 1000 &&
-                            RightChartCtrl.to.minX.value > 0) {
-                          RightChartCtrl.to.minX.value -= 3;
-                        }
-                        debugPrint(
-                            '축소 minxxxxxxxx : ${RightChartCtrl.to.minX} max: ${RightChartCtrl.to.maxX}');
-                      },
-                      child: const Text("-")),
+                  SizedBox(
+                    width: 30,
+                    child: FloatingActionButton(
+                        onPressed: () {
+                          if (RightChartCtrl.to.minX.value >
+                              FilePickerCtrl.to.firstLine.first) {
+                            RightChartCtrl.to.minX.value -= 3;
+                            RightChartCtrl.to.maxX.value += 3;
+                          }
+                          if (RightChartCtrl.to.minX.value <
+                              FilePickerCtrl.to.firstLine.first) {
+                            RightChartCtrl.to.minX.value =
+                                FilePickerCtrl.to.firstLine.first;
+                          }
+                        },
+                        child: const Text("-")),
+                  ),
                   const Spacer(),
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(primary: Colors.blueAccent),
