@@ -1,5 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
@@ -18,6 +18,8 @@ class RightChartCtrl extends GetxController {
   Rx<double?> maxXLength = 0.0.obs;
   Rx<Color> selectedColor = Colors.blueGrey.obs;
   Rx<Color> selectedColor2 = Colors.indigo.obs;
+  RxDouble minX = 0.0.obs;
+  RxDouble maxX = 0.0.obs;
 //리스트에 담긴 차트에 그려줄 내용 초기화
   void init() {
     for (var i = 0; i < 99; i++) {
@@ -43,18 +45,9 @@ class RightChartCtrl extends GetxController {
         idx.value = b - 1;
         yVal.value =
             FileSelectDropDownCtrl.to.firstFields[slectedTimeIdx1 + 7][b];
-        //f[선택한 시간인덱스][1~2047]들어옴
-        //yValList.add(FilePickerCtrl.to.forfields[slectedTimeIdx][b]);
-        // debugPrint('오른쪽의 y축 : $yValList');
-
         rightSeriesData[0]
             .add(FlSpot(FilePickerCtrl.to.firstLine[idx.value], yVal.value));
       }
-      // rightSeriesData[a]
-      //     .add(FlSpot(FilePickerCtrl.to.firstLine[idx.value], yVal.value));
-      // debugPrint('rightSeriesData[0] : ${rightSeriesData[0]}');
-      // debugPrint('rightSeriesData[0] : ${rightSeriesData[1]}');
-
     }
     update();
   }
@@ -85,12 +78,76 @@ class RightChartCtrl extends GetxController {
         rightSeriesData[1]
             .add(FlSpot(FilePickerCtrl.to.firstLine[idx.value], yVal2.value));
       }
-      // rightSeriesData[a]
-      //     .add(FlSpot(FilePickerCtrl.to.firstLine[idx.value], yVal.value));
-      // debugPrint('rightSeriesData[0] : ${rightSeriesData[0]}');
-      // debugPrint('rightSeriesData[0] : ${rightSeriesData[1]}');
-
     }
     update();
+  }
+
+  zoomFunction({required Widget child}) {
+    return Listener(
+        onPointerSignal: (signal) {
+          if (signal is PointerScrollEvent) {
+            //확대
+            if (signal.scrollDelta.dy.isNegative) {
+              if (maxX.value - 6 > minX.value) {
+                minX.value += 3;
+                maxX.value -= 3;
+              }
+              print(
+                  '확대minxxxxxxxxxx : $minX max: $maxX  x축 :${TimeSelectCtrl.to.timeIdxList}');
+              // debugPrint('x축 : ${TimeSelectCtrl.to.timeIdxList}');
+            }
+            //축소
+            else {
+              if (RightChartCtrl.to.minX.value > 0 &&
+                  RightChartCtrl.to.maxX.value <
+                      TimeSelectCtrl.to.timeIdxList.last / 1000) {
+                RightChartCtrl.to.minX.value -= 3;
+                RightChartCtrl.to.maxX.value += 3;
+              }
+              if (RightChartCtrl.to.maxX.value + 3 ==
+                      TimeSelectCtrl.to.timeIdxList.last / 1000 &&
+                  RightChartCtrl.to.minX.value > 0) {
+                RightChartCtrl.to.minX.value -= 3;
+              }
+              if (RightChartCtrl.to.minX.value == 0 &&
+                  RightChartCtrl.to.maxX.value <
+                      TimeSelectCtrl.to.timeIdxList.last / 1000) {
+                RightChartCtrl.to.maxX.value += 3;
+              }
+              if (RightChartCtrl.to.maxX.value ==
+                      TimeSelectCtrl.to.timeIdxList.last / 1000 &&
+                  RightChartCtrl.to.minX.value > 0) {
+                RightChartCtrl.to.minX.value -= 3;
+              }
+              print('축소 minxxxxxxxx : $minX max: $maxX');
+            }
+          }
+        },
+        child: GestureDetector(
+            onHorizontalDragUpdate: (dragUpdate) {
+              double primeDelta = dragUpdate.primaryDelta ?? 0.0;
+              if (primeDelta != 0) {
+                if (primeDelta.isNegative) {
+                  if (maxX.value > minX.value &&
+                      maxX.value <=
+                          (TimeSelectCtrl.to.timeIdxList.last / 1000) - 3) {
+                    minX.value += 3;
+                    maxX.value += 3;
+                    print('드래그 증가 min : $minX max: $maxX');
+                  }
+                } else {
+                  if (maxX.value > minX.value &&
+                      minX > 0 &&
+                      minX < TimeSelectCtrl.to.timeIdxList.last / 1000 &&
+                      maxX.value <= TimeSelectCtrl.to.timeIdxList.last / 1000) {
+                    minX.value -= 3;
+                    maxX.value -= 3;
+                    print('드래그 감소 min : $minX max: $maxX');
+                  }
+                }
+              }
+              update();
+            },
+            child: child));
   }
 }

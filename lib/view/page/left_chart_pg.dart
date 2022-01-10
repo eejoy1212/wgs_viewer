@@ -1,18 +1,10 @@
 import 'dart:io';
-import 'dart:math';
-
 import 'package:file_picker/file_picker.dart';
-import 'package:file_picker_cross/file_picker_cross.dart';
-import 'package:file_selector/file_selector.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:wgs_viewer/controller/check_box_ctrl.dart';
-//import 'package:path_provider_windows/path_provider_windows.dart';
-
-import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/view/widget/left_chart_widget.dart';
@@ -31,69 +23,88 @@ class LeftChartPg extends StatelessWidget {
         //left Chat 더블 클릭 하면, 양쪽 차트 다 보이게 하기.
         Get.find<ChartCtrl>().visibleMode.value = 2;
       },
-      child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              flex: 10,
-              child: LeftChartWidget(),
-            ),
-            Expanded(
-              flex: 1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(primary: Colors.blueAccent),
-                    onPressed: () {
-                      DateTime current = DateTime.now();
-                      ChartCtrl.to.fileName.value =
-                          DateFormat('yyyyMMdd_HHmmss').format(current);
-                      exportCSV("TimeBased");
-                    },
-                    icon: const Icon(
-                      Icons.file_copy_outlined,
-                      size: 20,
-                    ),
-                    label: const Text('Export'),
-                  ),
-                ],
+      child: Padding(
+        padding: const EdgeInsets.all(6.0),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                flex: 10,
+                child: LeftChartWidget(),
               ),
-            ),
-          ]),
-    );
-  }
+              Expanded(
+                flex: 1,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                        onPressed: () {
+                          if (ChartCtrl.to.maxX.value - 6 >
+                              ChartCtrl.to.minX.value) {
+                            ChartCtrl.to.minX.value += 3;
+                            ChartCtrl.to.maxX.value -= 3;
+                            print(
+                                '확대minxxxxxxxxxx : ${ChartCtrl.to.minX} max: ${ChartCtrl.to.maxX}');
 
-  LineChartData mainData() {
-    return LineChartData(
-      minY: 2300,
-      maxY: 2550,
-      minX: 0,
-      maxX: 500,
-      lineTouchData: LineTouchData(
-        touchTooltipData: LineTouchTooltipData(
-          tooltipBgColor: Colors.blueAccent,
-// getTooltipItems: (List<LineBarSpot> touchedBarSpots){
-
-// }
-        ),
+                            debugPrint('x축 : ${TimeSelectCtrl.to.timeIdxList}');
+                          }
+                        },
+                        child: const Text("+")),
+                    const SizedBox(width: 30),
+                    ElevatedButton(
+                        onPressed: () {
+                          if (ChartCtrl.to.minX.value > 0 &&
+                              ChartCtrl.to.maxX.value <
+                                  TimeSelectCtrl.to.timeIdxList.last / 1000) {
+                            ChartCtrl.to.minX.value -= 3;
+                            ChartCtrl.to.maxX.value += 3;
+                            debugPrint('확대축소');
+                          }
+                          if (ChartCtrl.to.maxX.value + 3 ==
+                                  TimeSelectCtrl.to.timeIdxList.last / 1000 &&
+                              ChartCtrl.to.minX.value > 0) {
+                            ChartCtrl.to.minX.value -= 3;
+                            debugPrint('확대축소');
+                          }
+                          if (ChartCtrl.to.minX.value == 0 &&
+                              ChartCtrl.to.maxX.value <
+                                  TimeSelectCtrl.to.timeIdxList.last / 1000) {
+                            ChartCtrl.to.maxX.value += 3;
+                            debugPrint('확대축소');
+                          }
+                          if (ChartCtrl.to.maxX.value ==
+                                  TimeSelectCtrl.to.timeIdxList.last / 1000 &&
+                              ChartCtrl.to.minX.value > 0) {
+                            ChartCtrl.to.minX.value -= 3;
+                            debugPrint('확대축소');
+                          }
+                          debugPrint(
+                              '축소 minxxxxxxxx : ${ChartCtrl.to.minX} max: ${ChartCtrl.to.maxX}');
+                          debugPrint('x축 :${TimeSelectCtrl.to.timeIdxList}');
+                        },
+                        child: const Text("-")),
+                    const Spacer(),
+                    ElevatedButton.icon(
+                      style:
+                          ElevatedButton.styleFrom(primary: Colors.blueAccent),
+                      onPressed: () {
+                        DateTime current = DateTime.now();
+                        ChartCtrl.to.fileName.value =
+                            DateFormat('yyyyMMdd_HHmmss').format(current);
+                        exportCSV("TimeBased");
+                      },
+                      icon: const Icon(
+                        Icons.file_copy_outlined,
+                        size: 20,
+                      ),
+                      label: const Text('Export'),
+                    ),
+                  ],
+                ),
+              ),
+            ]),
       ),
-      gridData: FlGridData(
-        getDrawingHorizontalLine: (value) {
-          return FlLine(
-            color: Colors.black12,
-            strokeWidth: 1,
-          );
-        },
-        getDrawingVerticalLine: (value) {
-          return FlLine(
-            color: Colors.black12,
-            strokeWidth: 1,
-          );
-        },
-      ),
-      // lineBarsData: [sinLine(),]
     );
   }
 }

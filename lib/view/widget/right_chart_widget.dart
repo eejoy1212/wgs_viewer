@@ -7,37 +7,37 @@ import 'package:wgs_viewer/controller/right_chart_ctrl.dart';
 
 class RightChartWidget extends StatelessWidget {
   bool showAvg = false;
-
-  // double maxY = ;
   double? minY = FilePickerCtrl.to.firstLine.isNotEmpty ? 0 : 0;
   double? maxY = FilePickerCtrl.to.firstLine.isNotEmpty ? 10000 : 0;
-  double? minX = FilePickerCtrl.to.firstLine.isNotEmpty
-      ? FilePickerCtrl.to.firstLine.first
-      : 180;
-  double? maxX = FilePickerCtrl.to.firstLine.isNotEmpty
-      ? FilePickerCtrl.to.firstLine.last
-      : 870;
+  // double maxY = ;
+
   @override
   Widget build(BuildContext context) {
+    RightChartCtrl.to.minX.value = FilePickerCtrl.to.firstLine.isNotEmpty
+        ? FilePickerCtrl.to.firstLine.first
+        : 180;
+    RightChartCtrl.to.maxX.value = FilePickerCtrl.to.firstLine.isNotEmpty
+        ? FilePickerCtrl.to.firstLine.last
+        : 870;
     return Stack(
       children: [
         GetBuilder<FileSelectDropDownCtrl>(
-            builder: (ctrl) => InteractiveViewer(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(18),
-                        ),
-                        color: Colors.transparent),
-                    child: Padding(
-                        padding: const EdgeInsets.only(
-                          right: 18.0,
-                          left: 12.0,
-                          top: 24,
-                          bottom: 12,
-                        ),
-                        child: Obx(() {
-                          return rightData(
+            builder: (ctrl) => Obx(() {
+                  return RightChartCtrl.to.zoomFunction(
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(18),
+                          ),
+                          color: Colors.transparent),
+                      child: Padding(
+                          padding: const EdgeInsets.only(
+                            right: 18.0,
+                            left: 12.0,
+                            top: 24,
+                            bottom: 12,
+                          ),
+                          child: rightData(
                             ctrl: ctrl,
                             lineBarsData: [
                               lineChartBarData(
@@ -49,16 +49,6 @@ class RightChartWidget extends StatelessWidget {
                                 Colors.indigo,
                               )
                             ],
-                            // bottomTitles: SideTitles(
-                            //   showTitles: true,
-                            //   reservedSize: 20,
-                            //   getTextStyles: (bctx, dbl) => const TextStyle(
-                            //     color: Colors.blueGrey,
-                            //     fontWeight: FontWeight.bold,
-                            //     fontSize: 16,
-                            //   ),
-                            //   margin: 8,
-                            // ),
                             leftTitles: SideTitles(
                               showTitles: false,
                               getTextStyles: (bctx, dbl) => const TextStyle(
@@ -69,10 +59,10 @@ class RightChartWidget extends StatelessWidget {
                               reservedSize: 10,
                               margin: 12,
                             ),
-                          );
-                        })),
-                  ),
-                )),
+                          )),
+                    ),
+                  );
+                }))
       ],
     );
   }
@@ -87,8 +77,8 @@ class RightChartWidget extends StatelessWidget {
       LineChartData(
           minY: 0,
           maxY: 10000,
-          minX: minX,
-          maxX: maxX,
+          minX: RightChartCtrl.to.minX.value,
+          maxX: RightChartCtrl.to.maxX.value,
           lineTouchData: LineTouchData(
               touchTooltipData: LineTouchTooltipData(
             fitInsideHorizontally: true,
@@ -104,23 +94,6 @@ class RightChartWidget extends StatelessWidget {
             ),
             rightTitles: SideTitles(
               showTitles: true,
-              // getTitles: (value) {
-              // switch (value.toInt()) {
-              // case 0:
-              // return '2300';
-              // case 100:
-              // return '2300';
-              // case 2400:
-              // return '2400';
-              // case 2450:
-              // return '2450';
-              // case 2500:
-              // return '2450';
-              // case 2550:
-              // return '2450';
-              // }
-              // return '??';
-              // },
             ),
           ),
           borderData: FlBorderData(
