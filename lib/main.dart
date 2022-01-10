@@ -374,15 +374,6 @@ class _MyAppState extends State<MyApp> {
                                                       FilePickerCtrl
                                                           .to.selectedFileName
                                                           .clear();
-                                                      // FilePickerCtrl
-                                                      //         .to
-                                                      //         .selectedFileNum
-                                                      //         .value =
-                                                      //     FilePickerCtrl
-                                                      //         .to
-                                                      //         .selectedFileUrls
-                                                      //         .length;
-
                                                       //모든파일 삭제하기
                                                       CheckboxCtrl.to.ckb
                                                           .clear();
@@ -401,7 +392,7 @@ class _MyAppState extends State<MyApp> {
                                           ],
                                         ),
                                       ),
-                                      const Spacer(),
+                                      // const Spacer(),
                                       Obx(
                                         () => Text(
                                             'File num : ${FilePickerCtrl.to.selectedFileName.length}'),
@@ -434,9 +425,6 @@ class _MyAppState extends State<MyApp> {
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                        ),
-                                        SizedBox(
-                                          width: 20,
                                         ),
                                         ApplyBtn(),
                                       ],

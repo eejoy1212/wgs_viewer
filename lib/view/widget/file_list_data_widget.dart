@@ -39,17 +39,16 @@ class FileListData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-        builder: (context, constraints) =>
-            Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        builder: (context, constraints) => Column(children: [
               SizedBox(
                 child: ListTile(
-                  horizontalTitleGap: 200,
+                  // horizontalTitleGap: constraints.maxHeight,
                   title: Row(
                     children: [
                       SizedBox(
                         // height: 300,
                         height: constraints.maxHeight * 0.9,
-                        width: 500,
+                        width: constraints.maxWidth * 0.9,
                         child: Obx(() => Scrollbar(
                             isAlwaysShown: true,
                             child: ListView.builder(
