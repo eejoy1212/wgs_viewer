@@ -100,6 +100,8 @@ class ChartCtrl extends GetxController {
               forfields[s][ii].add(
                   FlSpot(TimeSelectCtrl.to.timeIdxList[Idx.value], avg.value));
               debugPrint('nnn forfields :  $forfields');
+              debugPrint(
+                  'isEmpty? ${TimeSelectCtrl.to.timeIdxList} // last : ${TimeSelectCtrl.to.timeIdxList.last}');
             }
             debugPrint('forfields ${forfields[s][ii]}');
           }
