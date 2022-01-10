@@ -250,7 +250,7 @@ class _MyAppState extends State<MyApp> {
                                     Get.find<ChartCtrl>().visibleMode.value == 2
                                 ? true
                                 : false,
-                            child: const Expanded(
+                            child: Expanded(
                               flex: 1,
                               child: LeftChartPg(),
                             ),

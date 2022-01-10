@@ -92,34 +92,45 @@ class RightChartCtrl extends GetxController {
                 minX.value += 3;
                 maxX.value -= 3;
               }
-              print(
-                  '확대minxxxxxxxxxx : $minX max: $maxX  x축 :${TimeSelectCtrl.to.timeIdxList}');
-              // debugPrint('x축 : ${TimeSelectCtrl.to.timeIdxList}');
+              debugPrint(
+                  '확대minxxxxxxxxxx : $minX max: $maxX  ${TimeSelectCtrl.to.timeIdxList.last}');
+
+              debugPrint(
+                  'x축 마지막값 비어있나?? ${TimeSelectCtrl.to.timeIdxList.last}');
             }
             //축소
             else {
+              debugPrint(
+                  'x축 마지막값 비어있나?? ${TimeSelectCtrl.to.timeIdxList.last}');
+              // RightChartCtrl.to.minX.value -= 3;
+              // RightChartCtrl.to.maxX.value += 3;
               if (RightChartCtrl.to.minX.value > 0 &&
                   RightChartCtrl.to.maxX.value <
                       TimeSelectCtrl.to.timeIdxList.last / 1000) {
+                debugPrint('1 if : true');
                 RightChartCtrl.to.minX.value -= 3;
                 RightChartCtrl.to.maxX.value += 3;
               }
               if (RightChartCtrl.to.maxX.value + 3 ==
                       TimeSelectCtrl.to.timeIdxList.last / 1000 &&
                   RightChartCtrl.to.minX.value > 0) {
+                debugPrint('2 if : true');
                 RightChartCtrl.to.minX.value -= 3;
               }
               if (RightChartCtrl.to.minX.value == 0 &&
                   RightChartCtrl.to.maxX.value <
                       TimeSelectCtrl.to.timeIdxList.last / 1000) {
+                debugPrint('3 if : true');
                 RightChartCtrl.to.maxX.value += 3;
               }
               if (RightChartCtrl.to.maxX.value ==
                       TimeSelectCtrl.to.timeIdxList.last / 1000 &&
                   RightChartCtrl.to.minX.value > 0) {
+                debugPrint('4 if : true');
                 RightChartCtrl.to.minX.value -= 3;
               }
-              print('축소 minxxxxxxxx : $minX max: $maxX');
+
+              debugPrint('축소 minxxxxxxxx : $minX max: $maxX');
             }
           }
         },

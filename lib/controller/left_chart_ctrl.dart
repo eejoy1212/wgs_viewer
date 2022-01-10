@@ -43,7 +43,14 @@ class ChartCtrl extends GetxController {
   RxDouble minX = 0.0.obs;
   RxDouble maxX = 0.0.obs;
 
-  void init() {}
+  void init() {
+    // ChartCtrl.to.minX.value = TimeSelectCtrl.to.timeIdxList.isNotEmpty
+    //     ? TimeSelectCtrl.to.timeIdxList.first
+    //     : 1;
+    // ChartCtrl.to.maxX.value = TimeSelectCtrl.to.timeIdxList.isNotEmpty
+    //     ? TimeSelectCtrl.to.timeIdxList.last
+    //     : 90;
+  }
 
   Future<void> updateLeftData() async {
     //레인지에 쓸거
@@ -66,9 +73,6 @@ class ChartCtrl extends GetxController {
             .transform(utf8.decoder)
             .transform(CsvToListConverter(csvSettingsDetector: d))
             .toList();
-
-        // const int headRowSize = 7;
-
         int headRowSize =
             fileData.indexWhere((element) => element.contains('Time')) + 1;
         debugPrint('$s번쨰 파일의 time idx : $headRowSize');
@@ -99,9 +103,6 @@ class ChartCtrl extends GetxController {
             }
             debugPrint('forfields ${forfields[s][ii]}');
           }
-
-          // forfields.clear();
-
         }
       }
     } else {}
@@ -117,38 +118,18 @@ class ChartCtrl extends GetxController {
           if (signal is PointerScrollEvent) {
             //확대
             if (signal.scrollDelta.dy.isNegative) {
-              if (maxX.value - 6 > minX.value) {
-                minX.value += 3;
-                maxX.value -= 3;
+              if (ChartCtrl.to.maxX.value - 6 > ChartCtrl.to.minX.value) {
+                ChartCtrl.to.minX.value += 3;
+                ChartCtrl.to.maxX.value -= 3;
               }
-              print(
-                  '확대minxxxxxxxxxx : $minX max: $maxX  x축 :${TimeSelectCtrl.to.timeIdxList}');
-              // debugPrint('x축 : ${TimeSelectCtrl.to.timeIdxList}');
             }
             //축소
             else {
-              if (ChartCtrl.to.minX.value > 0 &&
-                  ChartCtrl.to.maxX.value <
-                      TimeSelectCtrl.to.timeIdxList.last / 1000) {
+              if (ChartCtrl.to.minX.value >
+                  TimeSelectCtrl.to.timeIdxList.first) {
                 ChartCtrl.to.minX.value -= 3;
                 ChartCtrl.to.maxX.value += 3;
               }
-              if (ChartCtrl.to.maxX.value + 3 ==
-                      TimeSelectCtrl.to.timeIdxList.last / 1000 &&
-                  ChartCtrl.to.minX.value > 0) {
-                ChartCtrl.to.minX.value -= 3;
-              }
-              if (ChartCtrl.to.minX.value == 0 &&
-                  ChartCtrl.to.maxX.value <
-                      TimeSelectCtrl.to.timeIdxList.last / 1000) {
-                ChartCtrl.to.maxX.value += 3;
-              }
-              if (ChartCtrl.to.maxX.value ==
-                      TimeSelectCtrl.to.timeIdxList.last / 1000 &&
-                  ChartCtrl.to.minX.value > 0) {
-                ChartCtrl.to.minX.value -= 3;
-              }
-              print('축소 minxxxxxxxx : $minX max: $maxX');
             }
           }
         },
@@ -157,21 +138,23 @@ class ChartCtrl extends GetxController {
               double primeDelta = dragUpdate.primaryDelta ?? 0.0;
               if (primeDelta != 0) {
                 if (primeDelta.isNegative) {
-                  if (maxX.value > minX.value &&
-                      maxX.value <=
+                  if (ChartCtrl.to.maxX.value > ChartCtrl.to.minX.value &&
+                      ChartCtrl.to.maxX.value <=
                           (TimeSelectCtrl.to.timeIdxList.last / 1000) - 3) {
-                    minX.value += 3;
-                    maxX.value += 3;
-                    print('드래그 증가 min : $minX max: $maxX');
+                    ChartCtrl.to.minX.value += 3;
+                    ChartCtrl.to.maxX.value += 3;
+                    debugPrint('드래그 증가 min : $minX max: $maxX');
                   }
                 } else {
-                  if (maxX.value > minX.value &&
-                      minX > 0 &&
-                      minX < TimeSelectCtrl.to.timeIdxList.last / 1000 &&
-                      maxX.value <= TimeSelectCtrl.to.timeIdxList.last / 1000) {
-                    minX.value -= 3;
-                    maxX.value -= 3;
-                    print('드래그 감소 min : $minX max: $maxX');
+                  if (ChartCtrl.to.maxX.value > ChartCtrl.to.minX.value &&
+                      ChartCtrl.to.minX.value > 0 &&
+                      ChartCtrl.to.minX.value <
+                          TimeSelectCtrl.to.timeIdxList.last / 1000 &&
+                      ChartCtrl.to.maxX.value <=
+                          TimeSelectCtrl.to.timeIdxList.last / 1000) {
+                    ChartCtrl.to.minX.value -= 3;
+                    ChartCtrl.to.maxX.value -= 3;
+                    debugPrint('드래그 감소 min : $minX max: $maxX');
                   }
                 }
               }
