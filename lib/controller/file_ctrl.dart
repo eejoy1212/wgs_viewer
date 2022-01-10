@@ -3,51 +3,24 @@ import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:csv/csv_settings_autodetection.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/model/checkbox_model.dart';
+import 'package:wgs_viewer/model/oes_file_data_model.dart';
 
 class FilePickerCtrl extends GetxController {
   static FilePickerCtrl get to => Get.find();
-  RxList<String> selectedFileName = RxList.empty(); //<String>[].obs;
+  RxList<String> selectedFileName = RxList.empty();
   List<String?> selectedFileUrls = RxList.empty();
-  var selectedFileUrl = ''.obs;
-  RxInt selectedFileNum = 0.obs;
-  RxString selectedFileContent = ''.obs;
-  RxList filenameData = RxList.empty();
-  RxList filenamelist = RxList.empty();
   RxString fileMaxAlertMsg = ''.obs;
-  List yAxisData = RxList.empty();
-  List<List<dynamic>> f1 = RxList.empty();
-  List<List<dynamic>> f2 = RxList.empty();
-  List<List<dynamic>> forfields = RxList.empty();
   RxList<dynamic> firstLine = RxList.empty();
-  RxList<dynamic> testLine = RxList.empty();
-  Rx<RangeValues> rv = const RangeValues(0, 0).obs;
-  double vStart = 0.0;
-  double vEnd = 0.0;
-  RxBool enableRangeSelect = false.obs;
-  RxInt maxIdx = 0.obs;
-  List<String> timeAxis = RxList.empty();
-  //RxList<dynamic> timeLine = RxList.empty();
   RxList<CheckBoxModel> ckbfirstList = RxList.empty();
-  List<List<dynamic>> fields = RxList.empty();
-  List<List<String?>> inputList = RxList.empty();
-  List<String?> fileUrls = RxList.empty();
   RxString path = ''.obs;
-  // Rx<FilePickerCross> path = FilePickerCross(_bytes).obs;
-  List<List<dynamic>> fileData = RxList.empty();
-  List<List<double>> exportList = RxList.empty();
-  void init() {
-    for (var i = 0; i < 9; i++) {}
-  }
-
-  //파일셀렉트 함수
-
+  List<List<dynamic>> fileData = RxList.empty(growable: true);
+  //oesModel 선언
+  RxList<OESFileData> oesFD = RxList.empty();
   Future<void> selectedFileFunc() async {
-    enableRangeSelect.value = true;
     try {
       List<PlatformFile>? _paths;
       _paths = (await FilePicker.platform.pickFiles(
@@ -58,37 +31,47 @@ class FilePickerCtrl extends GetxController {
               withReadStream: true,
               dialogTitle: 'File select'))
           ?.files;
+      debugPrint('_path가 ${_paths != null}');
       if (_paths != null) {
-        bool first = selectedFileName.isEmpty;
+        bool first = oesFD.isEmpty;
         List<String> _fileNames = _paths.map((e) => e.name).toList();
-        fileUrls = _paths.map((e) => e.path).toList();
-        if (selectedFileName.length + _fileNames.length > 100) {
-          var ableAddCnt = 100 - selectedFileUrls.length;
-          selectedFileName.addAll(_fileNames);
-          selectedFileUrls.addAll(fileUrls.sublist(0, ableAddCnt));
+        List<String?> _fileUrls = _paths.map((e) => e.path).toList();
+        if (oesFD.length + _fileUrls.length > 100) {
+          var ableAddCnt = 100 - oesFD.length;
+          //왜 map하면 안돼..?
 
+          _fileUrls.forEach((urls) {
+            oesFD.add(OESFileData(filePath: urls, checked: false.obs));
+          });
+          oesFD.sublist(0, ableAddCnt);
+          debugPrint('oesFD : $oesFD');
           FilePickerCtrl.to.fileMaxAlertMsg.value = 'File maximum is 100';
         } else {
-          selectedFileName.addAll(_fileNames);
-          //나중에 fileName을 url로 바꾸자
-          selectedFileUrls.addAll(fileUrls);
+          _fileUrls.forEach((urls) {
+            oesFD.add(OESFileData(filePath: urls, checked: false.obs));
+          });
         }
-        debugPrint('fileName : $selectedFileName');
-        debugPrint('fileurls : $selectedFileUrls');
         if (first) {
-          final input2 = await File(selectedFileName[0]).openRead();
+          var filePath = oesFD.map((el) => el.filePath).toList();
+          final input = await File(filePath.first!).openRead();
           var d = const FirstOccurrenceSettingsDetector(
               eols: ['\r\n', '\n'], textDelimiters: ['"', "'"]);
-          fileData = await input2
+          fileData = await input
               .transform(utf8.decoder)
               .transform(CsvToListConverter(csvSettingsDetector: d))
               .toList();
-          print('fileData : ${fileData.length}');
-          firstLine.assignAll(fileData[6].sublist(1, fileData[6].length));
+          debugPrint('fileData : ${fileData.length}');
+////////////////////여까지 함
+          debugPrint('fileData 내용 : $fileData');
 
-          String toConvert = '2022-01-01 ' + fileData[7][0];
+          //Time포함되어있는 셀 번호
+          int timeRowSize = fileData.indexWhere((e) => e.contains('Time'));
+          firstLine.assignAll(
+              fileData[timeRowSize].sublist(1, fileData[timeRowSize].length));
+          debugPrint('firstLine : $firstLine');
+          String toConvert = '2022-01-01 ' + fileData[timeRowSize][0];
           final DateTime firstTime = DateTime.parse(toConvert);
-          for (var i = 7; i < fileData.length; i++) {
+          for (var i = timeRowSize + 1; i < fileData.length; i++) {
             String toConvert = '2022-01-01 ' + fileData[i][0];
 
             final DateTime dateTime = DateTime.parse(toConvert);
@@ -114,6 +97,8 @@ class FilePickerCtrl extends GetxController {
                     .inMilliseconds
                     .toDouble()) /
                 1000);
+
+            debugPrint('oesFD : $oesFD');
           }
         }
       }
