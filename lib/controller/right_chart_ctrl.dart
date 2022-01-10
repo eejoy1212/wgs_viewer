@@ -92,11 +92,6 @@ class RightChartCtrl extends GetxController {
                 minX.value += 3;
                 maxX.value -= 3;
               }
-              debugPrint(
-                  '확대minxxxxxxxxxx : $minX max: $maxX  ${TimeSelectCtrl.to.timeIdxList.last}');
-
-              debugPrint(
-                  'x축 마지막값 비어있나?? ${TimeSelectCtrl.to.timeIdxList.last}');
             }
             //축소
             else {

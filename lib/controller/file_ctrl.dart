@@ -75,17 +75,7 @@ class FilePickerCtrl extends GetxController {
         }
         debugPrint('fileName : $selectedFileName');
         debugPrint('fileurls : $selectedFileUrls');
-        //원래있던 파일불러오는거
-        // final input2 = File(_fileUrls[selectedFileUrls.length - 1]!).openRead();
-        // var d = const FirstOccurrenceSettingsDetector(
-        // eols: ['\r\n', '\n'], textDelimiters: ['"', "'"]);
-        // final fields = await input2
-        // .transform(utf8.decoder)
-        // .transform(CsvToListConverter(csvSettingsDetector: d))
-        // .toList();
-        // forfields = fields;
         if (first) {
-          // List<List<dynamic>> fileData = RxList.empty();
           final input2 = await File(selectedFileName[0]).openRead();
           var d = const FirstOccurrenceSettingsDetector(
               eols: ['\r\n', '\n'], textDelimiters: ['"', "'"]);
@@ -125,40 +115,7 @@ class FilePickerCtrl extends GetxController {
                     .toDouble()) /
                 1000);
           }
-          //FilePickerCtrl.to.firstLine.assignAll(TimeSelectCtrl.to.timeIdxList);
-          debugPrint(
-              '첫번째 파일의 시간 인덱스가 떼어와 졌나?? : ${TimeSelectCtrl.to.timeIdxList}');
         }
-
-        //파일 열 개 까지 불러오기
-
-        debugPrint('파일 몇 개 선택?? :${selectedFileUrls.length}');
-        // for (var f = 0; f < fileUrls.length; f++) {
-        //   final input2 = await File(fileUrls[f]!).openRead();
-
-        //   var d = const FirstOccurrenceSettingsDetector(
-        //       eols: ['\r\n', '\n'], textDelimiters: ['"', "'"]);
-        //   fields = await input2
-        //       .transform(utf8.decoder)
-        //       .transform(CsvToListConverter(csvSettingsDetector: d))
-        //       .toList();
-        //   forfields = fields;
-        //   debugPrint('인풋 for문 몇번? : $f');
-        // }
-        debugPrint(
-            '파일 열개까지 불러와야함: 리스트 길이 ${fileUrls.length} 이고 리스트항목은 $fileUrls');
-//레인지에 쓸거
-        //firstLine.assignAll(fields[6].sublist(1, fields[6].length));
-//시간축 떼어오기
-        //timeLine.assignAll(fields[0].sublist(7, fields[7].length)[0]);
-        // timeLine.value = fields.sublist(7, fields[7].length)[0];
-        // maxIdx.value = firstLine.indexOf(867.9015275);
-        print(
-            'FilePickerCtrl.to.firstLine.last ${FilePickerCtrl.to.firstLine.last}');
-        print('?? :  ${maxIdx}');
-        // if (FilePickerCtrl.to.selectedFileName.length > 100) {
-        //   throw new Exception("파일의 최대 갯수는 100개");
-        // }
       }
     } catch (e) {}
   }

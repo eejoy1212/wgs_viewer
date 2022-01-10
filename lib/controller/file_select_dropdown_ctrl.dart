@@ -72,36 +72,5 @@ class FileSelectDropDownCtrl extends GetxController {
         .toList();
 //파일 열렸고, 내용을 rightData에 담아 차트로 보내기
     debugPrint('오른 드롭다운 파일 2?? : ${secondFields[7][1]}');
-    //시간 리스트 뽑아오기, 인덱스는 왼쪽에서 열린 첫번째파일 기준
-    // for (var t = 7; t < 14; t++) {
-    //   idx.value = t - 7;
-    //   String time = FilePickerCtrl.to.forfields[t][0];
-    //   String toConvert = '2022-01-01 12:' + time;
-    //   final dateParse = DateTime.parse(toConvert);
-    //   dateTime.add(dateParse);
-    //   timeList2.add((DateTime(
-    //               dateTime[idx.value].year,
-    //               dateTime[idx.value].month,
-    //               dateTime[idx.value].day,
-    //               dateTime[idx.value].hour,
-    //               dateTime[idx.value].minute,
-    //               dateTime[idx.value].second,
-    //               dateTime[idx.value].millisecond)
-    //           .difference(
-    //             DateTime(
-    //                 dateTime[0].year,
-    //                 dateTime[0].month,
-    //                 dateTime[0].day,
-    //                 dateTime[0].hour,
-    //                 dateTime[0].minute,
-    //                 dateTime[0].second,
-    //                 dateTime[0].millisecond),
-    //           )
-    //           .inMilliseconds
-    //           .toDouble()) /
-    //       1000);
-
-    //   debugPrint('시간리스트 두번째거 : $timeList2');
-    // }
   }
 }

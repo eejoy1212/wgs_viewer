@@ -147,7 +147,8 @@ class ChartCtrl extends GetxController {
                   }
                 } else {
                   if (ChartCtrl.to.maxX.value > ChartCtrl.to.minX.value &&
-                      ChartCtrl.to.minX.value > 0 &&
+                      ChartCtrl.to.minX.value >
+                          TimeSelectCtrl.to.timeIdxList.first &&
                       ChartCtrl.to.minX.value <
                           TimeSelectCtrl.to.timeIdxList.last / 1000 &&
                       ChartCtrl.to.maxX.value <=

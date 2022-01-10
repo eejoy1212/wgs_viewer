@@ -38,48 +38,59 @@ class LeftChartPg extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    GestureDetector(
-                      child: SizedBox(
-                        width: 30,
-                        child: FloatingActionButton(
-                            onPressed: () {
-                              if (ChartCtrl.to.maxX.value - 6 >
-                                  ChartCtrl.to.minX.value) {
-                                ChartCtrl.to.minX.value += 3;
-                                ChartCtrl.to.maxX.value -= 3;
-                              }
-                            },
-                            child: const Text("+")),
-                      ),
-                    ),
+                    Obx(() {
+                      return GestureDetector(
+                        child: SizedBox(
+                            width: 30,
+                            child: IgnorePointer(
+                              ignoring: TimeSelectCtrl.to.timeIdxList.isEmpty,
+                              child: FloatingActionButton(
+                                  backgroundColor:
+                                      TimeSelectCtrl.to.timeIdxList.isEmpty
+                                          ? Colors.grey
+                                          : Colors.blue,
+                                  onPressed: () {
+                                    if (ChartCtrl.to.maxX.value - 6 >
+                                        ChartCtrl.to.minX.value) {
+                                      ChartCtrl.to.minX.value += 3;
+                                      ChartCtrl.to.maxX.value -= 3;
+                                    }
+                                  },
+                                  child: const Text("+")),
+                            )),
+                      );
+                    }),
                     const SizedBox(width: 30),
-                    SizedBox(
-                      width: 30,
-                      child: FloatingActionButton(
-                          onPressed: () {
-                            debugPrint(
-                                'minX : ${ChartCtrl.to.minX.value} && timeIdxList.first : ${TimeSelectCtrl.to.timeIdxList.first} && timeIdxList.last ${TimeSelectCtrl.to.timeIdxList.last}');
-                            if (ChartCtrl.to.minX.value >
-                                TimeSelectCtrl.to.timeIdxList.first) {
-                              debugPrint(
-                                  'minX : ${ChartCtrl.to.minX.value} && timeIdxList.first : ${TimeSelectCtrl.to.timeIdxList.first} && timeIdxList.last ${TimeSelectCtrl.to.timeIdxList.last}');
+                    Obx(() {
+                      return SizedBox(
+                          width: 30,
+                          child: IgnorePointer(
+                            ignoring: TimeSelectCtrl.to.timeIdxList.isEmpty,
+                            child: FloatingActionButton(
+                                backgroundColor:
+                                    TimeSelectCtrl.to.timeIdxList.isEmpty
+                                        ? Colors.grey
+                                        : Colors.blue,
+                                onPressed: () {
+                                  debugPrint(
+                                      'minX : ${ChartCtrl.to.minX.value} && timeIdxList.first : ${TimeSelectCtrl.to.timeIdxList.first} && timeIdxList.last ${TimeSelectCtrl.to.timeIdxList.last}');
+                                  if (ChartCtrl.to.minX.value >
+                                      TimeSelectCtrl.to.timeIdxList.first) {
+                                    debugPrint(
+                                        'minX : ${ChartCtrl.to.minX.value} && timeIdxList.first : ${TimeSelectCtrl.to.timeIdxList.first} && timeIdxList.last ${TimeSelectCtrl.to.timeIdxList.last}');
 
-                              ChartCtrl.to.minX.value -= 3;
-                              ChartCtrl.to.maxX.value += 3;
-                            }
-                            if (ChartCtrl.to.minX.value <
-                                TimeSelectCtrl.to.timeIdxList.first) {
-                              ChartCtrl.to.minX.value =
-                                  TimeSelectCtrl.to.timeIdxList.first;
-                            }
-                            // if (ChartCtrl.to.maxX.value >
-                            //     TimeSelectCtrl.to.timeIdxList.last) {
-                            //   ChartCtrl.to.maxX.value =
-                            //       TimeSelectCtrl.to.timeIdxList.last;
-                            // }
-                          },
-                          child: const Text("-")),
-                    ),
+                                    ChartCtrl.to.minX.value -= 3;
+                                    ChartCtrl.to.maxX.value += 3;
+                                  }
+                                  if (ChartCtrl.to.minX.value <
+                                      TimeSelectCtrl.to.timeIdxList.first) {
+                                    ChartCtrl.to.minX.value =
+                                        TimeSelectCtrl.to.timeIdxList.first;
+                                  }
+                                },
+                                child: const Text("-")),
+                          ));
+                    }),
                     const Spacer(),
                     ElevatedButton.icon(
                       style:

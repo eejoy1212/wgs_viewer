@@ -40,37 +40,53 @@ class RightChartPg extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  SizedBox(
-                    width: 30,
-                    child: FloatingActionButton(
-                        onPressed: () {
-                          if (RightChartCtrl.to.maxX.value - 6 >
-                              RightChartCtrl.to.minX.value) {
-                            RightChartCtrl.to.minX.value += 3;
-                            RightChartCtrl.to.maxX.value -= 3;
-                            debugPrint('오른쪽 확대???  ');
-                          }
-                        },
-                        child: const Text("+")),
-                  ),
+                  Obx(() {
+                    return SizedBox(
+                        width: 30,
+                        child: IgnorePointer(
+                          ignoring: FilePickerCtrl.to.firstLine.isEmpty,
+                          child: FloatingActionButton(
+                              backgroundColor:
+                                  FilePickerCtrl.to.firstLine.isEmpty
+                                      ? Colors.grey
+                                      : Colors.blue,
+                              onPressed: () {
+                                if (RightChartCtrl.to.maxX.value - 6 >
+                                    RightChartCtrl.to.minX.value) {
+                                  RightChartCtrl.to.minX.value += 3;
+                                  RightChartCtrl.to.maxX.value -= 3;
+                                  debugPrint('오른쪽 확대???  ');
+                                }
+                              },
+                              child: const Text("+")),
+                        ));
+                  }),
                   const SizedBox(width: 30),
-                  SizedBox(
-                    width: 30,
-                    child: FloatingActionButton(
-                        onPressed: () {
-                          if (RightChartCtrl.to.minX.value >
-                              FilePickerCtrl.to.firstLine.first) {
-                            RightChartCtrl.to.minX.value -= 3;
-                            RightChartCtrl.to.maxX.value += 3;
-                          }
-                          if (RightChartCtrl.to.minX.value <
-                              FilePickerCtrl.to.firstLine.first) {
-                            RightChartCtrl.to.minX.value =
-                                FilePickerCtrl.to.firstLine.first;
-                          }
-                        },
-                        child: const Text("-")),
-                  ),
+                  Obx(() {
+                    return SizedBox(
+                        width: 30,
+                        child: IgnorePointer(
+                          ignoring: FilePickerCtrl.to.firstLine.isEmpty,
+                          child: FloatingActionButton(
+                              backgroundColor:
+                                  FilePickerCtrl.to.firstLine.isEmpty
+                                      ? Colors.grey
+                                      : Colors.blue,
+                              onPressed: () {
+                                if (RightChartCtrl.to.minX.value >
+                                    FilePickerCtrl.to.firstLine.first) {
+                                  RightChartCtrl.to.minX.value -= 3;
+                                  RightChartCtrl.to.maxX.value += 3;
+                                }
+                                if (RightChartCtrl.to.minX.value <
+                                    FilePickerCtrl.to.firstLine.first) {
+                                  RightChartCtrl.to.minX.value =
+                                      FilePickerCtrl.to.firstLine.first;
+                                }
+                              },
+                              child: const Text("-")),
+                        ));
+                  }),
                   const Spacer(),
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(primary: Colors.blueAccent),
