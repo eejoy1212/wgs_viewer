@@ -17,6 +17,7 @@ class CkbViewWidget extends StatelessWidget {
           onChanged: (val) {
             if (val != null) {
               oesFDModel.isChecked.value = val;
+              // FilePickerCtrl.to.ableApply.value = true;
               debugPrint(
                   '${oesFDModel.fileName} check : ${oesFDModel.isChecked.value}');
             }
@@ -43,7 +44,7 @@ class FileListData extends StatelessWidget {
                         child: Obx(() => Scrollbar(
                             isAlwaysShown: true,
                             child: ListView.separated(
-                              reverse: true,
+                              // reverse: true,
                               itemCount: FilePickerCtrl.to.oesFD.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return CkbViewWidget(

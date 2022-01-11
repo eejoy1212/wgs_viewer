@@ -26,13 +26,10 @@ class ChartCtrl extends GetxController {
   visible mode == 2 ->all chart
   */
   RxInt visibleMode = 2.obs;
-  // RxInt seriesCnt = 150.obs;
   RxBool leftDataMode = false.obs;
   RxList<RxList<List<FlSpot>>> forfields = RxList.empty();
   RxBool enableApply = false.obs;
   RxDouble value = 0.0.obs;
-  // List<double> rangeList = RxList.empty();
-  // List<RangeValue> rv = [];
   RxDouble sum = 0.0.obs;
   RxDouble avg = 0.0.obs;
   RxInt Idx = 0.obs;
@@ -43,39 +40,34 @@ class ChartCtrl extends GetxController {
   RxDouble minX = 0.0.obs;
   RxDouble maxX = 0.0.obs;
 
-  void init() {
-    // ChartCtrl.to.minX.value = TimeSelectCtrl.to.timeIdxList.isNotEmpty
-    //     ? TimeSelectCtrl.to.timeIdxList.first
-    //     : 1;
-    // ChartCtrl.to.maxX.value = TimeSelectCtrl.to.timeIdxList.isNotEmpty
-    //     ? TimeSelectCtrl.to.timeIdxList.last
-    //     : 90;
-  }
+  void init() {}
 
   Future<void> updateLeftData() async {
-    //레인지에 쓸거
-    //firstLine.assignAll(fields[6].sublist(1, fields[6].length));
-    //시간축 떼어오기
-    //timeLine.assignAll(fields[0].sublist(7, fields[7].length)[0]);
-
-    if (leftDataMode.value == true) {
+    if (FilePickerCtrl.to.oesFD.isNotEmpty) {
       //seriesCnt==5(파장 레인지 갯수)*10(파일갯수)
+      debugPrint('updateLeft언제실행??');
       forfields.clear();
-      for (int s = 0; s < FilePickerCtrl.to.selectedFileUrls.length; s++) {
+      // for (int s = 0; s < FilePickerCtrl.to.selectedFileUrls.length; s++) {
+      for (int s = 0; s < FilePickerCtrl.to.oesFD.length; s++) {
         forfields.add(RxList.empty());
-        if (CheckboxCtrl.to.ckb[s].isChecked.value == false) continue;
+        // if (CheckboxCtrl.to.ckb[s].isChecked.value == false) continue;
+        if (FilePickerCtrl.to.oesFD[s].isChecked.value == false) continue;
         List<List<dynamic>> fileData = [];
-        final input2 =
-            await File(FilePickerCtrl.to.selectedFileUrls[s]!).openRead();
+        var filePath =
+            FilePickerCtrl.to.oesFD.map((el) => el.filePath).toList();
+        // final input =
+        //     await File(FilePickerCtrl.to.selectedFileUrls[s]!).openRead();
+        final input = await File(filePath[s]!).openRead();
+
         var d = const FirstOccurrenceSettingsDetector(
             eols: ['\r\n', '\n'], textDelimiters: ['"', "'"]);
-        fileData = await input2
+        fileData = await input
             .transform(utf8.decoder)
             .transform(CsvToListConverter(csvSettingsDetector: d))
             .toList();
+        debugPrint('$s번째의 차트데이터 뿌려짐?? : ${fileData}');
         int headRowSize =
             fileData.indexWhere((element) => element.contains('Time')) + 1;
-        debugPrint('$s번쨰 파일의 time idx : $headRowSize');
         for (int a = headRowSize; a < fileData.length; a++) {
           Idx.value = a - headRowSize;
 
@@ -109,7 +101,7 @@ class ChartCtrl extends GetxController {
       }
     } else {}
     //데이터 업데이트 하고나서 Apply 버튼 누를 수 있게.
-    ChartCtrl.to.enableApply.value = true;
+    // ChartCtrl.to.enableApply.value = true;
     update();
   }
 

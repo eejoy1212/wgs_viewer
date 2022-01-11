@@ -21,12 +21,6 @@ class FileSelectDropDownCtrl extends GetxController {
   RxInt idx = 0.obs;
 
   void firstTimeFunc(List<String?> firstList) async {
-/*
-1.첫번째 드롭다운에서 파일 선택하면 열림(ㅇ)
-2.시간대 선택
-*/
-//선택했다는 신호
-
     firstSignal.value = true;
     debugPrint('sig? : ${firstSignal.value}');
     debugPrint('첫번째 드롭박스에서 선택 된 파일 리스트 : $firstList');
@@ -48,12 +42,6 @@ class FileSelectDropDownCtrl extends GetxController {
   }
 
   void SecondTimeFunc(List<String?> secondList) async {
-/*
-1.첫번째 드롭다운에서 파일 선택하면 열림(ㅇ)
-2.시간대 선택
-*/
-//선택했다는 신호
-
     secondSignal.value = true;
     debugPrint('sig? : ${secondSignal.value}');
     debugPrint('첫번째 드롭박스에서 선택 된 파일 리스트 : $secondList');

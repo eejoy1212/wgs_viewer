@@ -29,9 +29,9 @@ import 'package:wgs_viewer/view/widget/window_btns_widget.dart';
 void main() {
   Get.put(ctrl());
   Get.put(LeftMenuCtrl());
+  Get.put(TimeSelectCtrl());
   Get.put(FilePickerCtrl(), permanent: true);
   Get.put(DarkModeCtrl());
-  Get.put(TimeSelectCtrl());
   Get.put(ChartCtrl());
   Get.put(RightChartCtrl());
   Get.put(CheckboxCtrl());

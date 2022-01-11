@@ -1,25 +1,19 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
-import 'package:wgs_viewer/controller/file_select_dropdown_ctrl.dart';
 
 class FileSelectDropDown extends StatelessWidget {
+  const FileSelectDropDown({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    // List<String> isEmptyList = ['파일을 불러주세요'];
-
-    return
-
-        // Obx(() =>
-
-        DropdownSearch.multiSelection(
+    return DropdownSearch(
       mode: Mode.MENU,
-      // showSelectedItems: true,
       showSearchBox: true,
-      items: FilePickerCtrl.to.selectedFileUrls,
-      onChanged: FileSelectDropDownCtrl.to.firstTimeFunc,
+      items: FilePickerCtrl.to.dropdownFileName,
+      itemAsString: (item) {
+        return item.toString();
+      },
     );
-    // );
   }
 }

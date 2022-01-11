@@ -15,12 +15,14 @@ class FilePickerCtrl extends GetxController {
   List<String?> selectedFileUrls = RxList.empty();
   RxString fileMaxAlertMsg = ''.obs;
   RxList<dynamic> firstLine = RxList.empty();
-  RxList<CheckBoxModel> ckbfirstList = RxList.empty();
   RxString path = ''.obs;
   List<List<dynamic>> fileData = RxList.empty(growable: true);
   //oesModel 선언
   RxList<OESFileData> oesFD = RxList.empty();
+  Rx<bool> ableApply = false.obs;
   Rx<bool> allChecked = false.obs;
+  RxList<String> dropdownFileName = RxList.empty();
+  RxList timeIdxList = RxList.empty();
   Future<void> selectedFileFunc() async {
     try {
       List<PlatformFile>? _paths;
@@ -40,12 +42,14 @@ class FilePickerCtrl extends GetxController {
         if (oesFD.length + _fileUrls.length > 100) {
           var ableAddCnt = 100 - oesFD.length;
           //왜 map하면 안돼..?
+          //한꺼번에 추가?
           _fileUrls.forEach((urls) {
             _fileNames.forEach((names) {
               oesFD.add(OESFileData(
                   fileName: names, filePath: urls, isChecked: false.obs));
             });
           });
+
           oesFD.sublist(0, ableAddCnt);
           debugPrint('oesFD : $oesFD');
           FilePickerCtrl.to.fileMaxAlertMsg.value = 'File maximum is 100';
@@ -71,43 +75,53 @@ class FilePickerCtrl extends GetxController {
           debugPrint('fileData 내용 : $fileData');
 
           //Time포함되어있는 셀 번호
-          int timeRowSize = fileData.indexWhere((e) => e.contains('Time'));
+          int timeRowSize = fileData.indexWhere((e) => e.contains('Time')) + 1;
+          //int timeRowSize = 7;
           firstLine.assignAll(
               fileData[timeRowSize].sublist(1, fileData[timeRowSize].length));
           debugPrint('firstLine : $firstLine');
           String toConvert = '2022-01-01 ' + fileData[timeRowSize][0];
           final DateTime firstTime = DateTime.parse(toConvert);
-          for (var i = timeRowSize + 1; i < fileData.length; i++) {
+          for (var i = timeRowSize; i < fileData.length; i++) {
             String toConvert = '2022-01-01 ' + fileData[i][0];
 
             final DateTime dateTime = DateTime.parse(toConvert);
 
-            TimeSelectCtrl.to.timeIdxList.add((DateTime(
-                        dateTime.year,
-                        dateTime.month,
-                        dateTime.day,
-                        dateTime.hour,
-                        dateTime.minute,
-                        dateTime.second,
-                        dateTime.millisecond)
-                    .difference(
-                      DateTime(
-                          firstTime.year,
-                          firstTime.month,
-                          firstTime.day,
-                          firstTime.hour,
-                          firstTime.minute,
-                          firstTime.second,
-                          firstTime.millisecond),
-                    )
-                    .inMilliseconds
-                    .toDouble()) /
-                1000);
+            TimeSelectCtrl.to.timeIdxList.addIf(
+                firstLine.isNotEmpty,
+                (DateTime(
+                            dateTime.year,
+                            dateTime.month,
+                            dateTime.day,
+                            dateTime.hour,
+                            dateTime.minute,
+                            dateTime.second,
+                            dateTime.millisecond)
+                        .difference(
+                          DateTime(
+                              firstTime.year,
+                              firstTime.month,
+                              firstTime.day,
+                              firstTime.hour,
+                              firstTime.minute,
+                              firstTime.second,
+                              firstTime.millisecond),
+                        )
+                        .inMilliseconds
+                        .toDouble()) /
+                    1000);
 
-            debugPrint('oesFD : $oesFD');
+            debugPrint('timeIdxList : ${TimeSelectCtrl.to.timeIdxList}');
           }
         }
       }
     } catch (e) {}
+  }
+
+  dropdownItemsFunc() {
+    FilePickerCtrl.to.oesFD
+        .forEach((el) => FilePickerCtrl.to.dropdownFileName.add(el.fileName));
+
+    debugPrint('드롭다운 파일 이름 : ${FilePickerCtrl.to.dropdownFileName}');
   }
 }

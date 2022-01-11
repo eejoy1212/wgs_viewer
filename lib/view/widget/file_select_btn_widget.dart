@@ -8,6 +8,7 @@ import 'package:wgs_viewer/controller/check_box_ctrl.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/main.dart';
 import 'package:wgs_viewer/model/checkbox_model.dart';
+import 'package:wgs_viewer/model/oes_file_data_model.dart';
 
 class FileSelectBtn extends StatefulWidget {
   const FileSelectBtn({Key? key}) : super(key: key);
@@ -25,22 +26,6 @@ class _FileSelectBtnState extends State<FileSelectBtn> {
       style: ElevatedButton.styleFrom(primary: const Color(0xffFF9110)),
       onPressed: () async {
         FilePickerCtrl.to.selectedFileFunc();
-        List<CheckBoxModel> ckbfirstList = [];
-        for (var i = 0; i < FilePickerCtrl.to.selectedFileName.length; i++) {
-          debugPrint('select ${FilePickerCtrl.to.selectedFileName}');
-          int nn = CheckboxCtrl.to.ckb.length + ckbfirstList.length + 1;
-          ckbfirstList.add(
-            CheckBoxModel(
-              title: 'ds',
-              fileName:
-                  '${i + 1} 파일 : ${FilePickerCtrl.to.selectedFileName[i]} ',
-              isChecked: false.obs,
-              range: RangeModel(start: nn, end: nn + 2),
-            ),
-          );
-        }
-
-        CheckboxCtrl.to.ckb.assignAll(ckbfirstList);
       },
       child: const Text('File Select'),
     );

@@ -82,8 +82,8 @@ class LeftChartWidget extends StatelessWidget {
   }) {
     return LineChart(
       LineChartData(
-          minY: ChartCtrl.to.leftDataMode.isFalse ? 0 : null,
-          maxY: ChartCtrl.to.leftDataMode.isFalse ? 1000 : null,
+          minY: FilePickerCtrl.to.oesFD.isEmpty ? 0 : null,
+          maxY: FilePickerCtrl.to.oesFD.isEmpty ? 1000 : null,
           minX: ChartCtrl.to.minX.value,
           maxX: ChartCtrl.to.maxX.value,
           // minX: ChartCtrl.to.leftDataMode.isFalse ? 0 : null,
