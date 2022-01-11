@@ -20,6 +20,7 @@ class FilePickerCtrl extends GetxController {
   List<List<dynamic>> fileData = RxList.empty(growable: true);
   //oesModel 선언
   RxList<OESFileData> oesFD = RxList.empty();
+  Rx<bool> allChecked = false.obs;
   Future<void> selectedFileFunc() async {
     try {
       List<PlatformFile>? _paths;
@@ -39,16 +40,21 @@ class FilePickerCtrl extends GetxController {
         if (oesFD.length + _fileUrls.length > 100) {
           var ableAddCnt = 100 - oesFD.length;
           //왜 map하면 안돼..?
-
           _fileUrls.forEach((urls) {
-            oesFD.add(OESFileData(filePath: urls, checked: false.obs));
+            _fileNames.forEach((names) {
+              oesFD.add(OESFileData(
+                  fileName: names, filePath: urls, isChecked: false.obs));
+            });
           });
           oesFD.sublist(0, ableAddCnt);
           debugPrint('oesFD : $oesFD');
           FilePickerCtrl.to.fileMaxAlertMsg.value = 'File maximum is 100';
         } else {
           _fileUrls.forEach((urls) {
-            oesFD.add(OESFileData(filePath: urls, checked: false.obs));
+            _fileNames.forEach((names) {
+              oesFD.add(OESFileData(
+                  fileName: names, filePath: urls, isChecked: false.obs));
+            });
           });
         }
         if (first) {

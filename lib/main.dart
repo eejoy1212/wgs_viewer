@@ -324,10 +324,13 @@ class _MyAppState extends State<MyApp> {
                                                   // element
                                                   // .isChecked
                                                   // .isTrue));
-                                                  CheckboxCtrl.to.ckb
-                                                      .removeWhere((element) =>
-                                                          element.isChecked
-                                                              .isTrue);
+                                                  // CheckboxCtrl.to.ckb
+                                                  //     .removeWhere((element) =>
+                                                  //         element.isChecked
+                                                  //             .isTrue);
+                                                  FilePickerCtrl.to.oesFD
+                                                      .removeWhere((e) =>
+                                                          e.isChecked.isTrue);
                                                 },
                                                 child: const Text(
                                                     'Selected File Delete')),
@@ -375,7 +378,9 @@ class _MyAppState extends State<MyApp> {
                                                           .to.selectedFileName
                                                           .clear();
                                                       //모든파일 삭제하기
-                                                      CheckboxCtrl.to.ckb
+                                                      // CheckboxCtrl.to.ckb
+                                                      //     .clear();
+                                                      FilePickerCtrl.to.oesFD
                                                           .clear();
                                                     },
                                                     onConfirm: () {
@@ -392,11 +397,20 @@ class _MyAppState extends State<MyApp> {
                                           ],
                                         ),
                                       ),
-                                      // const Spacer(),
+                                      const Spacer(),
                                       Obx(
                                         () => Text(
                                             'File num : ${FilePickerCtrl.to.selectedFileName.length}'),
                                       ),
+                                      Obx(() => Checkbox(
+                                          value: FilePickerCtrl
+                                              .to.allChecked.value,
+                                          onChanged: (all) {
+                                            if (all != null) {
+                                              FilePickerCtrl
+                                                  .to.allChecked.value = all;
+                                            }
+                                          })),
                                       const SizedBox(
                                         width: 20,
                                       ),

@@ -3,36 +3,40 @@ import 'dart:convert';
 import 'package:get/get.dart';
 
 class OESFileData {
+  String fileName;
   String? filePath;
-  Rx<bool> checked;
+  Rx<bool> isChecked;
   List<dynamic> firstLine;
   OESFileData({
+    required this.fileName,
     required this.filePath,
-    required this.checked,
+    required this.isChecked,
     this.firstLine = const [],
   });
 
   OESFileData copyWith({
     String? filePath,
-    Rx<bool>? checked,
+    Rx<bool>? isChecked,
   }) {
     return OESFileData(
       filePath: filePath ?? this.filePath,
-      checked: checked ?? this.checked,
+      isChecked: isChecked ?? this.isChecked,
+      fileName: '',
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'filePath': filePath,
-      'checked': checked,
+      'isChecked': isChecked,
     };
   }
 
   factory OESFileData.fromMap(Map<String, dynamic> map) {
     return OESFileData(
       filePath: map['filePath'],
-      checked: map['checked'] ?? false,
+      isChecked: map['isChecked'] ?? false,
+      fileName: '',
     );
   }
 
@@ -42,7 +46,8 @@ class OESFileData {
       OESFileData.fromMap(json.decode(source));
 
   @override
-  String toString() => 'OESFileData(filePath: $filePath, checked: $checked)';
+  String toString() =>
+      'OESFileData(filePath: $filePath, isChecked: $isChecked)';
 
   @override
   bool operator ==(Object other) {
@@ -50,9 +55,9 @@ class OESFileData {
 
     return other is OESFileData &&
         other.filePath == filePath &&
-        other.checked == checked;
+        other.isChecked == isChecked;
   }
 
   @override
-  int get hashCode => filePath.hashCode ^ checked.hashCode;
+  int get hashCode => filePath.hashCode ^ isChecked.hashCode;
 }
