@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:wgs_viewer/controller/check_box_ctrl.dart';
+import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/view/widget/left_chart_widget.dart';
@@ -157,8 +158,8 @@ class LeftChartPg extends StatelessWidget {
       fileData[i].add(TimeSelectCtrl.to.timeIdxList[i]);
       int idx = 0;
       for (var ii = 0; ii < ChartCtrl.to.forfields.length; ii++) {
-        if (CheckboxCtrl.to.ckb[i].isChecked.value == false) continue;
-
+        // if (CheckboxCtrl.to.ckb[i].isChecked.value == false) continue;
+        // if (FilePickerCtrl.to.oesFD[i].isChecked.value == false) continue;
         for (var iii = 0; iii < ChartCtrl.to.forfields[ii].length; iii++) {
           if (ChartCtrl.to.forfields[idx][iii].isNotEmpty)
             fileData[i].add(ChartCtrl.to.forfields[idx][iii][i].y);

@@ -364,18 +364,6 @@ class _MyAppState extends State<MyApp> {
                                                     buttonColor:
                                                         Colors.blueGrey,
                                                     onCancel: () {
-                                                      //차트 화면에서 지워주는거
-                                                      ChartCtrl.to.forfields
-                                                          .clear();
-                                                      FilePickerCtrl
-                                                          .to.selectedFileUrls
-                                                          .clear();
-                                                      FilePickerCtrl
-                                                          .to.selectedFileName
-                                                          .clear();
-                                                      //모든파일 삭제하기
-                                                      // CheckboxCtrl.to.ckb
-                                                      //     .clear();
                                                       FilePickerCtrl.to.oesFD
                                                           .clear();
                                                     },
@@ -504,7 +492,7 @@ class _MyAppState extends State<MyApp> {
         actions: <Widget>[
           TextButton(
             onPressed: () {
-              FilePickerCtrl.to.selectedFileName.clear();
+              FilePickerCtrl.to.oesFD.clear();
 
               Navigator.of(context).pop();
             },

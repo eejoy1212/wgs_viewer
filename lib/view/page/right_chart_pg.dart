@@ -7,8 +7,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/right_chart_ctrl.dart';
-import 'package:wgs_viewer/controller/time_select_ctrl.dart';
-import 'package:wgs_viewer/view/page/left_chart_pg.dart';
 import 'package:wgs_viewer/view/widget/right_chart_widget.dart';
 
 class RightChartPg extends StatelessWidget {
@@ -44,12 +42,11 @@ class RightChartPg extends StatelessWidget {
                     return SizedBox(
                         width: 30,
                         child: IgnorePointer(
-                          ignoring: FilePickerCtrl.to.firstLine.isEmpty,
+                          ignoring: FilePickerCtrl.to.xTimes.isEmpty,
                           child: FloatingActionButton(
-                              backgroundColor:
-                                  FilePickerCtrl.to.firstLine.isEmpty
-                                      ? Colors.grey
-                                      : Colors.blue,
+                              backgroundColor: FilePickerCtrl.to.xTimes.isEmpty
+                                  ? Colors.grey
+                                  : Colors.blue,
                               onPressed: () {
                                 if (RightChartCtrl.to.maxX.value - 6 >
                                     RightChartCtrl.to.minX.value) {
@@ -66,22 +63,21 @@ class RightChartPg extends StatelessWidget {
                     return SizedBox(
                         width: 30,
                         child: IgnorePointer(
-                          ignoring: FilePickerCtrl.to.firstLine.isEmpty,
+                          ignoring: FilePickerCtrl.to.xTimes.isEmpty,
                           child: FloatingActionButton(
-                              backgroundColor:
-                                  FilePickerCtrl.to.firstLine.isEmpty
-                                      ? Colors.grey
-                                      : Colors.blue,
+                              backgroundColor: FilePickerCtrl.to.xTimes.isEmpty
+                                  ? Colors.grey
+                                  : Colors.blue,
                               onPressed: () {
                                 if (RightChartCtrl.to.minX.value >
-                                    FilePickerCtrl.to.firstLine.first) {
+                                    FilePickerCtrl.to.xTimes.first) {
                                   RightChartCtrl.to.minX.value -= 3;
                                   RightChartCtrl.to.maxX.value += 3;
                                 }
                                 if (RightChartCtrl.to.minX.value <
-                                    FilePickerCtrl.to.firstLine.first) {
+                                    FilePickerCtrl.to.xTimes.first) {
                                   RightChartCtrl.to.minX.value =
-                                      FilePickerCtrl.to.firstLine.first;
+                                      FilePickerCtrl.to.xTimes.first;
                                 }
                               },
                               child: const Text("-")),

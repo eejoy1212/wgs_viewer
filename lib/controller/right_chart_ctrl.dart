@@ -27,7 +27,7 @@ class RightChartCtrl extends GetxController {
     }
   }
 
-  Future<void> updateRightData1() async {
+  Future<void> updateRightData(int idx) async {
 /*
 오른쪽 차트 :
 1. y축은 avg.value(값을 레인지로 평균낸 것) && 시간축 선택 &&
@@ -40,45 +40,17 @@ class RightChartCtrl extends GetxController {
       //slectedTime은 선택한 시간의 인덱스가
       int slectedTimeIdx1 = TimeSelectCtrl.to.firstTimeIdx.value;
 
-      rightSeriesData[0].clear();
+      rightSeriesData[idx].clear();
+      debugPrint('선택된거 제대로 보냄? : ${FileSelectDropDownCtrl.to.firstFields}');
+      // debugPrint('선택된거 시간축? : ${FilePickerCtrl.to.firstLine}');
       for (var b = 1; b < 2049; b++) {
-        idx.value = b - 1;
-        yVal.value =
-            FileSelectDropDownCtrl.to.firstFields[slectedTimeIdx1 + 7][b];
-        rightSeriesData[0]
-            .add(FlSpot(FilePickerCtrl.to.firstLine[idx.value], yVal.value));
+        final x = FileSelectDropDownCtrl.to.selected[idx].fileData[6][b];
+        final y = FileSelectDropDownCtrl
+            .to.selected[idx].fileData[slectedTimeIdx1 + 7][b];
+        rightSeriesData[idx].add(FlSpot(x, y));
       }
     }
-    update();
-  }
-
-  void updateRightData2() async {
-/*
-오른쪽 차트 :
-1. y축은 avg.value(값을 레인지로 평균낸 것) && 시간축 선택 &&
-2. x축은 파장 헤더 
-*/
-    debugPrint(
-        'timeselected isTrue?? :${TimeSelectCtrl.to.timeSelected.isTrue}');
-
-    if (TimeSelectCtrl.to.timeSelected.isTrue) {
-      //slectedTime은 선택한 시간의 인덱스가
-      int slectedTimeIdx2 = TimeSelectCtrl.to.secondTimeIdx.value;
-
-      rightSeriesData[1].clear();
-      for (var b = 1; b < 2049; b++) {
-        idx.value = b - 1;
-        // debugPrint('왜 없어 : ${FileSelectDropDownCtrl.to.secondFields[7][1]}');
-        yVal2.value = await FileSelectDropDownCtrl
-            .to.secondFields[slectedTimeIdx2 + 7][b];
-        //f[선택한 시간인덱스][1~2047]들어옴
-        //yValList.add(FilePickerCtrl.to.forfields[slectedTimeIdx][b]);
-        // debugPrint('오른쪽의 y축 : $yValList');
-
-        rightSeriesData[1]
-            .add(FlSpot(FilePickerCtrl.to.firstLine[idx.value], yVal2.value));
-      }
-    }
+    debugPrint('오른쪽 차트 업데이트? : $rightSeriesData');
     update();
   }
 
@@ -96,7 +68,7 @@ class RightChartCtrl extends GetxController {
             //축소
             else {
               if (RightChartCtrl.to.minX.value >
-                  FilePickerCtrl.to.firstLine.first) {
+                  FilePickerCtrl.to.xTimes.first) {
                 RightChartCtrl.to.minX.value -= 3;
                 RightChartCtrl.to.maxX.value += 3;
               }
@@ -110,7 +82,7 @@ class RightChartCtrl extends GetxController {
                 if (primeDelta.isNegative) {
                   if (maxX.value > minX.value &&
                       maxX.value <=
-                          (FilePickerCtrl.to.firstLine.last / 1000) - 3) {
+                          (FilePickerCtrl.to.xTimes.last / 1000) - 3) {
                     minX.value += 3;
                     maxX.value += 3;
                     print('드래그 증가 min : $minX max: $maxX');
@@ -118,8 +90,8 @@ class RightChartCtrl extends GetxController {
                 } else {
                   if (maxX.value > minX.value &&
                       minX > 0 &&
-                      minX < FilePickerCtrl.to.firstLine.last / 1000 &&
-                      maxX.value <= FilePickerCtrl.to.firstLine.last / 1000) {
+                      minX < FilePickerCtrl.to.xTimes.last / 1000 &&
+                      maxX.value <= FilePickerCtrl.to.xTimes.last / 1000) {
                     minX.value -= 3;
                     maxX.value -= 3;
                     print('드래그 감소 min : $minX max: $maxX');

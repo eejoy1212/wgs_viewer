@@ -52,7 +52,7 @@ class ChartCtrl extends GetxController {
         forfields.add(RxList.empty());
         // if (CheckboxCtrl.to.ckb[s].isChecked.value == false) continue;
         if (FilePickerCtrl.to.oesFD[s].isChecked.value == false) continue;
-        List<List<dynamic>> fileData = [];
+        //List<List<dynamic>> fileData = [];
         var filePath =
             FilePickerCtrl.to.oesFD.map((el) => el.filePath).toList();
         // final input =
@@ -61,14 +61,18 @@ class ChartCtrl extends GetxController {
 
         var d = const FirstOccurrenceSettingsDetector(
             eols: ['\r\n', '\n'], textDelimiters: ['"', "'"]);
-        fileData = await input
+        FilePickerCtrl.to.oesFD[s].fileData = await input
             .transform(utf8.decoder)
             .transform(CsvToListConverter(csvSettingsDetector: d))
             .toList();
-        debugPrint('$s번째의 차트데이터 뿌려짐?? : ${fileData}');
-        int headRowSize =
-            fileData.indexWhere((element) => element.contains('Time')) + 1;
-        for (int a = headRowSize; a < fileData.length; a++) {
+        debugPrint(
+            '$s번째의 차트데이터 뿌려짐?? : ${FilePickerCtrl.to.oesFD[s].fileData}');
+        int headRowSize = FilePickerCtrl.to.oesFD[s].fileData
+                .indexWhere((element) => element.contains('Time')) +
+            1;
+        for (int a = headRowSize;
+            a < FilePickerCtrl.to.oesFD[s].fileData.length;
+            a++) {
           Idx.value = a - headRowSize;
 
           //처음 파일기준 인덱스 떼어올 것.
@@ -81,21 +85,21 @@ class ChartCtrl extends GetxController {
             sum.value = 0.0;
             int inc = 0;
             for (int i = 0; i < cnt; i++) {
-              if (fileData[a].length > i) {
-                sum.value += fileData[a]
+              if (FilePickerCtrl.to.oesFD[s].fileData[a].length > i) {
+                sum.value += FilePickerCtrl.to.oesFD[s].fileData[a]
                     [RangeSliderCtrl.to.currentRv[ii].start.toInt() + i + 1];
                 inc++;
               }
             }
             avg.value = sum.value / inc;
             if (TimeSelectCtrl.to.timeIdxList.length > Idx.value) {
+              //oesModel에 avg추가
               forfields[s][ii].add(
                   FlSpot(TimeSelectCtrl.to.timeIdxList[Idx.value], avg.value));
               debugPrint('nnn forfields :  $forfields');
               debugPrint(
                   'isEmpty? ${TimeSelectCtrl.to.timeIdxList} // last : ${TimeSelectCtrl.to.timeIdxList.last}');
             }
-            debugPrint('forfields ${forfields[s][ii]}');
           }
         }
       }

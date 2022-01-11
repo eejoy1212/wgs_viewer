@@ -6,13 +6,25 @@ class OESFileData {
   String fileName;
   String? filePath;
   Rx<bool> isChecked;
-  List<dynamic> firstLine;
+  List<List<dynamic>> fileData;
+  //List<dynamic> firstLine;//time
+  //List<dynamic> xTime; //time
+  // List<dynamic> xWL; //wavelength
+  List<double> avg;
   OESFileData({
     required this.fileName,
     required this.filePath,
     required this.isChecked,
-    this.firstLine = const [],
+    this.fileData = const [],
+    //this.firstLine = const [],
+    //this.xTime = const [],
+    // this.xWL = const [],
+    this.avg = const [0.0, 0.0, 0.0, 0.0, 0.0],
   });
+
+  factory OESFileData.init() {
+    return OESFileData(fileName: '', filePath: '', isChecked: false.obs);
+  }
 
   OESFileData copyWith({
     String? filePath,
@@ -29,6 +41,8 @@ class OESFileData {
     return {
       'filePath': filePath,
       'isChecked': isChecked,
+      // 'xTime': xTime,
+      //'xWL': xWL,
     };
   }
 
@@ -46,8 +60,7 @@ class OESFileData {
       OESFileData.fromMap(json.decode(source));
 
   @override
-  String toString() =>
-      'OESFileData(filePath: $filePath, isChecked: $isChecked)';
+  String toString() => fileName;
 
   @override
   bool operator ==(Object other) {

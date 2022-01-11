@@ -7,17 +7,17 @@ import 'package:wgs_viewer/controller/right_chart_ctrl.dart';
 
 class RightChartWidget extends StatelessWidget {
   bool showAvg = false;
-  double? minY = FilePickerCtrl.to.firstLine.isNotEmpty ? 0 : 0;
-  double? maxY = FilePickerCtrl.to.firstLine.isNotEmpty ? 10000 : 0;
+  double? minY = FilePickerCtrl.to.xTimes.isNotEmpty ? 0 : 0;
+  double? maxY = FilePickerCtrl.to.xTimes.isNotEmpty ? 10000 : 0;
   // double maxY = ;
 
   @override
   Widget build(BuildContext context) {
-    RightChartCtrl.to.minX.value = FilePickerCtrl.to.firstLine.isNotEmpty
-        ? FilePickerCtrl.to.firstLine.first
+    RightChartCtrl.to.minX.value = FilePickerCtrl.to.xTimes.isNotEmpty
+        ? FilePickerCtrl.to.xTimes.first
         : 180;
-    RightChartCtrl.to.maxX.value = FilePickerCtrl.to.firstLine.isNotEmpty
-        ? FilePickerCtrl.to.firstLine.last
+    RightChartCtrl.to.maxX.value = FilePickerCtrl.to.xTimes.isNotEmpty
+        ? FilePickerCtrl.to.xTimes.last
         : 870;
     return Stack(
       children: [

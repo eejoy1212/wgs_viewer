@@ -9,23 +9,23 @@ import 'package:wgs_viewer/controller/right_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 
 class RightApplyBtn extends StatelessWidget {
-  const RightApplyBtn({Key? key}) : super(key: key);
-
+  const RightApplyBtn({Key? key, required this.idx}) : super(key: key);
+  final int idx;
   @override
   Widget build(BuildContext context) {
     return Obx(() {
       return IgnorePointer(
-          ignoring: FilePickerCtrl.to.selectedFileUrls.isEmpty,
+          ignoring: FilePickerCtrl.to.oesFD.isEmpty,
           child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: FilePickerCtrl.to.selectedFileName.isEmpty
+                primary: FilePickerCtrl.to.oesFD.isEmpty
                     ? Colors.grey
                     : Color(0xff5AEDCA),
               ),
               onPressed: () async {
                 //오른쪽 함수 부르는거
                 TimeSelectCtrl.to.timeSelected.value = true;
-                await RightChartCtrl.to.updateRightData1();
+                await RightChartCtrl.to.updateRightData(idx);
                 // RangeSliderCtrl.to.minMaxFunc();
               },
               child: const Text(

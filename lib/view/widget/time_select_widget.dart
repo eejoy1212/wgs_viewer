@@ -2,13 +2,10 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
-import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
-import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
 import 'package:wgs_viewer/controller/right_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/file_select_dropdown_widget.dart';
 import 'package:wgs_viewer/view/widget/right_apply_btn.dart';
-import 'package:wgs_viewer/view/widget/second_file_select_dropdown_widget.dart';
 
 class TimeSelectTxtForm extends StatelessWidget {
   const TimeSelectTxtForm({Key? key}) : super(key: key);
@@ -89,7 +86,9 @@ class TimeSelectTxtForm extends StatelessWidget {
                       const Spacer(),
                       Row(
                         children: [
-                          const RightApplyBtn(),
+                          const RightApplyBtn(
+                            idx: 0,
+                          ),
                           const SizedBox(
                             width: 20,
                           ),
@@ -112,7 +111,7 @@ class TimeSelectTxtForm extends StatelessWidget {
                   const SizedBox(
                     height: 30,
                   ),
-                  FileSelectDropDown(),
+                  const FileSelectDropDown(idx: 0),
                   const SizedBox(
                     height: 160,
                   ),
@@ -180,19 +179,17 @@ class TimeSelectTxtForm extends StatelessWidget {
                         children: [
                           Obx(() {
                             return IgnorePointer(
-                              ignoring:
-                                  FilePickerCtrl.to.selectedFileUrls.isEmpty,
+                              ignoring: FilePickerCtrl.to.oesFD.isEmpty,
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  primary:
-                                      FilePickerCtrl.to.selectedFileName.isEmpty
-                                          ? Colors.grey
-                                          : Color(0xff5AEDCA),
+                                  primary: FilePickerCtrl.to.oesFD.isEmpty
+                                      ? Colors.grey
+                                      : Color(0xff5AEDCA),
                                 ),
                                 onPressed: () async {
                                   //오른쪽 함수 부르는거
                                   TimeSelectCtrl.to.timeSelected.value = true;
-                                  RightChartCtrl.to.updateRightData2();
+                                  await RightChartCtrl.to.updateRightData(1);
                                   // RangeSliderCtrl.to.minMaxFunc();
                                 },
                                 child: const Text(
@@ -228,7 +225,8 @@ class TimeSelectTxtForm extends StatelessWidget {
                   const SizedBox(
                     height: 30,
                   ),
-                  SecondFileSelectDropDown()
+                  const FileSelectDropDown(idx: 1),
+                  //SecondFileSelectDropDown()
                   // Column(
                   //   children: [
                   //     Row(

@@ -35,36 +35,36 @@ class RangeSliders extends StatelessWidget {
           Obx(() {
             //file select onPessed 할 때 enableRangeSelect=true 해 주기
             return IgnorePointer(
-              ignoring: FilePickerCtrl.to.firstLine.isEmpty ||
+              ignoring: FilePickerCtrl.to.xWLs.isEmpty ||
                   RangeSliderCtrl.to.currentRv.isEmpty,
               child: RangeSlider(
                 onChanged: (RangeValues v) {
                   RangeSliderCtrl.to.currentRv[0] = v;
                   //v.start는 값이 아니라 인덱스임
                   RangeSliderCtrl.to.vStart[0] =
-                      FilePickerCtrl.to.firstLine[v.start.round()];
+                      FilePickerCtrl.to.xWLs[v.start.round()];
                   RangeSliderCtrl.to.vEnd[0] =
-                      FilePickerCtrl.to.firstLine[v.end.round()];
+                      FilePickerCtrl.to.xWLs[v.end.round()];
 // debugPrint('currentRv length && currentRv[0] && RangeSliderCtrl.to.currentRv && currentRv2 : ${RangeSliderCtrl.to.currentRv.length} && ${RangeSliderCtrl.to.currentRv[0]} && ${RangeSliderCtrl.to.currentRv[1]} && ${RangeSliderCtrl.to.currentRv[2]}');
                   debugPrint('onChanged Idx: ${RangeSliderCtrl.to.currentRv}');
                 },
-                values: FilePickerCtrl.to.firstLine.isNotEmpty &&
+                values: FilePickerCtrl.to.xWLs.isNotEmpty &&
                         RangeSliderCtrl.to.currentRv.isNotEmpty
                     ? RangeSliderCtrl.to.currentRv[0]
                     : const RangeValues(0, 0),
-                min: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.first)
+                min: FilePickerCtrl.to.xWLs.isNotEmpty
+                    ? FilePickerCtrl.to.xWLs
+                        .indexOf(FilePickerCtrl.to.xWLs.first)
                         .toDouble()
                     : 0,
-                max: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.last)
+                max: FilePickerCtrl.to.xWLs.isNotEmpty
+                    ? FilePickerCtrl.to.xWLs
+                        .indexOf(FilePickerCtrl.to.xWLs.last)
                         .toDouble()
                     : 1,
-                divisions: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.last)
+                divisions: FilePickerCtrl.to.xWLs.isNotEmpty
+                    ? FilePickerCtrl.to.xWLs
+                        .indexOf(FilePickerCtrl.to.xWLs.last)
                     : 1,
                 labels: RangeLabels(
                     RangeSliderCtrl.to.vStart.isNotEmpty
@@ -98,36 +98,36 @@ class RangeSliders extends StatelessWidget {
           Obx(() {
             //file select onPessed 할 때 enableRangeSelect=true 해 주기
             return IgnorePointer(
-              ignoring: FilePickerCtrl.to.firstLine.isEmpty ||
+              ignoring: FilePickerCtrl.to.xWLs.isEmpty ||
                   RangeSliderCtrl.to.currentRv.isEmpty,
               child: RangeSlider(
                 onChanged: (RangeValues v) {
                   RangeSliderCtrl.to.currentRv[1] = v;
                   //v.start는 값이 아니라 인덱스임
                   RangeSliderCtrl.to.vStart[1] =
-                      FilePickerCtrl.to.firstLine[v.start.round()];
+                      FilePickerCtrl.to.xWLs[v.start.round()];
                   RangeSliderCtrl.to.vEnd[1] =
-                      FilePickerCtrl.to.firstLine[v.end.round()];
+                      FilePickerCtrl.to.xWLs[v.end.round()];
 // debugPrint('currentRv length && currentRv[0] && RangeSliderCtrl.to.currentRv && currentRv2 : ${RangeSliderCtrl.to.currentRv.length} && ${RangeSliderCtrl.to.currentRv[0]} && ${RangeSliderCtrl.to.currentRv[1]} && ${RangeSliderCtrl.to.currentRv[2]}');
                   debugPrint(
-                      'firstLine length && onChanged : ${FilePickerCtrl.to.firstLine.length} ${RangeSliderCtrl.to.currentRv}');
+                      'xWLs length && onChanged : ${FilePickerCtrl.to.xWLs.length} ${RangeSliderCtrl.to.currentRv}');
                 },
-                values: FilePickerCtrl.to.firstLine.isNotEmpty
+                values: FilePickerCtrl.to.xWLs.isNotEmpty
                     ? RangeSliderCtrl.to.currentRv[1]
                     : const RangeValues(0, 0),
-                min: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.first)
+                min: FilePickerCtrl.to.xWLs.isNotEmpty
+                    ? FilePickerCtrl.to.xWLs
+                        .indexOf(FilePickerCtrl.to.xWLs.first)
                         .toDouble()
                     : 0,
-                max: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.last)
+                max: FilePickerCtrl.to.xWLs.isNotEmpty
+                    ? FilePickerCtrl.to.xWLs
+                        .indexOf(FilePickerCtrl.to.xWLs.last)
                         .toDouble()
                     : 1,
-                divisions: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.last)
+                divisions: FilePickerCtrl.to.xWLs.isNotEmpty
+                    ? FilePickerCtrl.to.xWLs
+                        .indexOf(FilePickerCtrl.to.xWLs.last)
                     : 1,
                 labels: RangeLabels(
                     RangeSliderCtrl.to.vStart[1].toStringAsFixed(3),
@@ -157,36 +157,36 @@ class RangeSliders extends StatelessWidget {
           Obx(() {
             //file select onPessed 할 때 enableRangeSelect=true 해 주기
             return IgnorePointer(
-              ignoring: FilePickerCtrl.to.firstLine.isEmpty ||
+              ignoring: FilePickerCtrl.to.xWLs.isEmpty ||
                   RangeSliderCtrl.to.currentRv.isEmpty,
               child: RangeSlider(
                 onChanged: (RangeValues v) {
                   RangeSliderCtrl.to.currentRv[2] = v;
                   //v.start는 값이 아니라 인덱스임
                   RangeSliderCtrl.to.vStart[2] =
-                      FilePickerCtrl.to.firstLine[v.start.round()];
+                      FilePickerCtrl.to.xWLs[v.start.round()];
                   RangeSliderCtrl.to.vEnd[2] =
-                      FilePickerCtrl.to.firstLine[v.end.round()];
+                      FilePickerCtrl.to.xWLs[v.end.round()];
 // debugPrint('currentRv length && currentRv[0] && RangeSliderCtrl.to.currentRv && currentRv2 : ${RangeSliderCtrl.to.currentRv.length} && ${RangeSliderCtrl.to.currentRv[0]} && ${RangeSliderCtrl.to.currentRv[1]} && ${RangeSliderCtrl.to.currentRv[2]}');
                   debugPrint(
-                      'firstLine length && onChanged : ${FilePickerCtrl.to.firstLine.length} ${RangeSliderCtrl.to.currentRv}');
+                      'xWLs length && onChanged : ${FilePickerCtrl.to.xWLs.length} ${RangeSliderCtrl.to.currentRv}');
                 },
-                values: FilePickerCtrl.to.firstLine.isNotEmpty
+                values: FilePickerCtrl.to.xWLs.isNotEmpty
                     ? RangeSliderCtrl.to.currentRv[2]
                     : const RangeValues(0, 0),
-                min: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.first)
+                min: FilePickerCtrl.to.xWLs.isNotEmpty
+                    ? FilePickerCtrl.to.xWLs
+                        .indexOf(FilePickerCtrl.to.xWLs.first)
                         .toDouble()
                     : 0,
-                max: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.last)
+                max: FilePickerCtrl.to.xWLs.isNotEmpty
+                    ? FilePickerCtrl.to.xWLs
+                        .indexOf(FilePickerCtrl.to.xWLs.last)
                         .toDouble()
                     : 1,
-                divisions: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.last)
+                divisions: FilePickerCtrl.to.xWLs.isNotEmpty
+                    ? FilePickerCtrl.to.xWLs
+                        .indexOf(FilePickerCtrl.to.xWLs.last)
                     : 1,
                 labels: RangeLabels(
                     RangeSliderCtrl.to.vStart[2].toStringAsFixed(3),
@@ -216,36 +216,36 @@ class RangeSliders extends StatelessWidget {
           Obx(() {
             //file select onPessed 할 때 enableRangeSelect=true 해 주기
             return IgnorePointer(
-              ignoring: FilePickerCtrl.to.firstLine.isEmpty ||
+              ignoring: FilePickerCtrl.to.xWLs.isEmpty ||
                   RangeSliderCtrl.to.currentRv.isEmpty,
               child: RangeSlider(
                 onChanged: (RangeValues v) {
                   RangeSliderCtrl.to.currentRv[3] = v;
                   //v.start는 값이 아니라 인덱스임
                   RangeSliderCtrl.to.vStart[3] =
-                      FilePickerCtrl.to.firstLine[v.start.round()];
+                      FilePickerCtrl.to.xWLs[v.start.round()];
                   RangeSliderCtrl.to.vEnd[3] =
-                      FilePickerCtrl.to.firstLine[v.end.round()];
+                      FilePickerCtrl.to.xWLs[v.end.round()];
 // debugPrint('currentRv length && currentRv[0] && RangeSliderCtrl.to.currentRv && currentRv2 : ${RangeSliderCtrl.to.currentRv.length} && ${RangeSliderCtrl.to.currentRv[0]} && ${RangeSliderCtrl.to.currentRv[1]} && ${RangeSliderCtrl.to.currentRv[2]}');
                   debugPrint(
-                      'firstLine length && onChanged : ${FilePickerCtrl.to.firstLine.length} ${RangeSliderCtrl.to.currentRv}');
+                      'xWLs length && onChanged : ${FilePickerCtrl.to.xWLs.length} ${RangeSliderCtrl.to.currentRv}');
                 },
-                values: FilePickerCtrl.to.firstLine.isNotEmpty
+                values: FilePickerCtrl.to.xWLs.isNotEmpty
                     ? RangeSliderCtrl.to.currentRv[3]
                     : const RangeValues(0, 0),
-                min: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.first)
+                min: FilePickerCtrl.to.xWLs.isNotEmpty
+                    ? FilePickerCtrl.to.xWLs
+                        .indexOf(FilePickerCtrl.to.xWLs.first)
                         .toDouble()
                     : 0,
-                max: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.last)
+                max: FilePickerCtrl.to.xWLs.isNotEmpty
+                    ? FilePickerCtrl.to.xWLs
+                        .indexOf(FilePickerCtrl.to.xWLs.last)
                         .toDouble()
                     : 1,
-                divisions: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.last)
+                divisions: FilePickerCtrl.to.xWLs.isNotEmpty
+                    ? FilePickerCtrl.to.xWLs
+                        .indexOf(FilePickerCtrl.to.xWLs.last)
                     : 1,
                 labels: RangeLabels(
                     RangeSliderCtrl.to.vStart[3].toStringAsFixed(3),
@@ -275,36 +275,36 @@ class RangeSliders extends StatelessWidget {
           Obx(() {
             //file select onPessed 할 때 enableRangeSelect=true 해 주기
             return IgnorePointer(
-              ignoring: FilePickerCtrl.to.firstLine.isEmpty ||
+              ignoring: FilePickerCtrl.to.xWLs.isEmpty ||
                   RangeSliderCtrl.to.currentRv.isEmpty,
               child: RangeSlider(
                 onChanged: (RangeValues v) {
                   RangeSliderCtrl.to.currentRv[4] = v;
                   //v.start는 값이 아니라 인덱스임
                   RangeSliderCtrl.to.vStart[4] =
-                      FilePickerCtrl.to.firstLine[v.start.round()];
+                      FilePickerCtrl.to.xWLs[v.start.round()];
                   RangeSliderCtrl.to.vEnd[4] =
-                      FilePickerCtrl.to.firstLine[v.end.round()];
+                      FilePickerCtrl.to.xWLs[v.end.round()];
 // debugPrint('currentRv length && currentRv[0] && RangeSliderCtrl.to.currentRv && currentRv2 : ${RangeSliderCtrl.to.currentRv.length} && ${RangeSliderCtrl.to.currentRv[0]} && ${RangeSliderCtrl.to.currentRv[1]} && ${RangeSliderCtrl.to.currentRv[2]}');
                   debugPrint(
-                      'firstLine length && onChanged : ${FilePickerCtrl.to.firstLine.length} ${RangeSliderCtrl.to.currentRv}');
+                      'xWLs length && onChanged : ${FilePickerCtrl.to.xWLs.length} ${RangeSliderCtrl.to.currentRv}');
                 },
-                values: FilePickerCtrl.to.firstLine.isNotEmpty
+                values: FilePickerCtrl.to.xWLs.isNotEmpty
                     ? RangeSliderCtrl.to.currentRv[4]
                     : const RangeValues(0, 0),
-                min: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.first)
+                min: FilePickerCtrl.to.xWLs.isNotEmpty
+                    ? FilePickerCtrl.to.xWLs
+                        .indexOf(FilePickerCtrl.to.xWLs.first)
                         .toDouble()
                     : 0,
-                max: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.last)
+                max: FilePickerCtrl.to.xWLs.isNotEmpty
+                    ? FilePickerCtrl.to.xWLs
+                        .indexOf(FilePickerCtrl.to.xWLs.last)
                         .toDouble()
                     : 1,
-                divisions: FilePickerCtrl.to.firstLine.isNotEmpty
-                    ? FilePickerCtrl.to.firstLine
-                        .indexOf(FilePickerCtrl.to.firstLine.last)
+                divisions: FilePickerCtrl.to.xWLs.isNotEmpty
+                    ? FilePickerCtrl.to.xWLs
+                        .indexOf(FilePickerCtrl.to.xWLs.last)
                     : 1,
                 labels: RangeLabels(
                     RangeSliderCtrl.to.vStart[4].toStringAsFixed(3),
