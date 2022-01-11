@@ -37,29 +37,44 @@ class FilePickerCtrl extends GetxController {
       debugPrint('_path가 ${_paths != null}');
       if (_paths != null) {
         bool first = oesFD.isEmpty;
-        List<String> _fileNames = _paths.map((e) => e.name).toList();
+
+        List<String> _fileNames = _paths.map((e) {
+          return e.name;
+        }).toList();
         List<String?> _fileUrls = _paths.map((e) => e.path).toList();
         if (oesFD.length + _fileUrls.length > 100) {
           var ableAddCnt = 100 - oesFD.length;
+          for (int i = 0; i < _paths.length; i++) {
+            oesFD.add(OESFileData(
+                fileName: _paths[i].name,
+                filePath: _paths[i].path,
+                isChecked: false.obs));
+          }
           //왜 map하면 안돼..?
           //한꺼번에 추가?
-          _fileUrls.forEach((urls) {
-            _fileNames.forEach((names) {
-              oesFD.add(OESFileData(
-                  fileName: names, filePath: urls, isChecked: false.obs));
-            });
-          });
+          // _fileUrls.forEach((urls) {
+          //   _fileNames.forEach((names) {
+          //     oesFD.add(OESFileData(
+          //         fileName: names, filePath: urls, isChecked: false.obs));
+          //   });
+          // });
 
           oesFD.sublist(0, ableAddCnt);
           debugPrint('oesFD : $oesFD');
           FilePickerCtrl.to.fileMaxAlertMsg.value = 'File maximum is 100';
         } else {
-          _fileUrls.forEach((urls) {
-            _fileNames.forEach((names) {
-              oesFD.add(OESFileData(
-                  fileName: names, filePath: urls, isChecked: false.obs));
-            });
-          });
+          // _fileUrls.forEach((urls) {
+          //   _fileNames.forEach((names) {
+          //     oesFD.add(OESFileData(
+          //         fileName: names, filePath: urls, isChecked: false.obs));
+          //   });
+          // });
+          for (int i = 0; i < _paths.length; i++) {
+            oesFD.add(OESFileData(
+                fileName: _paths[i].name,
+                filePath: _paths[i].path,
+                isChecked: false.obs));
+          }
         }
         if (first) {
           var filePath = oesFD.map((el) => el.filePath).toList();

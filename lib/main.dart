@@ -17,6 +17,7 @@ import 'package:wgs_viewer/controller/right_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/controller/translator_ctrl.dart';
 import 'package:wgs_viewer/mode.dart';
+import 'package:wgs_viewer/model/oes_file_data_model.dart';
 import 'package:wgs_viewer/view/widget/apply_btn_widget.dart';
 import 'package:wgs_viewer/view/widget/file_list_data_widget.dart';
 import 'package:wgs_viewer/view/widget/file_select_btn_widget.dart';
@@ -38,7 +39,6 @@ void main() {
   Get.put(TranslatorCtrl());
   Get.put(RangeSliderCtrl());
   Get.put(FileSelectDropDownCtrl());
-  // Get.put(ExportCtrl());
   RangeSliderCtrl.to.init();
   ChartCtrl.to.init();
   RightChartCtrl.to.init();
@@ -69,10 +69,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool isDarkMode = false;
-
-  toGetx() {
-    ctrl.to.aaa.value = isDarkMode;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -400,7 +396,7 @@ class _MyAppState extends State<MyApp> {
                                       const Spacer(),
                                       Obx(
                                         () => Text(
-                                            'File num : ${FilePickerCtrl.to.selectedFileName.length}'),
+                                            'File num : ${FilePickerCtrl.to.oesFD.length}'),
                                       ),
                                       Obx(() => Checkbox(
                                           value: FilePickerCtrl

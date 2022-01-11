@@ -5,6 +5,7 @@ import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
+import 'dart:math' as math;
 
 class LeftChartWidget extends StatelessWidget {
   bool showAvg = false;
@@ -18,9 +19,9 @@ class LeftChartWidget extends StatelessWidget {
         if (ChartCtrl.to.forfields[i][ii].isNotEmpty) {
           rt.add(
             lineChartBarData(
-              ChartCtrl.to.forfields[i][ii],
-              Colors.green,
-            ),
+                ChartCtrl.to.forfields[i][ii],
+                // Colors.green,
+                Colors.cyan[700]),
           );
         }
       }
