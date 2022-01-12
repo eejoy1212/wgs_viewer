@@ -35,7 +35,6 @@ class FilePickerCtrl extends GetxController {
               withReadStream: true,
               dialogTitle: 'File select'))
           ?.files;
-      debugPrint('_path가 ${_paths != null}');
       if (_paths != null) {
         bool first = oesFD.isEmpty;
 
@@ -55,7 +54,6 @@ class FilePickerCtrl extends GetxController {
             dropdownFileName.add(_paths[i].name);
           }
           oesFD.sublist(0, ableAddCnt);
-          debugPrint('oesFD : $oesFD');
           FilePickerCtrl.to.fileMaxAlertMsg.value = 'File maximum is 100';
         } else {
           for (int i = 0; i < _paths.length; i++) {
@@ -78,17 +76,12 @@ class FilePickerCtrl extends GetxController {
               .transform(utf8.decoder)
               .transform(CsvToListConverter(csvSettingsDetector: d))
               .toList();
-          //oesFD.map((el) => el.fileData);
-          // debugPrint('fileData : ${fileData.length}');
-////////////////////여까지 함
-          // debugPrint('fileData 내용 : $fileData');
 
           //Time포함되어있는 셀 번호
           int timeRowSize = fileData.indexWhere((e) => e.contains('Time'));
           //int timeRowSize = 7;
           FilePickerCtrl.to.xWLs.assignAll(
               fileData[timeRowSize].sublist(1, fileData[timeRowSize].length));
-          debugPrint('firstLine : ${FilePickerCtrl.to.xWLs}');
           String toConvert = '2022-01-01 ' + fileData[timeRowSize + 1][0];
           final DateTime firstTime = DateTime.parse(toConvert);
           for (var i = timeRowSize + 1; i < fileData.length; i++) {
@@ -119,7 +112,6 @@ class FilePickerCtrl extends GetxController {
                         .toDouble()) /
                     1000);
             TimeSelectCtrl.to.timeIdxList = FilePickerCtrl.to.xTimes;
-            debugPrint('timeIdxList : ${TimeSelectCtrl.to.timeIdxList}');
           }
         }
       }

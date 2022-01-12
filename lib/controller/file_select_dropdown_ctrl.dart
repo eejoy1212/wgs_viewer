@@ -22,17 +22,10 @@ class FileSelectDropDownCtrl extends GetxController {
   List<OESFileData> selected = List.filled(2, OESFileData.init());
   RxInt idx = 0.obs;
 
-//   Future<bool> fff({required OESFileData f}) async {
-//     //debugPrint('fff ${f.fileData}');
-//     return true;
-
-// //파일 열렸고, 내용을 firstFields 담아 차트로 보내기
-//   }
+//파일 열렸고, 내용을 firstFields 담아 차트로 보내기
 
   Future<void> firstTimeFunc({required List<OESFileData?> firstList}) async {
     firstSignal.value = true;
-    debugPrint('sig? : ${firstSignal.value}');
-    debugPrint('첫번째 드롭박스에서 선택 된 파일 리스트 : $firstList');
     if (firstList.isNotEmpty) {
       firstSignal.value = true;
     }
@@ -69,7 +62,5 @@ class FileSelectDropDownCtrl extends GetxController {
         .transform(CsvToListConverter(csvSettingsDetector: d))
         .toList();
 //파일 열렸고, 내용을 rightData에 담아 차트로 보내기
-
-    debugPrint('secondFields :$secondFields');
   }
 }

@@ -1,9 +1,11 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/file_select_dropdown_ctrl.dart';
 import 'package:wgs_viewer/controller/right_chart_ctrl.dart';
+import 'package:wgs_viewer/view/widget/left_chart_widget.dart';
 
 class RightChartWidget extends StatelessWidget {
   bool showAvg = false;
@@ -40,14 +42,16 @@ class RightChartWidget extends StatelessWidget {
                           child: rightData(
                             ctrl: ctrl,
                             lineBarsData: [
-                              lineChartBarData(
-                                RightChartCtrl.to.rightSeriesData[0],
-                                Color.fromARGB(255, 106, 141, 137),
-                              ),
-                              lineChartBarData(
-                                RightChartCtrl.to.rightSeriesData[1],
-                                Colors.indigo,
-                              )
+                              // lineChartBarData(
+                              //   RightChartCtrl.to.rightSeriesData[0],
+                              //   Color.fromARGB(255, 106, 141, 137),
+                              // ),
+                              // lineChartBarData(
+                              //   RightChartCtrl.to.rightSeriesData[1],
+                              //   Colors.indigo,
+                              // )
+
+                              // rightLineSeries(RightChartCtrl.to.rightSeriesData[0])
                             ],
                             leftTitles: SideTitles(
                               showTitles: false,
@@ -109,14 +113,11 @@ class RightChartWidget extends StatelessWidget {
     );
   }
 
-  LineChartBarData lineChartBarData(List<FlSpot> points, color) {
-    return LineChartBarData(
-      spots: points,
-      dotData: FlDotData(
-        show: true,
-      ),
-      colors: [color],
-      barWidth: 1,
+  LineSeries rightLineSeries(List<OESData> data) {
+    return LineSeries<OESData, double>(
+      dataSource: data,
+      xValueMapper: (OESData oesData, _) => oesData.xVal,
+      yValueMapper: (OESData oesData, _) => oesData.yVal,
     );
   }
 }

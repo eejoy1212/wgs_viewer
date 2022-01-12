@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/right_chart_ctrl.dart';
+import 'package:wgs_viewer/ing/right_syncfusion_test.dart';
 import 'package:wgs_viewer/view/widget/right_chart_widget.dart';
 
 class RightChartPg extends StatelessWidget {
@@ -30,9 +31,10 @@ class RightChartPg extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
-              flex: 10,
-              child: RightChartWidget(),
-            ),
+                flex: 10,
+                child:
+                    // RightChartWidget(),
+                    RightSyncfusionTest()),
             Expanded(
               flex: 1,
               child: Row(
@@ -52,7 +54,6 @@ class RightChartPg extends StatelessWidget {
                                     RightChartCtrl.to.minX.value) {
                                   RightChartCtrl.to.minX.value += 3;
                                   RightChartCtrl.to.maxX.value -= 3;
-                                  debugPrint('오른쪽 확대???  ');
                                 }
                               },
                               child: const Text("+")),
@@ -122,21 +123,9 @@ void rightExportCSV(String name, [List<dynamic> data = const []]) async {
       }
     }
   }
-  // for (var t = 0; t < timeLen; t++) {
-  //   list.add([ChartCtrl.to.forfields[sidx][0][t].x]); // 시간 삽입
-  //   // 시리즈별 접근
-  //   for (var i = 0; i < ChartCtrl.to.forfields.length; i++) {
-  //     if (ChartCtrl.to.forfields[i].isNotEmpty) {
-  //       list[t].add(ChartCtrl.to.forfields[i][0][t].y);
-  //     }
-  //   }
-  // }
-
-  debugPrint(">>>>>>>>>>>>>>>>>>> test: " + list.toString());
 
   final directory = await getApplicationDocumentsDirectory();
   FilePickerCtrl.to.path.value = directory.path;
-  debugPrint('path : ${FilePickerCtrl.to.path.value}');
   File file = File(
       "${FilePickerCtrl.to.path.value}/${ChartCtrl.to.fileName.value}_$name.csv");
   List<dynamic> initData = ["FileFormat : 1", "Save Time : ", "Wavelength : "];
@@ -146,6 +135,5 @@ void rightExportCSV(String name, [List<dynamic> data = const []]) async {
       "Time" +
       '\n' +
       list.map((line) => line.join(",")).join('\n');
-  debugPrint('export');
   file.writeAsString(all);
 }

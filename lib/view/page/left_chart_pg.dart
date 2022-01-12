@@ -1,14 +1,10 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:wgs_viewer/controller/check_box_ctrl.dart';
-import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
-import 'package:wgs_viewer/ing/syncfusion_test.dart';
 import 'package:wgs_viewer/view/widget/left_chart_widget.dart';
 
 class LeftChartPg extends StatelessWidget {
@@ -34,10 +30,7 @@ class LeftChartPg extends StatelessWidget {
               Expanded(
                 flex: 10,
 
-                child:
-
-                    // Text('dsd')
-                    SyncfusionChartWidget(),
+                child: LeftChartWidget(),
 
                 // LeftChartWidget(),
               ),
@@ -80,13 +73,8 @@ class LeftChartPg extends StatelessWidget {
                                         ? Colors.grey
                                         : Colors.blue,
                                 onPressed: () {
-                                  debugPrint(
-                                      'minX : ${ChartCtrl.to.minX.value} && timeIdxList.first : ${TimeSelectCtrl.to.timeIdxList.first} && timeIdxList.last ${TimeSelectCtrl.to.timeIdxList.last}');
                                   if (ChartCtrl.to.minX.value >
                                       TimeSelectCtrl.to.timeIdxList.first) {
-                                    debugPrint(
-                                        'minX : ${ChartCtrl.to.minX.value} && timeIdxList.first : ${TimeSelectCtrl.to.timeIdxList.first} && timeIdxList.last ${TimeSelectCtrl.to.timeIdxList.last}');
-
                                     ChartCtrl.to.minX.value -= 3;
                                     ChartCtrl.to.maxX.value += 3;
                                   }
@@ -174,7 +162,6 @@ class LeftChartPg extends StatelessWidget {
       //   idx++;
       // }
     }
-    debugPrint('fileData $fileData');
     //시간별로 돌아
     //파일별로돌고
     //파장별로 돌아
@@ -184,7 +171,6 @@ class LeftChartPg extends StatelessWidget {
     int sidx = 0;
     for (int i = 0; i < ChartCtrl.to.forfields.length; i++) {
       final series = ChartCtrl.to.forfields[i];
-      debugPrint('series : $series');
       if (series.isNotEmpty) {
         final int len = series[0].length;
         if (timeLen < len) {
@@ -203,7 +189,6 @@ class LeftChartPg extends StatelessWidget {
     //   }
     // }
 
-    debugPrint("EXPORT LIST" + list.toString());
     File file = File("$_path");
     List<dynamic> initData = [
       "FileFormat : 1",
@@ -216,7 +201,6 @@ class LeftChartPg extends StatelessWidget {
         "Time" +
         '\n' +
         fileData.map((line) => line.join(",")).join('\n');
-    debugPrint('export');
     file.writeAsString(all);
   }
 }

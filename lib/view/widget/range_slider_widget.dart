@@ -45,8 +45,6 @@ class RangeSliders extends StatelessWidget {
                       FilePickerCtrl.to.xWLs[v.start.round()];
                   RangeSliderCtrl.to.vEnd[0] =
                       FilePickerCtrl.to.xWLs[v.end.round()];
-// debugPrint('currentRv length && currentRv[0] && RangeSliderCtrl.to.currentRv && currentRv2 : ${RangeSliderCtrl.to.currentRv.length} && ${RangeSliderCtrl.to.currentRv[0]} && ${RangeSliderCtrl.to.currentRv[1]} && ${RangeSliderCtrl.to.currentRv[2]}');
-                  debugPrint('onChanged Idx: ${RangeSliderCtrl.to.currentRv}');
                 },
                 values: FilePickerCtrl.to.xWLs.isNotEmpty &&
                         RangeSliderCtrl.to.currentRv.isNotEmpty
@@ -108,9 +106,6 @@ class RangeSliders extends StatelessWidget {
                       FilePickerCtrl.to.xWLs[v.start.round()];
                   RangeSliderCtrl.to.vEnd[1] =
                       FilePickerCtrl.to.xWLs[v.end.round()];
-// debugPrint('currentRv length && currentRv[0] && RangeSliderCtrl.to.currentRv && currentRv2 : ${RangeSliderCtrl.to.currentRv.length} && ${RangeSliderCtrl.to.currentRv[0]} && ${RangeSliderCtrl.to.currentRv[1]} && ${RangeSliderCtrl.to.currentRv[2]}');
-                  debugPrint(
-                      'xWLs length && onChanged : ${FilePickerCtrl.to.xWLs.length} ${RangeSliderCtrl.to.currentRv}');
                 },
                 values: FilePickerCtrl.to.xWLs.isNotEmpty
                     ? RangeSliderCtrl.to.currentRv[1]
@@ -167,9 +162,6 @@ class RangeSliders extends StatelessWidget {
                       FilePickerCtrl.to.xWLs[v.start.round()];
                   RangeSliderCtrl.to.vEnd[2] =
                       FilePickerCtrl.to.xWLs[v.end.round()];
-// debugPrint('currentRv length && currentRv[0] && RangeSliderCtrl.to.currentRv && currentRv2 : ${RangeSliderCtrl.to.currentRv.length} && ${RangeSliderCtrl.to.currentRv[0]} && ${RangeSliderCtrl.to.currentRv[1]} && ${RangeSliderCtrl.to.currentRv[2]}');
-                  debugPrint(
-                      'xWLs length && onChanged : ${FilePickerCtrl.to.xWLs.length} ${RangeSliderCtrl.to.currentRv}');
                 },
                 values: FilePickerCtrl.to.xWLs.isNotEmpty
                     ? RangeSliderCtrl.to.currentRv[2]
@@ -226,9 +218,6 @@ class RangeSliders extends StatelessWidget {
                       FilePickerCtrl.to.xWLs[v.start.round()];
                   RangeSliderCtrl.to.vEnd[3] =
                       FilePickerCtrl.to.xWLs[v.end.round()];
-// debugPrint('currentRv length && currentRv[0] && RangeSliderCtrl.to.currentRv && currentRv2 : ${RangeSliderCtrl.to.currentRv.length} && ${RangeSliderCtrl.to.currentRv[0]} && ${RangeSliderCtrl.to.currentRv[1]} && ${RangeSliderCtrl.to.currentRv[2]}');
-                  debugPrint(
-                      'xWLs length && onChanged : ${FilePickerCtrl.to.xWLs.length} ${RangeSliderCtrl.to.currentRv}');
                 },
                 values: FilePickerCtrl.to.xWLs.isNotEmpty
                     ? RangeSliderCtrl.to.currentRv[3]
@@ -285,9 +274,6 @@ class RangeSliders extends StatelessWidget {
                       FilePickerCtrl.to.xWLs[v.start.round()];
                   RangeSliderCtrl.to.vEnd[4] =
                       FilePickerCtrl.to.xWLs[v.end.round()];
-// debugPrint('currentRv length && currentRv[0] && RangeSliderCtrl.to.currentRv && currentRv2 : ${RangeSliderCtrl.to.currentRv.length} && ${RangeSliderCtrl.to.currentRv[0]} && ${RangeSliderCtrl.to.currentRv[1]} && ${RangeSliderCtrl.to.currentRv[2]}');
-                  debugPrint(
-                      'xWLs length && onChanged : ${FilePickerCtrl.to.xWLs.length} ${RangeSliderCtrl.to.currentRv}');
                 },
                 values: FilePickerCtrl.to.xWLs.isNotEmpty
                     ? RangeSliderCtrl.to.currentRv[4]

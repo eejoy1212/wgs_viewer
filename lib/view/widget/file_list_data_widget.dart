@@ -17,9 +17,6 @@ class CkbViewWidget extends StatelessWidget {
           onChanged: (val) {
             if (val != null) {
               oesFDModel.isChecked.value = val;
-              // FilePickerCtrl.to.ableApply.value = true;
-              debugPrint(
-                  '${oesFDModel.fileName} check : ${oesFDModel.isChecked.value}');
             }
           }),
     );

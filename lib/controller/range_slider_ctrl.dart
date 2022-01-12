@@ -99,7 +99,6 @@ class RangeSliderCtrl extends GetxController {
     ));
 
 //////
-    debugPrint('annotation : $ra');
     return ra;
   }
 

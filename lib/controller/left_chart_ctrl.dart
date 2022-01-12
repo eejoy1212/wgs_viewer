@@ -15,7 +15,7 @@ import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
-import 'package:wgs_viewer/ing/syncfusion_test.dart';
+import 'package:wgs_viewer/view/widget/left_chart_widget.dart';
 
 class ChartCtrl extends GetxController {
   static ChartCtrl get to => Get.find();
@@ -45,7 +45,6 @@ class ChartCtrl extends GetxController {
   Future<void> updateLeftData() async {
     if (FilePickerCtrl.to.oesFD.isNotEmpty) {
       //seriesCnt==5(파장 레인지 갯수)*10(파일갯수)
-      debugPrint('updateLeft언제실행??');
       forfields.clear();
       // for (int s = 0; s < FilePickerCtrl.to.selectedFileUrls.length; s++) {
       for (int s = 0; s < FilePickerCtrl.to.oesFD.length; s++) {
@@ -65,8 +64,6 @@ class ChartCtrl extends GetxController {
             .transform(utf8.decoder)
             .transform(CsvToListConverter(csvSettingsDetector: d))
             .toList();
-        debugPrint(
-            '$s번째의 차트데이터 뿌려짐?? : ${FilePickerCtrl.to.oesFD[s].fileData}');
         int headRowSize = FilePickerCtrl.to.oesFD[s].fileData
                 .indexWhere((element) => element.contains('Time')) +
             1;
@@ -99,10 +96,6 @@ class ChartCtrl extends GetxController {
 
               forfields[s][ii].add(
                   OESData(TimeSelectCtrl.to.timeIdxList[Idx.value], avg.value));
-
-              debugPrint('nnn forfields :  $forfields');
-              debugPrint(
-                  'isEmpty? ${TimeSelectCtrl.to.timeIdxList} // last : ${TimeSelectCtrl.to.timeIdxList.last}');
             }
           }
         }
@@ -145,7 +138,6 @@ class ChartCtrl extends GetxController {
                           (TimeSelectCtrl.to.timeIdxList.last / 1000) - 3) {
                     ChartCtrl.to.minX.value += 3;
                     ChartCtrl.to.maxX.value += 3;
-                    debugPrint('드래그 증가 min : $minX max: $maxX');
                   }
                 } else {
                   if (ChartCtrl.to.maxX.value > ChartCtrl.to.minX.value &&
@@ -157,7 +149,6 @@ class ChartCtrl extends GetxController {
                           TimeSelectCtrl.to.timeIdxList.last / 1000) {
                     ChartCtrl.to.minX.value -= 3;
                     ChartCtrl.to.maxX.value -= 3;
-                    debugPrint('드래그 감소 min : $minX max: $maxX');
                   }
                 }
               }
