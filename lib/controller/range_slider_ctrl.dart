@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/model/range_slider_model.dart';
@@ -53,7 +54,28 @@ class RangeSliderCtrl extends GetxController {
 //////
     return ra;
   }
+//   List<CartesianChartAnnotation> verticalRA() {
+//     List<CartesianChartAnnotation> ra = [];
+// //시간축을 x1 x2에 넣는거
+//     ra.add(CartesianChartAnnotation(
+//         x: TimeSelectCtrl.to.timeIdxList.isEmpty
+//             ? 0.0
+//             : TimeSelectCtrl
+//                 .to.timeIdxList[TimeSelectCtrl.to.firstTimeIdx.value],
+//         y: 10000,
+//         widget: Container(
+//           color: Colors.red,
+//         )));
+//     ra.add(CartesianChartAnnotation(
+//         x: TimeSelectCtrl.to.timeIdxList.isEmpty
+//             ? 0.0
+//             : TimeSelectCtrl
+//                 .to.timeIdxList[TimeSelectCtrl.to.secondTimeIdx.value],
+//         y: 10000));
 
+// //////
+//     return ra;
+//   }
   //레인지 슬라이더 위젯 여러개 만드는 것
 
   List<WGSRangeSlidersWidget> rsList() {

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:get/get.dart';
-import 'package:wgs_viewer/model/wavelength_chart_data_model.dart';
 
 class OESFileData {
   String fileName;
@@ -21,11 +20,15 @@ class OESFileData {
     //this.firstLine = const [],
     //this.xTime = const [],
     // this.xWL = const [],
-    this.avg = const [0.0, 0.0, 0.0, 0.0, 0.0],
+    required this.avg,
   });
 
   factory OESFileData.init() {
-    return OESFileData(fileName: '', filePath: '', isChecked: false.obs);
+    return OESFileData(
+        fileName: '',
+        filePath: '',
+        isChecked: false.obs,
+        avg: List.empty(growable: true));
   }
 
   OESFileData copyWith({
@@ -36,6 +39,7 @@ class OESFileData {
       filePath: filePath ?? this.filePath,
       isChecked: isChecked ?? this.isChecked,
       fileName: '',
+      avg: [],
     );
   }
 
@@ -53,6 +57,7 @@ class OESFileData {
       filePath: map['filePath'],
       isChecked: map['isChecked'] ?? false,
       fileName: '',
+      avg: List.filled(5, 0.0),
     );
   }
 

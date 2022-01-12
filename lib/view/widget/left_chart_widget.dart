@@ -20,23 +20,19 @@ class LeftChartWidget extends StatelessWidget {
     return rt;
   }
 
-//  List<LineSeries> lineChart() {
-//     List<LineSeries> rt = [];
-//     for (var i = 0; i < FilePickerCtrl.to.oesFD.length; i++) {
-//       for (var ii = 0; ii < FilePickerCtrl.to.oesFD[i].wlcd.length; ii++) {
-//         if (FilePickerCtrl.to.oesFD.isNotEmpty) {
-//           rt.add(lineSeries(FilePickerCtrl.to.oesFD[i].wlcd[ii].seriesData));
-//         }
-//       }
-//     }
-
-//     return rt;
-//   }
-
   @override
   Widget build(BuildContext context) {
     return Obx(() {
       return SfCartesianChart(
+        annotations: <CartesianChartAnnotation>[
+          CartesianChartAnnotation(
+            coordinateUnit: CoordinateUnit.point,
+            region: AnnotationRegion.plotArea,
+            x: 30.0,
+            y: 10000.0,
+            widget: Container(child: Text('aaaaa')),
+          )
+        ],
         zoomPanBehavior: ZoomPanBehavior(
             enableDoubleTapZooming: true,
             enableMouseWheelZooming: true,

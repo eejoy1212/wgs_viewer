@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:csv/csv_settings_autodetection.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
@@ -24,7 +22,7 @@ class ChartCtrl extends GetxController {
   RxBool enableApply = false.obs;
   RxDouble value = 0.0.obs;
   RxDouble sum = 0.0.obs;
-  RxDouble avg = 0.0.obs;
+  // RxDouble avg = 0.0.obs;
   RxInt Idx = 0.obs;
   //레인지 슬라이더 변수
   RxList xVal = RxList.empty();
@@ -58,6 +56,7 @@ class ChartCtrl extends GetxController {
             a < FilePickerCtrl.to.oesFD[s].fileData.length;
             a++) {
           Idx.value = a - headRowSize;
+          FilePickerCtrl.to.oesFD[s].avg.clear();
 
           for (var ii = 0; ii < 5; ii++) {
             forfields[s].add([]);
@@ -75,19 +74,25 @@ class ChartCtrl extends GetxController {
                 inc++;
               }
             }
-            avg.value = sum.value / inc;
-            if (TimeSelectCtrl.to.timeIdxList.length > Idx.value) {
-              // oesModel에 avg추가
-              // forfields[s][ii].add(
-              //     FlSpot(TimeSelectCtrl.to.timeIdxList[Idx.value], avg.value));
+            // avg.value = sum.value / inc;
+            // double avg = 0.0;
+            // avg += sum.value / inc;
+            FilePickerCtrl.to.oesFD[s].avg.add(sum.value / inc);
 
-              forfields[s][ii].add(
-                  WGSspot(TimeSelectCtrl.to.timeIdxList[Idx.value], avg.value));
+            if (TimeSelectCtrl.to.timeIdxList.length > Idx.value) {
+              forfields[s][ii].add(WGSspot(
+                  TimeSelectCtrl.to.timeIdxList[Idx.value],
+                  FilePickerCtrl.to.oesFD[s].avg[ii]));
             }
           }
         }
       }
     } else {}
     update();
+    for (var ii = 0; ii < FilePickerCtrl.to.oesFD.length; ii++) {
+      for (var iii = 0; iii < FilePickerCtrl.to.oesFD[ii].avg.length; iii++) {
+        debugPrint('apply ${FilePickerCtrl.to.oesFD[ii].avg[iii]}');
+      }
+    }
   }
 }

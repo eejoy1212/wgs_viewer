@@ -32,12 +32,9 @@ class RightChartCtrl extends GetxController {
 1. y축은 avg.value(값을 레인지로 평균낸 것) && 시간축 선택 &&
 2. x축은 파장 헤더 
 */
-
-    // if (TimeSelectCtrl.to.timeSelected.isTrue) {
-    //slectedTime은 선택한 시간의 인덱스가
     int slectedTimeIdx1 = TimeSelectCtrl.to.firstTimeIdx.value;
-
-    rightSeriesData[idx].clear();
+    //list.clear()보다 이게 더 좋음
+    rightSeriesData[idx] = List.empty(growable: true);
     for (var b = 1; b < 2049; b++) {
       final x = FileSelectDropDownCtrl.to.selected[idx].fileData[6][b];
       final y = FileSelectDropDownCtrl
@@ -45,56 +42,5 @@ class RightChartCtrl extends GetxController {
       rightSeriesData[idx].add(OESData(x, y));
       update();
     }
-    // }
   }
-
-  // zoomFunction({required Widget child}) {
-  //   return Listener(
-  //       onPointerSignal: (signal) {
-  //         if (signal is PointerScrollEvent) {
-  //           //확대
-  //           if (signal.scrollDelta.dy.isNegative) {
-  //             if (maxX.value - 6 > minX.value) {
-  //               minX.value += 3;
-  //               maxX.value -= 3;
-  //             }
-  //           }
-  //           //축소
-  //           else {
-  //             if (RightChartCtrl.to.minX.value >
-  //                 FilePickerCtrl.to.xTimes.first) {
-  //               RightChartCtrl.to.minX.value -= 3;
-  //               RightChartCtrl.to.maxX.value += 3;
-  //             }
-  //           }
-  //         }
-  //       },
-  //       child: GestureDetector(
-  //           onHorizontalDragUpdate: (dragUpdate) {
-  //             double primeDelta = dragUpdate.primaryDelta ?? 0.0;
-  //             if (primeDelta != 0) {
-  //               if (primeDelta.isNegative) {
-  //                 if (maxX.value > minX.value &&
-  //                     maxX.value <=
-  //                         (FilePickerCtrl.to.xTimes.last / 1000) - 3) {
-  //                   minX.value += 3;
-  //                   maxX.value += 3;
-  //                   print('드래그 증가 min : $minX max: $maxX');
-  //                 }
-  //               } else {
-  //                 if (maxX.value > minX.value &&
-  //                     minX > 0 &&
-  //                     minX < FilePickerCtrl.to.xTimes.last / 1000 &&
-  //                     maxX.value <= FilePickerCtrl.to.xTimes.last / 1000) {
-  //                   minX.value -= 3;
-  //                   maxX.value -= 3;
-  //                   print('드래그 감소 min : $minX max: $maxX');
-  //                 }
-  //               }
-  //             }
-  //             update();
-  //           },
-  //           child: child));
-  // }
-
 }

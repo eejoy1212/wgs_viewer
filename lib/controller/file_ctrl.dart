@@ -50,6 +50,7 @@ class FilePickerCtrl extends GetxController {
               fileName: _paths[i].name,
               filePath: _paths[i].path,
               isChecked: false.obs,
+              avg: [],
             ));
 //드롭박스에 추가되는 파일리스트
             dropdownFileName.add(_paths[i].name);
@@ -63,6 +64,7 @@ class FilePickerCtrl extends GetxController {
               fileName: _paths[i].name,
               filePath: _paths[i].path,
               isChecked: false.obs,
+              avg: [],
             ));
             //드롭박스에 추가되는 파일리스트
             dropdownFileName.add(_paths[i].name);

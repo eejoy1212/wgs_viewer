@@ -1,12 +1,15 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
+import 'package:wgs_viewer/controller/file_select_dropdown_ctrl.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/right_chart_ctrl.dart';
+import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/view/widget/right_chart_widget.dart';
 
 class RightChartPg extends StatelessWidget {
@@ -38,50 +41,6 @@ class RightChartPg extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Obx(() {
-                    return SizedBox(
-                        width: 30,
-                        child: IgnorePointer(
-                          ignoring: FilePickerCtrl.to.xTimes.isEmpty,
-                          child: FloatingActionButton(
-                              backgroundColor: FilePickerCtrl.to.xTimes.isEmpty
-                                  ? Colors.grey
-                                  : Colors.blue,
-                              onPressed: () {
-                                if (RightChartCtrl.to.maxX.value - 6 >
-                                    RightChartCtrl.to.minX.value) {
-                                  RightChartCtrl.to.minX.value += 3;
-                                  RightChartCtrl.to.maxX.value -= 3;
-                                }
-                              },
-                              child: const Text("+")),
-                        ));
-                  }),
-                  const SizedBox(width: 30),
-                  Obx(() {
-                    return SizedBox(
-                        width: 30,
-                        child: IgnorePointer(
-                          ignoring: FilePickerCtrl.to.xTimes.isEmpty,
-                          child: FloatingActionButton(
-                              backgroundColor: FilePickerCtrl.to.xTimes.isEmpty
-                                  ? Colors.grey
-                                  : Colors.blue,
-                              onPressed: () {
-                                if (RightChartCtrl.to.minX.value >
-                                    FilePickerCtrl.to.xTimes.first) {
-                                  RightChartCtrl.to.minX.value -= 3;
-                                  RightChartCtrl.to.maxX.value += 3;
-                                }
-                                if (RightChartCtrl.to.minX.value <
-                                    FilePickerCtrl.to.xTimes.first) {
-                                  RightChartCtrl.to.minX.value =
-                                      FilePickerCtrl.to.xTimes.first;
-                                }
-                              },
-                              child: const Text("-")),
-                        ));
-                  }),
                   const Spacer(),
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(primary: Colors.blueAccent),
@@ -108,30 +67,47 @@ class RightChartPg extends StatelessWidget {
 }
 
 void rightExportCSV(String name, [List<dynamic> data = const []]) async {
-  final List<List<double>> list = [];
-  int timeLen = 0;
-  int sidx = 0;
-  for (int i = 0; i < ChartCtrl.to.forfields.length; i++) {
-    final series = ChartCtrl.to.forfields[i];
-    if (series.isNotEmpty) {
-      final int len = series[0].length;
-      if (timeLen < len) {
-        timeLen = len;
-        sidx = i;
-      }
-    }
+  String? _path = '';
+  _path = await FilePicker.platform.saveFile(
+      type: FileType.custom,
+      fileName: '제목 없음.csv',
+      allowedExtensions: ['csv'],
+      dialogTitle: 'File select');
+  if (_path != '') {
+    print('_path $_path');
   }
 
-  final directory = await getApplicationDocumentsDirectory();
-  FilePickerCtrl.to.path.value = directory.path;
-  File file = File(
-      "${FilePickerCtrl.to.path.value}/${ChartCtrl.to.fileName.value}_$name.csv");
+  List header = [];
+
+  String firstData = RightChartCtrl.to.rightSeriesData[0]
+      .map((e) => e.yVal)
+      .join(',')
+      .toString();
+  String secondData = RightChartCtrl.to.rightSeriesData[1]
+      .map((e) => e.yVal)
+      .join(',')
+      .toString();
+  File file = File('$_path');
   List<dynamic> initData = ["FileFormat : 1", "Save Time : ", "Wavelength : "];
 
   String all = initData.join('\n') +
       '\n' +
-      "Time" +
+      "FileName/Time," +
+      FilePickerCtrl.to.xWLs.join(',') +
       '\n' +
-      list.map((line) => line.join(",")).join('\n');
+      FileSelectDropDownCtrl.to.selected[0].fileName +
+      ' / ' +
+      TimeSelectCtrl.to.timeIdxList[TimeSelectCtrl.to.firstTimeIdx.value]
+          .toString() +
+      ',' +
+      firstData +
+      '\n' +
+      FileSelectDropDownCtrl.to.selected[1].fileName +
+      ' / ' +
+      TimeSelectCtrl.to.timeIdxList[TimeSelectCtrl.to.secondTimeIdx.value]
+          .toString() +
+      ',' +
+      secondData +
+      '\n';
   file.writeAsString(all);
 }
