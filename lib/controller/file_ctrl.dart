@@ -3,10 +3,9 @@ import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:csv/csv_settings_autodetection.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
-import 'package:wgs_viewer/model/checkbox_model.dart';
 import 'package:wgs_viewer/model/oes_file_data_model.dart';
 
 class FilePickerCtrl extends GetxController {
@@ -18,6 +17,7 @@ class FilePickerCtrl extends GetxController {
   List<List<dynamic>> fileData = RxList.empty(growable: true);
   //oesModel 선언
   RxList<OESFileData> oesFD = RxList.empty();
+
   Rx<bool> ableApply = false.obs;
   Rx<bool> allChecked = false.obs;
   RxList<dynamic> dropdownFileName = RxList.empty();
@@ -47,9 +47,10 @@ class FilePickerCtrl extends GetxController {
           for (int i = 0; i < _paths.length; i++) {
             //체크박스에 추가되는 파일리스트
             oesFD.add(OESFileData(
-                fileName: _paths[i].name,
-                filePath: _paths[i].path,
-                isChecked: false.obs));
+              fileName: _paths[i].name,
+              filePath: _paths[i].path,
+              isChecked: false.obs,
+            ));
 //드롭박스에 추가되는 파일리스트
             dropdownFileName.add(_paths[i].name);
           }
@@ -59,9 +60,10 @@ class FilePickerCtrl extends GetxController {
           for (int i = 0; i < _paths.length; i++) {
             //체크박스에 추가되는 리스트
             oesFD.add(OESFileData(
-                fileName: _paths[i].name,
-                filePath: _paths[i].path,
-                isChecked: false.obs));
+              fileName: _paths[i].name,
+              filePath: _paths[i].path,
+              isChecked: false.obs,
+            ));
             //드롭박스에 추가되는 파일리스트
             dropdownFileName.add(_paths[i].name);
           }
@@ -82,6 +84,8 @@ class FilePickerCtrl extends GetxController {
           //int timeRowSize = 7;
           FilePickerCtrl.to.xWLs.assignAll(
               fileData[timeRowSize].sublist(1, fileData[timeRowSize].length));
+// RangeSliderCtrl.to.rsWGS.map((element) => element.rv.assign)
+
           String toConvert = '2022-01-01 ' + fileData[timeRowSize + 1][0];
           final DateTime firstTime = DateTime.parse(toConvert);
           for (var i = timeRowSize + 1; i < fileData.length; i++) {
@@ -90,6 +94,7 @@ class FilePickerCtrl extends GetxController {
             final DateTime dateTime = DateTime.parse(toConvert);
             FilePickerCtrl.to.xTimes.addIf(
                 FilePickerCtrl.to.xWLs.isNotEmpty,
+                // RangeSliderCtrl.to.rsWGS.isNotEmpty,
                 (DateTime(
                             dateTime.year,
                             dateTime.month,

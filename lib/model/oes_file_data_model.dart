@@ -1,11 +1,12 @@
 import 'dart:convert';
-
 import 'package:get/get.dart';
+import 'package:wgs_viewer/model/wavelength_chart_data_model.dart';
 
 class OESFileData {
   String fileName;
   String? filePath;
   Rx<bool> isChecked;
+  // List<WaveLengthChartData> wlcd;
   List<List<dynamic>> fileData;
   //List<dynamic> firstLine;//time
   //List<dynamic> xTime; //time
@@ -15,6 +16,7 @@ class OESFileData {
     required this.fileName,
     required this.filePath,
     required this.isChecked,
+    // this.wlcd = const [],
     this.fileData = const [],
     //this.firstLine = const [],
     //this.xTime = const [],

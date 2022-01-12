@@ -7,7 +7,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/right_chart_ctrl.dart';
-import 'package:wgs_viewer/ing/right_syncfusion_test.dart';
 import 'package:wgs_viewer/view/widget/right_chart_widget.dart';
 
 class RightChartPg extends StatelessWidget {
@@ -31,10 +30,9 @@ class RightChartPg extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
-                flex: 10,
-                child:
-                    // RightChartWidget(),
-                    RightSyncfusionTest()),
+              flex: 10,
+              child: RightChartWidget(),
+            ),
             Expanded(
               flex: 1,
               child: Row(

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -21,7 +19,6 @@ import 'package:wgs_viewer/view/widget/apply_btn_widget.dart';
 import 'package:wgs_viewer/view/widget/file_list_data_widget.dart';
 import 'package:wgs_viewer/view/widget/file_select_btn_widget.dart';
 import 'package:wgs_viewer/view/page/right_chart_pg.dart';
-import 'package:wgs_viewer/view/widget/range_slider_widget.dart';
 import 'package:wgs_viewer/view/widget/time_select_widget.dart';
 import 'package:wgs_viewer/view/page/left_chart_pg.dart';
 import 'package:wgs_viewer/view/widget/window_btns_widget.dart';
@@ -225,9 +222,7 @@ class _MyAppState extends State<MyApp> {
               Container(
                 color: Colors.blueGrey[300],
                 child: Column(
-                  children: [
-                    RangeSliders(),
-                  ],
+                  children: RangeSliderCtrl.to.rsList(),
                 ),
               ),
               ResizableWidget(
