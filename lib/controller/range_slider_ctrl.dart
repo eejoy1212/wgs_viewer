@@ -26,56 +26,67 @@ class RangeSliderCtrl extends GetxController {
     }
   }
 
-  List<VerticalRangeAnnotation> verticalRA() {
-    List<VerticalRangeAnnotation> ra = [];
+//   List<VerticalRangeAnnotation> verticalRA() {
+//     List<VerticalRangeAnnotation> ra = [];
+// //시간축을 x1 x2에 넣는거
+//     ra.add(VerticalRangeAnnotation(
+//       x1: TimeSelectCtrl.to.timeIdxList.isEmpty
+//           ? 0.0
+//           : TimeSelectCtrl.to.timeIdxList[TimeSelectCtrl.to.firstTimeIdx.value],
+//       x2: TimeSelectCtrl.to.timeIdxList.isEmpty
+//           ? 0.0
+//           : TimeSelectCtrl
+//                   .to.timeIdxList[TimeSelectCtrl.to.firstTimeIdx.value] +
+//               (TimeSelectCtrl.to.timeIdxList.last / 1000),
+//       color: Colors.lightBlue,
+//     ));
+//     ra.add(VerticalRangeAnnotation(
+//       x1: ChartCtrl.to.xVal.isNotEmpty
+//           ? ChartCtrl.to.xVal[TimeSelectCtrl.to.secondTimeIdx.value]
+//           : 0.0,
+//       x2: ChartCtrl.to.xVal.isNotEmpty
+//           ? ChartCtrl.to.xVal[TimeSelectCtrl.to.secondTimeIdx.value] +
+//               (ChartCtrl.to.xVal.last / 1000)
+//           : 0.0,
+//       color: Colors.deepOrange,
+//     ));
+
+// ////
+//     return ra;
+//   }
+
+  List<PlotBand>? verticalPB() {
+    List<PlotBand>? pb = [];
 //시간축을 x1 x2에 넣는거
-    ra.add(VerticalRangeAnnotation(
-      x1: TimeSelectCtrl.to.timeIdxList.isEmpty
+    pb.add(PlotBand(
+      shouldRenderAboveSeries: false,
+      start: TimeSelectCtrl.to.timeIdxList.isEmpty
           ? 0.0
           : TimeSelectCtrl.to.timeIdxList[TimeSelectCtrl.to.firstTimeIdx.value],
-      x2: TimeSelectCtrl.to.timeIdxList.isEmpty
+      end: TimeSelectCtrl.to.timeIdxList.isEmpty
           ? 0.0
           : TimeSelectCtrl
                   .to.timeIdxList[TimeSelectCtrl.to.firstTimeIdx.value] +
               (TimeSelectCtrl.to.timeIdxList.last / 1000),
       color: Colors.lightBlue,
     ));
-    ra.add(VerticalRangeAnnotation(
-      x1: ChartCtrl.to.xVal.isNotEmpty
-          ? ChartCtrl.to.xVal[TimeSelectCtrl.to.secondTimeIdx.value]
-          : 0.0,
-      x2: ChartCtrl.to.xVal.isNotEmpty
-          ? ChartCtrl.to.xVal[TimeSelectCtrl.to.secondTimeIdx.value] +
-              (ChartCtrl.to.xVal.last / 1000)
-          : 0.0,
+    pb.add(PlotBand(
+      shouldRenderAboveSeries: false,
+      start: TimeSelectCtrl.to.timeIdxList.isEmpty
+          ? 0.0
+          : TimeSelectCtrl
+              .to.timeIdxList[TimeSelectCtrl.to.secondTimeIdx.value],
+      end: TimeSelectCtrl.to.timeIdxList.isEmpty
+          ? 0.0
+          : TimeSelectCtrl
+                  .to.timeIdxList[TimeSelectCtrl.to.secondTimeIdx.value] +
+              (TimeSelectCtrl.to.timeIdxList.last / 1000),
       color: Colors.deepOrange,
     ));
-
-//////
-    return ra;
+//
+////
+    return pb;
   }
-//   List<CartesianChartAnnotation> verticalRA() {
-//     List<CartesianChartAnnotation> ra = [];
-// //시간축을 x1 x2에 넣는거
-//     ra.add(CartesianChartAnnotation(
-//         x: TimeSelectCtrl.to.timeIdxList.isEmpty
-//             ? 0.0
-//             : TimeSelectCtrl
-//                 .to.timeIdxList[TimeSelectCtrl.to.firstTimeIdx.value],
-//         y: 10000,
-//         widget: Container(
-//           color: Colors.red,
-//         )));
-//     ra.add(CartesianChartAnnotation(
-//         x: TimeSelectCtrl.to.timeIdxList.isEmpty
-//             ? 0.0
-//             : TimeSelectCtrl
-//                 .to.timeIdxList[TimeSelectCtrl.to.secondTimeIdx.value],
-//         y: 10000));
-
-// //////
-//     return ra;
-//   }
   //레인지 슬라이더 위젯 여러개 만드는 것
 
   List<WGSRangeSlidersWidget> rsList() {

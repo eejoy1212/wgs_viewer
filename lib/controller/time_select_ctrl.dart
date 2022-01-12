@@ -9,6 +9,12 @@ class TimeSelectCtrl extends GetxController {
   RxList timeIdxList = RxList.empty();
   RxBool ableTimeSelect = false.obs;
 
+  void init() {
+    for (var i = 0; i < timeIdxList.length; i++) {
+      timeIdxList.add([]);
+    }
+  }
+
   //조절해야될거는 시간축(firstLine으로 일단넣어놓기)
   void firstIncrease() {
     //첫번째 파일 시간 인덱스 기준

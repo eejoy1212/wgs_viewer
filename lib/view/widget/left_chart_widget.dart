@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
+import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
+import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 
 class LeftChartWidget extends StatelessWidget {
   LeftChartWidget({Key? key}) : super(key: key);
@@ -24,15 +26,39 @@ class LeftChartWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       return SfCartesianChart(
-        annotations: <CartesianChartAnnotation>[
-          CartesianChartAnnotation(
-            coordinateUnit: CoordinateUnit.point,
-            region: AnnotationRegion.plotArea,
-            x: 30.0,
-            y: 10000.0,
-            widget: Container(child: Text('aaaaa')),
-          )
-        ],
+        // annotations: RangeSliderCtrl.to.verticalRA(),
+        // trackballBehavior: TrackballBehavior(
+        //   // lineWidth: 5,
+        //   activationMode: ActivationMode.singleTap,
+        //   // Enables the trackball
+        //   enable: true,
+        //   markerSettings: TrackballMarkerSettings(
+        //       markerVisibility: TrackballVisibilityMode.visible),
+        // ),
+        primaryXAxis: NumericAxis(
+          plotBands: RangeSliderCtrl.to.verticalPB(),
+        ),
+        // <CartesianChartAnnotation>[
+        //   // first annotation
+        //   CartesianChartAnnotation(
+        //     widget: Container(
+        //       child: const Text(
+        //         'Here',
+        //       ),
+
+        //       // Container(
+        //       // color: Colors.red,
+        //       // width: 200,
+        //       // ),
+        //     ),
+        //     coordinateUnit: CoordinateUnit.point,
+        //     x: TimeSelectCtrl.to.timeIdxList.isEmpty
+        //         ? 0.0
+        //         : TimeSelectCtrl
+        //             .to.timeIdxList[TimeSelectCtrl.to.firstTimeIdx.value],
+        //     // y: 6,
+        //   ),
+        // ],
         zoomPanBehavior: ZoomPanBehavior(
             enableDoubleTapZooming: true,
             enableMouseWheelZooming: true,
@@ -45,7 +71,7 @@ class LeftChartWidget extends StatelessWidget {
             selectionRectColor: Colors.grey
             //사각형으로 영역선택하는 것
             ),
-        primaryXAxis: CategoryAxis(),
+        // primaryXAxis: CategoryAxis(),
         // Chart title
         title: ChartTitle(text: 'left chart'),
         // Enable legend

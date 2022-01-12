@@ -38,6 +38,7 @@ void main() {
   RangeSliderCtrl.to.init();
   ChartCtrl.to.init();
   RightChartCtrl.to.init();
+  TimeSelectCtrl.to.init();
   runApp(
     MyApp(),
   );
