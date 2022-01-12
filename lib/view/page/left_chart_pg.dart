@@ -8,6 +8,7 @@ import 'package:wgs_viewer/controller/check_box_ctrl.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
+import 'package:wgs_viewer/ing/syncfusion_test.dart';
 import 'package:wgs_viewer/view/widget/left_chart_widget.dart';
 
 class LeftChartPg extends StatelessWidget {
@@ -32,7 +33,13 @@ class LeftChartPg extends StatelessWidget {
             children: [
               Expanded(
                 flex: 10,
-                child: LeftChartWidget(),
+
+                child:
+
+                    // Text('dsd')
+                    SyncfusionChartWidget(),
+
+                // LeftChartWidget(),
               ),
               Expanded(
                 flex: 1,
@@ -157,15 +164,15 @@ class LeftChartPg extends StatelessWidget {
       fileData.add([]);
       fileData[i].add(TimeSelectCtrl.to.timeIdxList[i]);
       int idx = 0;
-      for (var ii = 0; ii < ChartCtrl.to.forfields.length; ii++) {
-        // if (CheckboxCtrl.to.ckb[i].isChecked.value == false) continue;
-        // if (FilePickerCtrl.to.oesFD[i].isChecked.value == false) continue;
-        for (var iii = 0; iii < ChartCtrl.to.forfields[ii].length; iii++) {
-          if (ChartCtrl.to.forfields[idx][iii].isNotEmpty)
-            fileData[i].add(ChartCtrl.to.forfields[idx][iii][i].y);
-        }
-        idx++;
-      }
+      // for (var ii = 0; ii < ChartCtrl.to.forfields.length; ii++) {
+      //   // if (CheckboxCtrl.to.ckb[i].isChecked.value == false) continue;
+      //   // if (FilePickerCtrl.to.oesFD[i].isChecked.value == false) continue;
+      //   for (var iii = 0; iii < ChartCtrl.to.forfields[ii].length; iii++) {
+      //     if (ChartCtrl.to.forfields[idx][iii].isNotEmpty)
+      //       fileData[i].add(ChartCtrl.to.forfields[idx][iii][i].y);
+      //   }
+      //   idx++;
+      // }
     }
     debugPrint('fileData $fileData');
     //시간별로 돌아
@@ -187,14 +194,14 @@ class LeftChartPg extends StatelessWidget {
       }
     }
 
-    for (var t = 0; t < timeLen; t++) {
-      list.add([ChartCtrl.to.forfields[sidx][0][t].x]);
-      for (var i = 0; i < ChartCtrl.to.forfields.length; i++) {
-        if (ChartCtrl.to.forfields[i].isNotEmpty) {
-          list[t].add(ChartCtrl.to.forfields[i][0][t].y);
-        }
-      }
-    }
+    // for (var t = 0; t < timeLen; t++) {
+    //   list.add([ChartCtrl.to.forfields[sidx][0][t].x]);
+    //   for (var i = 0; i < ChartCtrl.to.forfields.length; i++) {
+    //     if (ChartCtrl.to.forfields[i].isNotEmpty) {
+    //       list[t].add(ChartCtrl.to.forfields[i][0][t].y);
+    //     }
+    //   }
+    // }
 
     debugPrint("EXPORT LIST" + list.toString());
     File file = File("$_path");

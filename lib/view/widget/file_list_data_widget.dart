@@ -41,10 +41,10 @@ class FileListData extends StatelessWidget {
                       SizedBox(
                         height: constraints.maxHeight * 0.9,
                         width: constraints.maxWidth * 0.9,
-                        child: Obx(() => Scrollbar(
-                            isAlwaysShown: true,
-                            child: ListView.separated(
+                        child: Obx(() => ListView.separated(
                               // reverse: true,
+                              controller: scrollCtrl,
+                              shrinkWrap: true,
                               itemCount: FilePickerCtrl.to.oesFD.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return CkbViewWidget(
@@ -53,7 +53,7 @@ class FileListData extends StatelessWidget {
                               separatorBuilder:
                                   (BuildContext context, int index) =>
                                       Divider(height: 1),
-                            ))),
+                            )),
                       ),
                     ],
                   ),

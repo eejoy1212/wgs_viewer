@@ -12,12 +12,10 @@ import 'package:intl/intl.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:wgs_viewer/controller/check_box_ctrl.dart';
-
 import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
-import 'package:wgs_viewer/view/widget/range_slider_widget.dart';
+import 'package:wgs_viewer/ing/syncfusion_test.dart';
 
 class ChartCtrl extends GetxController {
   static ChartCtrl get to => Get.find();
@@ -27,7 +25,9 @@ class ChartCtrl extends GetxController {
   */
   RxInt visibleMode = 2.obs;
   RxBool leftDataMode = false.obs;
-  RxList<RxList<List<FlSpot>>> forfields = RxList.empty();
+  // RxList<RxList<List<FlSpot>>> forfields = RxList.empty();
+  RxList<RxList<List<OESData>>> forfields = RxList.empty();
+
   RxBool enableApply = false.obs;
   RxDouble value = 0.0.obs;
   RxDouble sum = 0.0.obs;
@@ -93,9 +93,13 @@ class ChartCtrl extends GetxController {
             }
             avg.value = sum.value / inc;
             if (TimeSelectCtrl.to.timeIdxList.length > Idx.value) {
-              //oesModel에 avg추가
+              // oesModel에 avg추가
+              // forfields[s][ii].add(
+              //     FlSpot(TimeSelectCtrl.to.timeIdxList[Idx.value], avg.value));
+
               forfields[s][ii].add(
-                  FlSpot(TimeSelectCtrl.to.timeIdxList[Idx.value], avg.value));
+                  OESData(TimeSelectCtrl.to.timeIdxList[Idx.value], avg.value));
+
               debugPrint('nnn forfields :  $forfields');
               debugPrint(
                   'isEmpty? ${TimeSelectCtrl.to.timeIdxList} // last : ${TimeSelectCtrl.to.timeIdxList.last}');

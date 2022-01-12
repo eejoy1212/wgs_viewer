@@ -12,23 +12,23 @@ class LeftChartWidget extends StatelessWidget {
   int seriesIdx = 0;
   List xAxis = [];
 
-  List<LineChartBarData> lineChartBarDatas() {
-    List<LineChartBarData> rt = [];
-    for (var i = 0; i < ChartCtrl.to.forfields.length; i++) {
-      for (var ii = 0; ii < ChartCtrl.to.forfields[i].length; ii++) {
-        if (ChartCtrl.to.forfields[i][ii].isNotEmpty) {
-          rt.add(
-            lineChartBarData(
-                ChartCtrl.to.forfields[i][ii],
-                // Colors.green,
-                Colors.cyan[700]),
-          );
-        }
-      }
-    }
+  // List<LineChartBarData> lineChartBarDatas() {
+  //   List<LineChartBarData> rt = [];
+  //   for (var i = 0; i < ChartCtrl.to.forfields.length; i++) {
+  //     for (var ii = 0; ii < ChartCtrl.to.forfields[i].length; ii++) {
+  //       if (ChartCtrl.to.forfields[i][ii].isNotEmpty) {
+  //         rt.add(
+  //           lineChartBarData(
+  //               ChartCtrl.to.forfields[i][ii],
+  //               // Colors.green,
+  //               Colors.cyan[700]),
+  //         );
+  //       }
+  //     }
+  //   }
 
-    return rt;
-  }
+  //   return rt;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,13 @@ class LeftChartWidget extends StatelessWidget {
                             verticalRangeAnnotations:
                                 RangeSliderCtrl.to.verticalRA()),
                         ctrl: ctrl,
-                        lineBarsData: lineChartBarDatas(),
+                        lineBarsData: [
+                          lineChartBarData(
+                              [const FlSpot(0, 0)], Colors.transparent)
+                        ]
+
+                        // lineChartBarDatas(),
+                        ,
                         leftTitles: SideTitles(
                           showTitles: false,
                           getTextStyles: (bctx, dbl) => const TextStyle(

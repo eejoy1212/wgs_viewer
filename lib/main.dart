@@ -17,7 +17,6 @@ import 'package:wgs_viewer/controller/right_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/controller/translator_ctrl.dart';
 import 'package:wgs_viewer/mode.dart';
-import 'package:wgs_viewer/model/oes_file_data_model.dart';
 import 'package:wgs_viewer/view/widget/apply_btn_widget.dart';
 import 'package:wgs_viewer/view/widget/file_list_data_widget.dart';
 import 'package:wgs_viewer/view/widget/file_select_btn_widget.dart';
@@ -312,18 +311,6 @@ class _MyAppState extends State<MyApp> {
                                                     primary: const Color(
                                                         0xffD83737)),
                                                 onPressed: () {
-                                                  // 파일 셀렉트 한 것만 삭제하는 기능
-                                                  // CheckboxCtrl.to.ckb.removeAt(
-                                                  // CheckboxCtrl.to.ckb
-                                                  // .indexWhere(
-                                                  // (element) =>
-                                                  // element
-                                                  // .isChecked
-                                                  // .isTrue));
-                                                  // CheckboxCtrl.to.ckb
-                                                  //     .removeWhere((element) =>
-                                                  //         element.isChecked
-                                                  //             .isTrue);
                                                   FilePickerCtrl.to.oesFD
                                                       .removeWhere((e) =>
                                                           e.isChecked.isTrue);

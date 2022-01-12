@@ -122,15 +122,15 @@ void rightExportCSV(String name, [List<dynamic> data = const []]) async {
       }
     }
   }
-  for (var t = 0; t < timeLen; t++) {
-    list.add([ChartCtrl.to.forfields[sidx][0][t].x]); // 시간 삽입
-    // 시리즈별 접근
-    for (var i = 0; i < ChartCtrl.to.forfields.length; i++) {
-      if (ChartCtrl.to.forfields[i].isNotEmpty) {
-        list[t].add(ChartCtrl.to.forfields[i][0][t].y);
-      }
-    }
-  }
+  // for (var t = 0; t < timeLen; t++) {
+  //   list.add([ChartCtrl.to.forfields[sidx][0][t].x]); // 시간 삽입
+  //   // 시리즈별 접근
+  //   for (var i = 0; i < ChartCtrl.to.forfields.length; i++) {
+  //     if (ChartCtrl.to.forfields[i].isNotEmpty) {
+  //       list[t].add(ChartCtrl.to.forfields[i][0][t].y);
+  //     }
+  //   }
+  // }
 
   debugPrint(">>>>>>>>>>>>>>>>>>> test: " + list.toString());
 
