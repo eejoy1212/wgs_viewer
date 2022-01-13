@@ -47,7 +47,7 @@ class TimeSelectTxtForm extends StatelessWidget {
                             ),
                           ),
                         );
-                      }),
+                      }), 
                       GetBuilder<TimeSelectCtrl>(builder: (controller) {
                         if (controller.timeIdxList.isEmpty) {
                           return Text('-');

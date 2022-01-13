@@ -14,51 +14,40 @@ class LeftChartPg extends StatelessWidget {
   bool start = false;
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        //left Chat 클릭 하면, left Chart만 보이게 하기.
-        Get.find<ChartCtrl>().visibleMode.value = 0;
-      },
-      onDoubleTap: () {
-        //left Chat 더블 클릭 하면, 양쪽 차트 다 보이게 하기.
-        Get.find<ChartCtrl>().visibleMode.value = 2;
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(6.0),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                flex: 10,
-                child: LeftChartWidget(),
-              ),
-              Expanded(
-                flex: 1,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Spacer(),
-                    ElevatedButton.icon(
-                      style:
-                          ElevatedButton.styleFrom(primary: Colors.blueAccent),
-                      onPressed: () {
-                        DateTime current = DateTime.now();
-                        ChartCtrl.to.fileName.value =
-                            DateFormat('yyyyMMdd_HHmmss').format(current);
-                        exportCSV("TimeBased");
-                      },
-                      icon: const Icon(
-                        Icons.file_copy_outlined,
-                        size: 20,
-                      ),
-                      label: const Text('Export'),
+    return Padding(
+      padding: const EdgeInsets.all(6.0),
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              flex: 10,
+              child: LeftChartWidget(),
+            ),
+            Expanded(
+              flex: 1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Spacer(),
+                  ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(primary: Colors.blueAccent),
+                    onPressed: () {
+                      DateTime current = DateTime.now();
+                      ChartCtrl.to.fileName.value =
+                          DateFormat('yyyyMMdd_HHmmss').format(current);
+                      exportCSV("TimeBased");
+                    },
+                    icon: const Icon(
+                      Icons.file_copy_outlined,
+                      size: 20,
                     ),
-                  ],
-                ),
+                    label: const Text('Export'),
+                  ),
+                ],
               ),
-            ]),
-      ),
+            ),
+          ]),
     );
   }
 

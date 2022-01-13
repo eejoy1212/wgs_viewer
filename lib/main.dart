@@ -173,12 +173,6 @@ class _MyAppState extends State<MyApp> {
                           child: Text('Translator'),
                         ),
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          print('시간인덱스?? : ${TimeSelectCtrl.to.timeIdxList}');
-                        },
-                        child: Text('add test'),
-                      ),
 
                       // Obx(() {
                       // return Text('${TranslatorCtrl.to.korToEn()}');
@@ -369,15 +363,18 @@ class _MyAppState extends State<MyApp> {
                                         () => Text(
                                             'File num : ${FilePickerCtrl.to.oesFD.length}'),
                                       ),
-                                      Obx(() => Checkbox(
-                                          value: FilePickerCtrl
-                                              .to.allChecked.value,
-                                          onChanged: (all) {
-                                            if (all != null) {
-                                              FilePickerCtrl
-                                                  .to.allChecked.value = all;
-                                            }
-                                          })),
+                                      Visibility(
+                                        visible: false,
+                                        child: Obx(() => Checkbox(
+                                            value: FilePickerCtrl
+                                                .to.allChecked.value,
+                                            onChanged: (all) {
+                                              if (all != null) {
+                                                FilePickerCtrl
+                                                    .to.allChecked.value = all;
+                                              }
+                                            })),
+                                      ),
                                       const SizedBox(
                                         width: 20,
                                       ),

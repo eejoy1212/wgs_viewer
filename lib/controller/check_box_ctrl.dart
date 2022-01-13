@@ -12,5 +12,5 @@ class CheckboxCtrl extends GetxController {
   RxInt removeIdx = 0.obs;
   RxBool deleteSignal = false.obs;
   ////Checkbox model 선언
-  RxList<CheckBoxModel> ckb = RxList.empty();
+  // RxList<CheckBoxModel> ckb = RxList.empty();
 }
