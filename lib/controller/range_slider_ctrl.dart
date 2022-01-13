@@ -62,10 +62,16 @@ class RangeSliderCtrl extends GetxController {
     pb.add(PlotBand(
       isRepeatable: true,
       shouldRenderAboveSeries: false,
-      start: TimeSelectCtrl.to.timeIdxList.isEmpty
+      start: TimeSelectCtrl.to.timeIdxList.isEmpty ||
+              TimeSelectCtrl.to.firstTimeIdx.value >
+                  TimeSelectCtrl.to.timeIdxList.length - 1 ||
+              TimeSelectCtrl.to.firstTimeIdx.value < 0
           ? 0.0
           : TimeSelectCtrl.to.timeIdxList[TimeSelectCtrl.to.firstTimeIdx.value],
-      end: TimeSelectCtrl.to.timeIdxList.isEmpty
+      end: TimeSelectCtrl.to.timeIdxList.isEmpty ||
+              TimeSelectCtrl.to.firstTimeIdx.value >
+                  TimeSelectCtrl.to.timeIdxList.length - 1 ||
+              TimeSelectCtrl.to.firstTimeIdx.value < 0
           ? 0.0
           : TimeSelectCtrl
                   .to.timeIdxList[TimeSelectCtrl.to.firstTimeIdx.value] +
@@ -74,11 +80,17 @@ class RangeSliderCtrl extends GetxController {
     ));
     pb.add(PlotBand(
       shouldRenderAboveSeries: false,
-      start: TimeSelectCtrl.to.timeIdxList.isEmpty
+      start: TimeSelectCtrl.to.timeIdxList.isEmpty ||
+              TimeSelectCtrl.to.secondTimeIdx.value >
+                  TimeSelectCtrl.to.timeIdxList.length - 1 ||
+              TimeSelectCtrl.to.secondTimeIdx.value < 0
           ? 0.0
           : TimeSelectCtrl
               .to.timeIdxList[TimeSelectCtrl.to.secondTimeIdx.value],
-      end: TimeSelectCtrl.to.timeIdxList.isEmpty
+      end: TimeSelectCtrl.to.timeIdxList.isEmpty ||
+              TimeSelectCtrl.to.secondTimeIdx.value >
+                  TimeSelectCtrl.to.timeIdxList.length - 1 ||
+              TimeSelectCtrl.to.secondTimeIdx.value < 0
           ? 0.0
           : TimeSelectCtrl
                   .to.timeIdxList[TimeSelectCtrl.to.secondTimeIdx.value] +
