@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/model/range_slider_model.dart';
@@ -18,7 +19,7 @@ class RangeSliderCtrl extends GetxController {
       // RangeSliderCtrl.to.vStart.add(0.0);
       // RangeSliderCtrl.to.vEnd.add(0.0);
       rsWGS.add(WGSrangeSlider(
-        rv: const RangeValues(0, 0).obs,
+        rv: const SfRangeValues(0, 0).obs,
         wls: [],
         vStart: 0.0.obs,
         vEnd: 0.0.obs,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
+import 'package:wgs_viewer/controller/file_select_dropdown_ctrl.dart';
 import 'package:wgs_viewer/controller/right_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 
@@ -11,10 +12,14 @@ class RightApplyBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       return IgnorePointer(
-          ignoring: FilePickerCtrl.to.oesFD.isEmpty,
+          ignoring: FilePickerCtrl.to.oesFD.isEmpty ||
+              FileSelectDropDownCtrl.to.applySignal0.isFalse,
+          // FileSelectDropDownCtrl.to.selected[idx].fileName == '',
           child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: FilePickerCtrl.to.oesFD.isEmpty
+                primary: FilePickerCtrl.to.oesFD.isEmpty ||
+                        FileSelectDropDownCtrl.to.applySignal0.isFalse
+                    // FileSelectDropDownCtrl.to.selected[idx].fileName == ''
                     ? Colors.grey
                     : Color(0xff5AEDCA),
               ),

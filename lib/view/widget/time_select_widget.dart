@@ -2,6 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
+import 'package:wgs_viewer/controller/file_select_dropdown_ctrl.dart';
 import 'package:wgs_viewer/controller/right_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/file_select_dropdown_widget.dart';
@@ -47,7 +48,7 @@ class TimeSelectTxtForm extends StatelessWidget {
                             ),
                           ),
                         );
-                      }), 
+                      }),
                       GetBuilder<TimeSelectCtrl>(builder: (controller) {
                         if (controller.timeIdxList.isEmpty) {
                           return Text('-');
@@ -179,10 +180,14 @@ class TimeSelectTxtForm extends StatelessWidget {
                         children: [
                           Obx(() {
                             return IgnorePointer(
-                              ignoring: FilePickerCtrl.to.oesFD.isEmpty,
+                              ignoring: FilePickerCtrl.to.oesFD.isEmpty ||
+                                  FileSelectDropDownCtrl
+                                      .to.applySignal1.isFalse,
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  primary: FilePickerCtrl.to.oesFD.isEmpty
+                                  primary: FilePickerCtrl.to.oesFD.isEmpty ||
+                                          FileSelectDropDownCtrl
+                                              .to.applySignal1.isFalse
                                       ? Colors.grey
                                       : Color(0xff5AEDCA),
                                 ),

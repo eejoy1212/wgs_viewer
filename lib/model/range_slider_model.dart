@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 class WGSrangeSlider {
-  Rx<RangeValues> rv;
+  Rx<SfRangeValues> rv;
   List<dynamic> wls;
   RxDouble vStart;
   RxDouble vEnd;
@@ -15,7 +18,7 @@ class WGSrangeSlider {
   });
 
   WGSrangeSlider copyWith({
-    Rx<RangeValues>? rv,
+    Rx<SfRangeValues>? rv,
     List<dynamic>? wls,
     RxDouble? vStart,
     RxDouble? vEnd,

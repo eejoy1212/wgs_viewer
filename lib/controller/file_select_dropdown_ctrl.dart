@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:csv/csv_settings_autodetection.dart';
 import 'package:flutter/cupertino.dart';
+
 import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/model/oes_file_data_model.dart';
@@ -20,6 +21,8 @@ class FileSelectDropDownCtrl extends GetxController {
   List<List<dynamic>> firstFields = RxList.empty();
   List<List<dynamic>> secondFields = RxList.empty();
   List<OESFileData> selected = List.filled(2, OESFileData.init());
+  RxBool applySignal0 = false.obs;
+  RxBool applySignal1 = false.obs;
   RxInt idx = 0.obs;
 
 //파일 열렸고, 내용을 firstFields 담아 차트로 보내기
@@ -34,6 +37,7 @@ class FileSelectDropDownCtrl extends GetxController {
     firstList
         .forEach((el) => FilePickerCtrl.to.dropdownFileName.add(el?.filePath));
     final firstInput = File(FilePickerCtrl.to.dropdownFileName[0]!).openRead();
+    debugPrint('apply버튼 풀리는 시점??');
     var d = const FirstOccurrenceSettingsDetector(
         eols: ['\r\n', '\n'], textDelimiters: ['"', "'"]);
 //파일말고 파일 내용이 담긴 리스트(행,열로 떼어 옴.)

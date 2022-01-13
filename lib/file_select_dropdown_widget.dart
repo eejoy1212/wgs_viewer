@@ -17,7 +17,6 @@ class FileSelectDropDown extends StatelessWidget {
         rt.add(FilePickerCtrl.to.oesFD[i]);
       }
     }
-
     return rt;
   }
 
@@ -35,6 +34,20 @@ class FileSelectDropDown extends StatelessWidget {
               //FileSelectDropDownCtrl.to.fff(f: val!);
               // FileSelectDropDownCtrl.to
               //     .firstTimeFunc(firstList: FilePickerCtrl.to.oesFD);
+
+              // FileSelectDropDownCtrl.to.applySignal.value = true;
+
+              if (val != null) {
+                debugPrint('파일 들어온게 null아니니까 apply버튼 활성화상태');
+                if (idx == 0) {
+                  FileSelectDropDownCtrl.to.applySignal0.value = true;
+                }
+                if (idx == 1) {
+                  FileSelectDropDownCtrl.to.applySignal1.value = true;
+                }
+              } else {
+                debugPrint('파일 들어온게 null 이니까 apply버튼 비활성화상태');
+              }
             },
           ));
     });
