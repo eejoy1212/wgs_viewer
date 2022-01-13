@@ -74,13 +74,11 @@ class RangeSliderCtrl extends GetxController {
     ));
     pb.add(PlotBand(
       shouldRenderAboveSeries: false,
-      start: TimeSelectCtrl.to.timeIdxList.isEmpty ||
-              TimeSelectCtrl.to.secondTimeIdx.value == -1
+      start: TimeSelectCtrl.to.timeIdxList.isEmpty
           ? 0.0
           : TimeSelectCtrl
               .to.timeIdxList[TimeSelectCtrl.to.secondTimeIdx.value],
-      end: TimeSelectCtrl.to.timeIdxList.isEmpty ||
-              TimeSelectCtrl.to.firstTimeIdx.value == -1
+      end: TimeSelectCtrl.to.timeIdxList.isEmpty
           ? 0.0
           : TimeSelectCtrl
                   .to.timeIdxList[TimeSelectCtrl.to.secondTimeIdx.value] +
@@ -91,6 +89,32 @@ class RangeSliderCtrl extends GetxController {
 ////
     return pb;
   }
+
+  pbRange() {
+    var pbRange;
+    if (TimeSelectCtrl.to.firstTimeIdx.value >
+        TimeSelectCtrl.to.timeIdxList
+            .indexOf(TimeSelectCtrl.to.timeIdxList.last)) {
+      pbRange = TimeSelectCtrl.to.timeIdxList.first;
+    }
+    if (TimeSelectCtrl.to.firstTimeIdx.value <
+        TimeSelectCtrl.to.timeIdxList
+            .indexOf(TimeSelectCtrl.to.timeIdxList.first)) {
+      pbRange = TimeSelectCtrl.to.timeIdxList.first;
+    }
+    if (TimeSelectCtrl.to.secondTimeIdx.value >
+        TimeSelectCtrl.to.timeIdxList
+            .indexOf(TimeSelectCtrl.to.timeIdxList.last)) {
+      pbRange = TimeSelectCtrl.to.timeIdxList.first;
+    }
+    if (TimeSelectCtrl.to.secondTimeIdx.value <
+        TimeSelectCtrl.to.timeIdxList
+            .indexOf(TimeSelectCtrl.to.timeIdxList.first)) {
+      pbRange = TimeSelectCtrl.to.timeIdxList.first;
+    } else {}
+    return pbRange;
+  }
+
   //레인지 슬라이더 위젯 여러개 만드는 것
 
   List<WGSRangeSlidersWidget> rsList() {
