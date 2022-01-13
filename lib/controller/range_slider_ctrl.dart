@@ -19,7 +19,7 @@ class RangeSliderCtrl extends GetxController {
       // RangeSliderCtrl.to.vStart.add(0.0);
       // RangeSliderCtrl.to.vEnd.add(0.0);
       rsWGS.add(WGSrangeSlider(
-        rv: const SfRangeValues(0, 0).obs,
+        rv: const RangeValues(0, 0).obs,
         wls: [],
         vStart: 0.0.obs,
         vEnd: 0.0.obs,
