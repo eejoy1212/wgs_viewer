@@ -70,7 +70,7 @@ class WGSRangeSlidersWidget extends StatelessWidget {
 
                       //division이 없어..??
                       tooltipShape: const SfPaddleTooltipShape(),
-                      enableTooltip: true,
+                      // enableTooltip: true,
                       showLabels: true,
                       showTicks: true,
                       // tooltipTextFormatterCallback:
