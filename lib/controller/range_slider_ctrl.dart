@@ -60,6 +60,7 @@ class RangeSliderCtrl extends GetxController {
     List<PlotBand>? pb = [];
 //시간축을 x1 x2에 넣는거
     pb.add(PlotBand(
+      isRepeatable: true,
       shouldRenderAboveSeries: false,
       start: TimeSelectCtrl.to.timeIdxList.isEmpty
           ? 0.0
@@ -73,11 +74,13 @@ class RangeSliderCtrl extends GetxController {
     ));
     pb.add(PlotBand(
       shouldRenderAboveSeries: false,
-      start: TimeSelectCtrl.to.timeIdxList.isEmpty
+      start: TimeSelectCtrl.to.timeIdxList.isEmpty ||
+              TimeSelectCtrl.to.secondTimeIdx.value == -1
           ? 0.0
           : TimeSelectCtrl
               .to.timeIdxList[TimeSelectCtrl.to.secondTimeIdx.value],
-      end: TimeSelectCtrl.to.timeIdxList.isEmpty
+      end: TimeSelectCtrl.to.timeIdxList.isEmpty ||
+              TimeSelectCtrl.to.firstTimeIdx.value == -1
           ? 0.0
           : TimeSelectCtrl
                   .to.timeIdxList[TimeSelectCtrl.to.secondTimeIdx.value] +
