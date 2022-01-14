@@ -4,6 +4,7 @@ import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 import 'package:resizable_widget/resizable_widget.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
@@ -87,6 +88,7 @@ class _MyAppState extends State<MyApp> {
             debugPrint('isOpened? : $isOpened');
           },
           appBar: AppBar(
+            // toolbarHeight: 60,
             leadingWidth: 600,
             leading: Row(
               children: [
@@ -94,22 +96,28 @@ class _MyAppState extends State<MyApp> {
                   width: 20,
                 ),
 
-                LeftMenuIcon(),
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: LeftMenuIcon(),
+                ),
 
                 // Drawer(),
                 const SizedBox(
                   width: 20,
                 ),
-                Image.asset(
-                  'assets/images/CI_nobg.png',
-                  fit: BoxFit.fitHeight,
-                  width: 100,
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Image.asset(
+                    'assets/images/CI_nobg.png',
+                    fit: BoxFit.fitHeight,
+                    width: 100,
+                  ),
                 ),
                 const SizedBox(
                   width: 20,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 6.0),
+                  padding: const EdgeInsets.only(top: 16.0),
                   child: Row(
                     children: [
                       const Text(
@@ -185,7 +193,7 @@ class _MyAppState extends State<MyApp> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.only(top: 15),
                     child: Row(
                       children: [
                         Tooltip(
@@ -194,12 +202,31 @@ class _MyAppState extends State<MyApp> {
                                   'Dark mode is ' +
                               (isDarkMode ? 'enabled' : 'disabled') +
                               '.',
-                          child: DayNightSwitcher(
-                              isDarkModeEnabled: ctrl.to.aaa.value
-                              //isDarkMode
+                          child: SizedBox(
+                            width: 60,
+                            height: 60,
+                            child:
+//                             DayNightSwitcher(
+//                                 cloudsColor: Colors.transparent,
+//                                 cratersColor: Colors.transparent,
+//                                 starsColor: Colors.transparent,
+//                                 isDarkModeEnabled: ctrl.to.aaa.value
+//                                 //isDarkMode
+// //
+//                                 ,
+//                                 onStateChanged: onStateChanged),
 
-                              ,
-                              onStateChanged: onStateChanged),
+                                FlutterSwitch(
+                                    width: 60,
+                                    height: 20,
+                                    toggleSize: 10,
+                                    activeColor: Color(0xFF15202B),
+                                    activeToggleColor: Color(0xffd7b787),
+                                    inactiveColor: Colors.blue,
+                                    inactiveToggleColor: Color(0xfffcce97),
+                                    value: isDarkMode,
+                                    onToggle: onStateChanged),
+                          ),
                         ),
                         const SizedBox(
                           width: 50,
