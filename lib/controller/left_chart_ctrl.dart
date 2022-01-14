@@ -30,6 +30,7 @@ class ChartCtrl extends GetxController {
 
   RxDouble minX = 0.0.obs;
   RxDouble maxX = 0.0.obs;
+  RxDouble isReset = 0.0.obs;
 
   void init() {}
 

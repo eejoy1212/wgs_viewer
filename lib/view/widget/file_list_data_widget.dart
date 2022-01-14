@@ -11,6 +11,7 @@ class CkbViewWidget extends StatelessWidget {
   final int idx;
   @override
   Widget build(BuildContext context) {
+    debugPrint('idx idx : $idx');
     return Obx(
       () => CheckboxListTile(
           selected: oesFDModel.isChecked.value,
@@ -62,7 +63,7 @@ class FileListData extends StatelessWidget {
                       itemCount: FilePickerCtrl.to.oesFD.length,
                       itemBuilder: (BuildContext context, int index) {
                         debugPrint('체크박스 index : $index');
-                        FilePickerCtrl.to.idx.value = index;
+
                         return CkbViewWidget(
                             oesFDModel: FilePickerCtrl.to.oesFD[index],
                             idx: index);

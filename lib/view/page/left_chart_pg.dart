@@ -29,7 +29,7 @@ class LeftChartPg extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Spacer(),
+                  zoomBtn(),
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(primary: Colors.blueAccent),
                     onPressed: () {
@@ -55,13 +55,14 @@ class LeftChartPg extends StatelessWidget {
 
   void exportCSV(String name, [List<List<double>> data = const []]) async {
     String? _path = '';
+    String csv = '.csv';
     _path = await FilePicker.platform.saveFile(
-        type: FileType.custom,
-        fileName: '제목 없음.csv',
-        allowedExtensions: ['csv'],
+        type: FileType.any,
+        fileName: 'filename$csv',
+        // allowedExtensions: ['csv'],
         dialogTitle: 'File select');
-    if (_path != '') {
-      print('_path $_path');
+    if (_path == null) {
+      print('_path null : $_path');
     }
     final List<List<double>> fileData = [];
     List<List> rgHeader = [];

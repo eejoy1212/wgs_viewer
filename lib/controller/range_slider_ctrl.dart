@@ -13,6 +13,8 @@ class RangeSliderCtrl extends GetxController {
   RxList<RangeValues> currentRv = RxList.empty();
 
   RxList<WGSrangeSlider> rsWGS = RxList.empty();
+  Rx<Color> pbColor1 = Colors.blue.obs;
+  Rx<Color> pbColor2 = Colors.deepOrange.obs;
   void init() {
     for (var i = 0; i < 5; i++) {
       // RangeSliderCtrl.to.currentRv.add(RangeValues(0, 0));
@@ -76,7 +78,7 @@ class RangeSliderCtrl extends GetxController {
           : TimeSelectCtrl
                   .to.timeIdxList[TimeSelectCtrl.to.firstTimeIdx.value] +
               (TimeSelectCtrl.to.timeIdxList.last / 1000),
-      color: Colors.lightBlue,
+      color: pbColor1.value,
     ));
     pb.add(PlotBand(
       shouldRenderAboveSeries: false,
@@ -95,7 +97,7 @@ class RangeSliderCtrl extends GetxController {
           : TimeSelectCtrl
                   .to.timeIdxList[TimeSelectCtrl.to.secondTimeIdx.value] +
               (TimeSelectCtrl.to.timeIdxList.last / 1000),
-      color: Colors.deepOrange,
+      color: pbColor2.value,
     ));
 //
 ////

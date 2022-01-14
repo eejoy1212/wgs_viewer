@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fs_shim/fs.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
 
@@ -13,6 +15,7 @@ class LeftChartWidget extends StatelessWidget {
       for (var ii = 0; ii < ChartCtrl.to.forfields[i].length; ii++) {
         if (ChartCtrl.to.forfields[i][ii].isNotEmpty) {
           rt.add(lineSeries(ChartCtrl.to.forfields[i][ii]));
+          debugPrint('시리즈 갯수 : ${rt.length}');
         }
       }
     }
@@ -27,6 +30,13 @@ class LeftChartWidget extends StatelessWidget {
         primaryXAxis: NumericAxis(
           plotBands: RangeSliderCtrl.to.verticalPB(),
         ),
+        onZooming: (zoomingArgs) {
+          zoomingArgs.currentZoomPosition;
+          debugPrint('줌 하는중 : ${zoomingArgs.currentZoomPosition}');
+        },
+        onZoomReset: (ZoomPanArgs zoomPanArgs) {
+          // zoom(zoomPanArgs);
+        },
         zoomPanBehavior: ZoomPanBehavior(
             enableDoubleTapZooming: true,
             enableMouseWheelZooming: true,
@@ -41,7 +51,7 @@ class LeftChartWidget extends StatelessWidget {
             ),
         // primaryXAxis: CategoryAxis(),
         // Chart title
-        title: ChartTitle(text: 'left chart'),
+        title: ChartTitle(text: 'chart 1'),
         // Enable legend
         legend: Legend(isVisible: true, toggleSeriesVisibility: true),
         // Enable tooltip
@@ -52,6 +62,13 @@ class LeftChartWidget extends StatelessWidget {
   }
 }
 
+zoomBtn() {
+  return ElevatedButton(
+    onPressed: () {},
+    child: Text('zoom reset'),
+  );
+}
+
 class WGSspot {
   WGSspot(this.xVal, this.yVal);
 
@@ -59,9 +76,22 @@ class WGSspot {
   final double yVal;
 }
 
+seriesName() {
+  List<String> name = [];
+  for (var i = 0; i < FilePickerCtrl.to.oesFD.length; i++) {
+    if (FilePickerCtrl.to.oesFD[i].isChecked.isTrue) {
+      name.add(FilePickerCtrl.to.oesFD[i].fileName);
+    }
+  }
+  debugPrint('name : $name');
+  return name.toString();
+}
+
 LineSeries<WGSspot, double> lineSeries(List<WGSspot> data) {
   return LineSeries<WGSspot, double>(
     dataSource: data,
+    animationDuration: 0,
+    name: '',
     xValueMapper: (WGSspot oesData, _) => oesData.xVal,
     yValueMapper: (WGSspot oesData, _) => oesData.yVal,
   );
