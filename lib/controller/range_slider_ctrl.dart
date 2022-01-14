@@ -15,6 +15,7 @@ class RangeSliderCtrl extends GetxController {
   RxList<WGSrangeSlider> rsWGS = RxList.empty();
   Rx<Color> pbColor1 = Colors.blue.obs;
   Rx<Color> pbColor2 = Colors.deepOrange.obs;
+  RxBool isPbShow = false.obs;
   void init() {
     for (var i = 0; i < 5; i++) {
       // RangeSliderCtrl.to.currentRv.add(RangeValues(0, 0));

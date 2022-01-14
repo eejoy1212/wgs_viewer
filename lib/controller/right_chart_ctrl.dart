@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/file_select_dropdown_ctrl.dart';
+import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/view/widget/right_chart_widget.dart';
 
@@ -40,7 +41,10 @@ class RightChartCtrl extends GetxController {
       final y = FileSelectDropDownCtrl
           .to.selected[idx].fileData[slectedTimeIdx1 + 7][b];
       rightSeriesData[idx].add(OESData(x, y));
+
       update();
     }
+    RangeSliderCtrl.to.isPbShow.value = true;
+    debugPrint('plot band시점 : ${RangeSliderCtrl.to.isPbShow.value}');
   }
 }

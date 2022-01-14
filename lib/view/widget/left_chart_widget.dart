@@ -3,8 +3,10 @@ import 'package:fs_shim/fs.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
+import 'package:wgs_viewer/controller/file_select_dropdown_ctrl.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
+import 'package:wgs_viewer/controller/right_chart_ctrl.dart';
 
 class LeftChartWidget extends StatelessWidget {
   LeftChartWidget({Key? key}) : super(key: key);
@@ -28,7 +30,9 @@ class LeftChartWidget extends StatelessWidget {
     return Obx(() {
       return SfCartesianChart(
         primaryXAxis: NumericAxis(
-          plotBands: RangeSliderCtrl.to.verticalPB(),
+          plotBands: RangeSliderCtrl.to.isPbShow.isFalse
+              ? null
+              : RangeSliderCtrl.to.verticalPB(),
         ),
         onZooming: (zoomingArgs) {
           zoomingArgs.currentZoomPosition;
