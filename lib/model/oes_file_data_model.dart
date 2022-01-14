@@ -11,17 +11,17 @@ class OESFileData {
   //List<dynamic> xTime; //time
   // List<dynamic> xWL; //wavelength
   List<double> avg;
-  OESFileData({
-    required this.fileName,
-    required this.filePath,
-    required this.isChecked,
-    // this.wlcd = const [],
-    this.fileData = const [],
-    //this.firstLine = const [],
-    //this.xTime = const [],
-    // this.xWL = const [],
-    required this.avg,
-  });
+
+  OESFileData(
+      {required this.fileName,
+      required this.filePath,
+      required this.isChecked,
+      // this.wlcd = const [],
+      this.fileData = const [],
+      //this.firstLine = const [],
+      //this.xTime = const [],
+      // this.xWL = const [],
+      required this.avg});
 
   factory OESFileData.init() {
     return OESFileData(

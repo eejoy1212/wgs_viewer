@@ -205,27 +205,16 @@ class _MyAppState extends State<MyApp> {
                           child: SizedBox(
                             width: 60,
                             height: 60,
-                            child:
-//                             DayNightSwitcher(
-//                                 cloudsColor: Colors.transparent,
-//                                 cratersColor: Colors.transparent,
-//                                 starsColor: Colors.transparent,
-//                                 isDarkModeEnabled: ctrl.to.aaa.value
-//                                 //isDarkMode
-// //
-//                                 ,
-//                                 onStateChanged: onStateChanged),
-
-                                FlutterSwitch(
-                                    width: 60,
-                                    height: 20,
-                                    toggleSize: 10,
-                                    activeColor: Color(0xFF15202B),
-                                    activeToggleColor: Color(0xffd7b787),
-                                    inactiveColor: Colors.blue,
-                                    inactiveToggleColor: Color(0xfffcce97),
-                                    value: isDarkMode,
-                                    onToggle: onStateChanged),
+                            child: FlutterSwitch(
+                                width: 60,
+                                height: 20,
+                                toggleSize: 10,
+                                activeColor: Color(0xFF15202B),
+                                activeToggleColor: Color(0xffd7b787),
+                                inactiveColor: Colors.blue,
+                                inactiveToggleColor: Color(0xfffcce97),
+                                value: isDarkMode,
+                                onToggle: onStateChanged),
                           ),
                         ),
                         const SizedBox(
