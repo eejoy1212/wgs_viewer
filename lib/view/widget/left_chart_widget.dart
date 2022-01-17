@@ -41,34 +41,6 @@ class LeftChartWidget extends StatelessWidget {
               : RangeSliderCtrl.to.verticalPB(),
         ),
 
-        onLegendItemRender: (args) {
-          // debugPrint('args.text : ${args.text}');
-          args.text = (args.seriesIndex! + 1).toString();
-          for (var f = 0; f < FilePickerCtrl.to.oesFD.length; f++) {
-            debugPrint('filenum : ' + f.toString());
-            args.text = (f + 1).toString() +
-                '번째 파일 - ' +
-                ((args.seriesIndex! + 1) ~/ FilePickerCtrl.to.oesFD.length)
-                    .toString();
-          }
-          debugPrint('ser text : ${args.text}');
-          debugPrint('ser idx : ${args.seriesIndex}');
-          // for (var w = 0; w < 5; w++) {
-          //   ChartCtrl.to.seriesName.add('');
-          //   ChartCtrl.to.seriesName.add('W$w');
-
-          //   debugPrint('seriesName : ${ChartCtrl.to.seriesName}');
-          // }
-        },
-        onZooming: (zoomingArgs) {
-          zoomingArgs.currentZoomPosition;
-          debugPrint('줌 하는중 : ${zoomingArgs.currentZoomPosition}');
-        },
-        onZoomReset: (ZoomPanArgs zpArgs) {
-          zoomreset(zpArgs);
-          debugPrint('zoom reset : ${zpArgs.currentZoomPosition.toString()}');
-        },
-
         zoomPanBehavior: ZoomPanBehavior(
             zoomMode: ZoomMode.xy,
             enableDoubleTapZooming: true,
@@ -83,20 +55,73 @@ class LeftChartWidget extends StatelessWidget {
             selectionRectColor: Colors.grey
             //사각형으로 영역선택하는 것
             ),
-        // primaryXAxis: CategoryAxis(),
+        onSelectionChanged: (selectionArgs) {
+          debugPrint('border width : ${selectionArgs.selectedBorderWidth}');
+        },
 
+        onLegendItemRender: (args) {
+          // debugPrint('args.text : ${args.text}');
+          int aa = args.seriesIndex!;
+          for (int i = 0; i < aa; i++) {}
+
+          args.text = (args.seriesIndex! + 1).toString();
+          // for (var f = 0; f < FilePickerCtrl.to.oesFD.length; f++) {
+          //   debugPrint('filenum : ' + f.toString());
+          //   args.text = (f + 1).toString() +
+          //       '번째 파일 - ' +
+          //       ((args.seriesIndex! + 1) ~/ FilePickerCtrl.to.oesFD.length)
+          //           .toString();
+          // }
+          // debugPrint('ser text : ${args.text}');
+          // debugPrint('ser idx : ${args.seriesIndex}');
+          // for (var w = 0; w < 5; w++) {
+          //   ChartCtrl.to.seriesName.add('');
+          //   ChartCtrl.to.seriesName.add('W$w');
+
+          //   debugPrint('seriesName : ${ChartCtrl.to.seriesName}');
+          // }
+        },
+
+        // onZoomStart: (ZoomPanArgs args) {
+        //   debugPrint('sdsd : ${args.currentZoomFactor = 0}');
+        //   args.currentZoomFactor = 0;
+        //   zooming(args);
+        // },
+        // onZoomEnd: (zoomingArgs) {
+        //   zoomingArgs.currentZoomPosition = 0;
+        // },
+        // onZoomReset: (ZoomPanArgs zpArgs) {
+        //   zoomreset(zpArgs);
+
+        //   debugPrint(
+        //       'zoom 다되고 난 후 (0) : ${zpArgs.currentZoomPosition.toString()}');
+        // },
+
+        // primaryXAxis: CategoryAxis(),
+        selectionType: SelectionType.series,
+        // enableSideBySideSeriesPlacement: true,
         title: ChartTitle(text: 'chart 1'),
         // Enable legend
-        legend: Legend(isVisible: true, toggleSeriesVisibility: true),
+        legend: Legend(
+          isVisible: true,
+          toggleSeriesVisibility: true,
+        ),
         // Enable tooltip
-        tooltipBehavior: TooltipBehavior(enable: true),
+        tooltipBehavior: TooltipBehavior(enable: true, decimalPlaces: 0),
         series: lineChart(),
       );
     });
   }
 }
 
-zoomreset(ZoomPanArgs zpArgs) {}
+zooming(ZoomPanArgs zoomingArgs) {
+  zoomingArgs.currentZoomPosition = 0.0;
+  debugPrint('zooming : ${zoomingArgs.currentZoomPosition}');
+}
+
+zoomreset(ZoomPanArgs zpArgs) {
+  zpArgs.currentZoomPosition;
+}
 
 zoomBtn() {
   return ElevatedButton(
@@ -108,8 +133,8 @@ zoomBtn() {
 class WGSspot {
   WGSspot(this.xVal, this.yVal);
 
-  final dynamic xVal;
-  final double yVal;
+  final double xVal;
+  final int yVal;
 }
 
 seriesName() {
@@ -123,11 +148,13 @@ seriesName() {
   return name.toString();
 }
 
-LineSeries<WGSspot, double> lineSeries(List<WGSspot> data) {
-  return LineSeries<WGSspot, double>(
+LineSeries<WGSspot, int> lineSeries(List<WGSspot> data) {
+  return LineSeries<WGSspot, int>(
     dataSource: data,
     animationDuration: 0,
-    xValueMapper: (WGSspot oesData, _) => oesData.xVal,
+    xValueMapper: (WGSspot oesData, _) => oesData.xVal.toInt(),
     yValueMapper: (WGSspot oesData, _) => oesData.yVal,
+    // selectionBehavior: SelectionBehavior(selectedBorderColor: Colors.amber),
+    legendIconType: LegendIconType.seriesType,
   );
 }

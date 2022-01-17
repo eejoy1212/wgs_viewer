@@ -40,16 +40,16 @@ class RightChartWidget extends StatelessWidget {
         // Enable tooltip
         tooltipBehavior: TooltipBehavior(enable: true),
         series: [
-          LineSeries<OESData, double>(
+          LineSeries<OESData, int>(
             dataSource: RightChartCtrl.to.rightSeriesData[0],
             color: RangeSliderCtrl.to.pbColor1.value,
-            xValueMapper: (OESData oesData, _) => oesData.xVal,
+            xValueMapper: (OESData oesData, _) => oesData.xVal.toInt(),
             yValueMapper: (OESData oesData, _) => oesData.yVal,
           ),
-          LineSeries<OESData, double>(
+          LineSeries<OESData, int>(
             dataSource: RightChartCtrl.to.rightSeriesData[1],
             color: RangeSliderCtrl.to.pbColor2.value,
-            xValueMapper: (OESData oesData, _) => oesData.xVal,
+            xValueMapper: (OESData oesData, _) => oesData.xVal.toInt(),
             yValueMapper: (OESData oesData, _) => oesData.yVal,
           ),
         ],
@@ -61,8 +61,8 @@ class RightChartWidget extends StatelessWidget {
 class OESData {
   OESData(this.xVal, this.yVal);
 
-  final dynamic xVal;
-  final double yVal;
+  final int xVal;
+  final int yVal;
 }
 
 // LineSeries<OESData, double> rightLineSeries(List<OESData> data) {

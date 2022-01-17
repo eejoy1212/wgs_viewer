@@ -54,7 +54,7 @@ class FileListData extends StatelessWidget {
                     ],
                   ),
                   subtitle: SizedBox(
-                    height: 500,
+                    height: 200,
                     width: 500,
                     child: ListView.separated(
                       // reverse: true,

@@ -104,8 +104,8 @@ void rightExportCSV(String name, [List<dynamic> data = const []]) async {
       secondData +
       '\n';
   file.writeAsString(converter.toUTF32(all).toUTF8(), encoding: utf8);
-  var iii = utf8.encode(FileSelectDropDownCtrl.to.selected[1].fileName);
+  // var iii = utf8.encode(FileSelectDropDownCtrl.to.selected[1].fileName);
 
-  var test = 'wonhee';
-  debugPrint('utf_8 : ${converter.toUTF32(all).toUTF8()}');
+  // var test = 'wonhee';
+  // debugPrint('utf_8 : ${converter.toUTF32(all).toUTF8()}');
 }

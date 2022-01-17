@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:day_night_switcher/day_night_switcher.dart';
+import 'package:desktop_window/desktop_window.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
@@ -47,12 +48,15 @@ void main() {
   );
   doWhenWindowReady(() {
     final win = appWindow;
+    // const initialSize = Size(1920, 1080);
     const initialSize = Size(1920, 1080);
     win.minSize = initialSize;
     win.maxSize = initialSize;
     win.size = initialSize;
+
     win.alignment = Alignment.center;
     win.title = "viewer";
+
     win.show();
   });
 }
@@ -69,7 +73,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool isDarkMode = false;
-
+  final ScrollController drawerScrollCtrl = ScrollController();
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -84,7 +88,8 @@ class _MyAppState extends State<MyApp> {
           //  true,
           ,
           onDrawerChanged: (isOpened) {
-            Get.find<LeftMenuCtrl>().activateLeftMenu.value = isOpened;
+            LeftMenuCtrl.to.activateLeftMenu.value = isOpened;
+            LeftMenuCtrl.to.chartSize.value = 1;
             debugPrint('isOpened? : $isOpened');
           },
           appBar: AppBar(
@@ -230,248 +235,197 @@ class _MyAppState extends State<MyApp> {
           ),
           drawer: Drawer(
             child: ListView(
-              // Important: Remove any padding from the ListView.
+              controller: drawerScrollCtrl,
               padding: EdgeInsets.zero,
               children: [
-                DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: Colors.blueGrey,
-                  ),
-                  child: Text('Range Select'),
+                Row(
+                  children: [
+                    DottedBorder(
+                        color: Colors.blueGrey,
+                        child: const Text('Range Select')),
+                  ],
                 ),
-                // ListTile(
-                //   title: const Text('Item 1'),
-
-                //   onTap: () {
-                //     // Update the state of the app
-                //     // ...
-                //     // Then close the drawer
-                //     Navigator.pop(context);
-                //   },
-                // ),
                 Column(
                   children: RangeSliderCtrl.to.rsList(),
+                ),
+
+                const Divider(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      DottedBorder(
+                          color: Colors.blueGrey,
+                          child: const Text('File List')),
+                      Spacer(),
+                      Obx(
+                        () => Text(
+                            'File num : ${FilePickerCtrl.to.oesFD.length}'),
+                      ),
+                    ],
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const FileSelectBtn(),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      SizedBox(
+                        width: 80,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                primary: const Color(0xffD83737)),
+                            onPressed: () {
+                              FilePickerCtrl.to.oesFD
+                                  .removeWhere((e) => e.isChecked.isTrue);
+                            },
+                            child: const Text(
+                              'Selected Delete',
+                              style: TextStyle(fontSize: 12),
+                            )),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              primary: const Color(0xffD83737)),
+                          onPressed: () {
+                            Get.defaultDialog(
+                              title: 'All Delete',
+                              content: Column(
+                                children: const [
+                                  Divider(
+                                    indent: 6,
+                                    endIndent: 6,
+                                    color: Colors.blueGrey,
+                                  ),
+                                  Text(
+                                    'Do you want to delete all?',
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              textConfirm: 'No',
+                              confirmTextColor: Colors.white,
+                              textCancel: 'Yes',
+                              cancelTextColor: Colors.red,
+                              buttonColor: Colors.blueGrey,
+                              onCancel: () {
+                                FilePickerCtrl.to.oesFD.clear();
+                                ChartCtrl.to.forfields.clear();
+                                // FilePickerCtrl.to.oesFD =
+                                //     RxList.empty(
+                                //         growable: true);
+                              },
+                              onConfirm: () {
+                                Navigator.of(context).pop();
+                              },
+                            );
+                          },
+                          child: const Text(
+                            'All Delete',
+                            style: TextStyle(fontSize: 12),
+                          )),
+                    ],
+                  ),
+                )
+
+                //파일 리스트뷰
+                ,
+                Obx(() {
+                  return FilePickerCtrl.to.oesFD.isEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            height: 100,
+                            width: 100,
+                            color: Colors.grey,
+                            child: const Center(
+                              child: Text('No Files'),
+                            ),
+                          ),
+                        )
+                      : FileListData();
+                }),
+                Obx(
+                  () => Text(
+                    FilePickerCtrl.to.fileMaxAlertMsg.string,
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: const [
+                      ApplyBtn(),
+                    ],
+                  ),
+                ),
+                //타임셀렉트 하는 곳
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: Colors.blueGrey.withOpacity(0.5), width: 2),
+                    ),
+                    child: const TimeSelectTxtForm(),
+                  ),
                 ),
               ],
             ),
           ),
-          body: ResizableWidget(
-            //드래그 드롭 && 타임셀렉트 하는 부분 공간 줄이는 라인
-            isHorizontalSeparator: true,
-            separatorColor: Colors.blueGrey,
-            children: [
+          body:
+
+              //드래그 드롭 && 타임셀렉트 하는 부분 공간 줄이는 라인
+
               Center(
-                child: Row(
-                  children: [
-                    Obx(
-                      () => Visibility(
-                        visible: Get.find<ChartCtrl>().visibleMode.value == 0 ||
-                                Get.find<ChartCtrl>().visibleMode.value == 2
-                            ? true
-                            : false,
-                        child: Expanded(
-                          flex: 1,
-                          child: LeftChartPg(),
+            child: Row(
+              children: [
+                Obx(() => LeftMenuCtrl.to.chartSize.value == 0
+                    ? SizedBox()
+                    : Visibility(
+                        visible: LeftMenuCtrl.to.activateLeftMenu.value,
+                        child: SizedBox(
+                          width: 300,
                         ),
-                      ),
+                      )),
+                Obx(
+                  () => Visibility(
+                    visible: Get.find<ChartCtrl>().visibleMode.value == 0 ||
+                            Get.find<ChartCtrl>().visibleMode.value == 2
+                        ? true
+                        : false,
+                    child: Expanded(
+                      flex: 1,
+                      child: LeftChartPg(),
                     ),
-                    Obx(() => Visibility(
-                          visible: Get.find<ChartCtrl>().visibleMode.value ==
-                                      1 ||
-                                  Get.find<ChartCtrl>().visibleMode.value == 2
-                              ? true
-                              : false,
-                          child: Expanded(
-                            flex: 1,
-                            child: RightChartPg(),
-                          ),
-                        ))
-                  ],
+                  ),
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  //파일 드래그 앤드 드롭, 파일 선택하는 곳
-                  Expanded(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Colors.blueGrey.withOpacity(0.5),
-                                width: 2)),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Row(
-                                      children: [
-                                        DottedBorder(
-                                            color: Colors.blueGrey,
-                                            child: const Text('File List')),
-                                        const SizedBox(
-                                          width: 20,
-                                        ),
-                                        const FileSelectBtn(),
-                                        const SizedBox(
-                                          width: 20,
-                                        ),
-                                        ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                                primary:
-                                                    const Color(0xffD83737)),
-                                            onPressed: () {
-                                              FilePickerCtrl.to.oesFD
-                                                  .removeWhere((e) =>
-                                                      e.isChecked.isTrue);
-                                            },
-                                            child: const Text(
-                                                'Selected File Delete')),
-                                        const SizedBox(
-                                          width: 20,
-                                        ),
-                                        ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                                primary:
-                                                    const Color(0xffD83737)),
-                                            onPressed: () {
-                                              Get.defaultDialog(
-                                                title: 'All Files Delete',
-                                                content: Column(
-                                                  children: const [
-                                                    Divider(
-                                                      indent: 6,
-                                                      endIndent: 6,
-                                                      color: Colors.blueGrey,
-                                                    ),
-                                                    Text(
-                                                      'Do you want to delete all?',
-                                                      style: TextStyle(
-                                                        color: Colors.red,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                textConfirm: 'No',
-                                                confirmTextColor: Colors.white,
-                                                textCancel: 'Yes',
-                                                cancelTextColor: Colors.red,
-                                                buttonColor: Colors.blueGrey,
-                                                onCancel: () {
-                                                  FilePickerCtrl.to.oesFD
-                                                      .clear();
-                                                  ChartCtrl.to.forfields
-                                                      .clear();
-                                                  // FilePickerCtrl.to.oesFD =
-                                                  //     RxList.empty(
-                                                  //         growable: true);
-                                                },
-                                                onConfirm: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                              );
-                                            },
-                                            child:
-                                                const Text('All File Delete')),
-                                        const SizedBox(
-                                          width: 20,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                  Obx(
-                                    () => Text(
-                                        'File num : ${FilePickerCtrl.to.oesFD.length}'),
-                                  ),
-                                  Visibility(
-                                    visible: false,
-                                    child: Obx(() => Checkbox(
-                                        value:
-                                            FilePickerCtrl.to.allChecked.value,
-                                        onChanged: (all) {
-                                          if (all != null) {
-                                            FilePickerCtrl.to.allChecked.value =
-                                                all;
-                                          }
-                                        })),
-                                  ),
-                                  const SizedBox(
-                                    width: 20,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            //파일 셀렉트하면 파일 나타나는 구간.
-
-                            Expanded(
-                                flex: 5,
-                                child: Obx(() {
-                                  return FilePickerCtrl.to.oesFD.isEmpty
-                                      ? const Center(child: Text('No Files'))
-                                      : FileListData();
-                                })),
-                            Expanded(
-                              flex: 1,
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Obx(
-                                      () => Text(
-                                        FilePickerCtrl
-                                            .to.fileMaxAlertMsg.string,
-                                        style: TextStyle(
-                                          color: Colors.red,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    ApplyBtn(),
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
+                Obx(() => Visibility(
+                      visible: Get.find<ChartCtrl>().visibleMode.value == 1 ||
+                              Get.find<ChartCtrl>().visibleMode.value == 2
+                          ? true
+                          : false,
+                      child: Expanded(
+                        flex: 1,
+                        child: RightChartPg(),
                       ),
-                    ),
-                  ),
-
-                  //시간대 선택하는 곳
-                  Expanded(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Colors.blueGrey.withOpacity(0.5),
-                              width: 2),
-                        ),
-                        child: const TimeSelectTxtForm(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-            percentages: const [
-              0.8,
-              0.2,
-            ],
+                    ))
+              ],
+            ),
           ),
         ));
   }

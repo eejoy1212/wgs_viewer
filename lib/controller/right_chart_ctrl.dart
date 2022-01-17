@@ -45,7 +45,7 @@ class RightChartCtrl extends GetxController {
           FileSelectDropDownCtrl.to.selected[idx].fileData[timeRowSize][b];
       final y = FileSelectDropDownCtrl
           .to.selected[idx].fileData[slectedTimeIdx1 + timeRowSize + 1][b];
-      rightSeriesData[idx].add(OESData(x, y));
+      rightSeriesData[idx].add(OESData(x.toInt(), y.toInt()));
 
       update();
     }

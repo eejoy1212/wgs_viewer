@@ -35,6 +35,7 @@ dependencies:
   date_time_format: ^2.0.1
   day_night_switcher: ^0.2.0+1
   desktop_drop: ^0.2.0
+  desktop_window: ^0.4.0
   dotted_border: ^2.0.0+2
   dropdown_customizable: ^1.0.0
   dropdown_plus: ^0.0.9

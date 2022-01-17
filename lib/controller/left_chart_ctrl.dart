@@ -84,7 +84,7 @@ class ChartCtrl extends GetxController {
             if (TimeSelectCtrl.to.timeIdxList.length > Idx.value) {
               forfields[s][ii].add(WGSspot(
                   TimeSelectCtrl.to.timeIdxList[Idx.value],
-                  FilePickerCtrl.to.oesFD[s].avg[ii]));
+                  FilePickerCtrl.to.oesFD[s].avg[ii].toInt()));
             }
           }
         }
