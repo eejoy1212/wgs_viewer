@@ -7,6 +7,7 @@ import 'package:wgs_viewer/view/widget/right_chart_widget.dart';
 
 class RightChartCtrl extends GetxController {
   static RightChartCtrl get to => Get.find();
+
   RxBool rightDataMode = false.obs;
   RxInt seriesCnt = 0.obs;
   // RxList<List<FlSpot>> rightSeriesData = RxList.empty();

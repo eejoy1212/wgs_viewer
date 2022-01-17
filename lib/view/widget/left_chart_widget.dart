@@ -25,6 +25,12 @@ class LeftChartWidget extends StatelessWidget {
     return rt;
   }
 
+  fileNum() {
+    for (var f = 0; f < FilePickerCtrl.to.oesFD.length; f++) {
+      debugPrint('filenum : ' + f.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -34,18 +40,42 @@ class LeftChartWidget extends StatelessWidget {
               ? null
               : RangeSliderCtrl.to.verticalPB(),
         ),
+        // onLegendItemRender: (args) {
+        //   // debugPrint('args.text : ${args.text}');
+        //   args.text = (args.seriesIndex! + 1).toString();
+        //   for (var f = 0; f < FilePickerCtrl.to.oesFD.length; f++) {
+        //     debugPrint('filenum : ' + f.toString());
+        //     args.text = (f + 1).toString() +
+        //         '번째 파일 - ' +
+        //         ((args.seriesIndex! + 1) / FilePickerCtrl.to.oesFD.length)
+        //             .toInt()
+        //             .toString();
+        //   }
+        //   debugPrint('ser text : ${args.text}');
+        //   debugPrint('ser idx : ${args.seriesIndex}');
+        //   // for (var w = 0; w < 5; w++) {
+        //   //   ChartCtrl.to.seriesName.add('');
+        //   //   ChartCtrl.to.seriesName.add('W$w');
+
+        //   //   debugPrint('seriesName : ${ChartCtrl.to.seriesName}');
+        //   // }
+        // },
         onZooming: (zoomingArgs) {
           zoomingArgs.currentZoomPosition;
           debugPrint('줌 하는중 : ${zoomingArgs.currentZoomPosition}');
         },
-        onZoomReset: (ZoomPanArgs zoomPanArgs) {
+        onZoomReset: (ZoomPanArgs zpArgs) {
           // zoom(zoomPanArgs);
+          debugPrint(zpArgs.currentZoomPosition.toString());
         },
+
         zoomPanBehavior: ZoomPanBehavior(
+            zoomMode: ZoomMode.xy,
             enableDoubleTapZooming: true,
             enableMouseWheelZooming: true,
             enablePanning: true,
             enablePinching: true,
+
             //사각형으로 영역선택하는 것
             enableSelectionZooming: true,
             selectionRectBorderColor: Colors.red,
@@ -54,7 +84,7 @@ class LeftChartWidget extends StatelessWidget {
             //사각형으로 영역선택하는 것
             ),
         // primaryXAxis: CategoryAxis(),
-        // Chart title
+
         title: ChartTitle(text: 'chart 1'),
         // Enable legend
         legend: Legend(isVisible: true, toggleSeriesVisibility: true),
@@ -95,7 +125,6 @@ LineSeries<WGSspot, double> lineSeries(List<WGSspot> data) {
   return LineSeries<WGSspot, double>(
     dataSource: data,
     animationDuration: 0,
-    name: '',
     xValueMapper: (WGSspot oesData, _) => oesData.xVal,
     yValueMapper: (WGSspot oesData, _) => oesData.yVal,
   );

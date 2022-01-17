@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
+import 'package:wgs_viewer/controller/right_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/model/range_slider_model.dart';
 import 'package:wgs_viewer/view/widget/range_slider_widget.dart';
@@ -11,8 +12,8 @@ import 'package:wgs_viewer/view/widget/range_slider_widget.dart';
 class RangeSliderCtrl extends GetxController {
   static RangeSliderCtrl get to => Get.find();
   RxList<RangeValues> currentRv = RxList.empty();
-
   RxList<WGSrangeSlider> rsWGS = RxList.empty();
+  RxBool pbSignal = false.obs;
   Rx<Color> pbColor1 = Colors.blue.obs;
   Rx<Color> pbColor2 = Colors.deepOrange.obs;
   RxBool isPbShow = false.obs;
@@ -62,6 +63,7 @@ class RangeSliderCtrl extends GetxController {
   List<PlotBand>? verticalPB() {
     List<PlotBand>? pb = [];
 //시간축을 x1 x2에 넣는거
+    pbSignal.value = true;
     pb.add(PlotBand(
       isRepeatable: true,
       shouldRenderAboveSeries: false,
@@ -102,6 +104,7 @@ class RangeSliderCtrl extends GetxController {
     ));
 //
 ////
+    update();
     return pb;
   }
 

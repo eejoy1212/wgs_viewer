@@ -19,6 +19,7 @@ class ChartCtrl extends GetxController {
   RxInt visibleMode = 2.obs;
   RxBool leftDataMode = false.obs;
   RxList<RxList<List<WGSspot>>> forfields = RxList.empty();
+  RxList<String> seriesName = RxList.empty();
   RxBool enableApply = false.obs;
   RxDouble value = 0.0.obs;
   RxDouble sum = 0.0.obs;
