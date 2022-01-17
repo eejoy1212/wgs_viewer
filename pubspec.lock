@@ -642,6 +642,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  string_converter:
+    dependency: "direct main"
+    description:
+      name: string_converter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.5"
   string_scanner:
     dependency: transitive
     description:

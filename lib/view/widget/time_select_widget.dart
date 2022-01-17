@@ -149,9 +149,9 @@ class TimeSelectTxtForm extends StatelessWidget {
                                           ? Colors.grey
                                           : Colors.blueGrey,
                                 ),
-                                onTap: () {
+                                onTap: () async {
                                   Get.find<TimeSelectCtrl>().secondDecrease();
-                                  RightChartCtrl.to.updateRightData(1);
+                                  await RightChartCtrl.to.updateRightData(1);
                                 },
                               )),
                         );
@@ -187,9 +187,9 @@ class TimeSelectTxtForm extends StatelessWidget {
                               // onLongPress: () {
                               //   Get.find<TimeSelectCtrl>().secondIncrease();
                               // },
-                              onTap: () {
+                              onTap: () async {
                                 Get.find<TimeSelectCtrl>().secondIncrease();
-                                RightChartCtrl.to.updateRightData(1);
+                                await RightChartCtrl.to.updateRightData(1);
                               },
                               // onDoubleTap: () {
                               //   return null;
@@ -249,25 +249,25 @@ class TimeSelectTxtForm extends StatelessWidget {
             ));
   }
 
-  Widget FirstTimeBtnWidget() {
-    return Obx(() {
-      return Tooltip(
-        message: 'Press Left Apply Button',
-        child: IgnorePointer(
-            ignoring: TimeSelectCtrl.to.ableTimeSelect.isFalse,
-            child: InkWell(
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: TimeSelectCtrl.to.ableTimeSelect.isFalse
-                    ? Colors.grey
-                    : Colors.blueGrey,
-              ),
-              onTap: () {
-                Get.find<TimeSelectCtrl>().secondDecrease();
-                RightChartCtrl.to.updateRightData(1);
-              },
-            )),
-      );
-    });
-  }
+  // Widget FirstTimeBtnWidget() {
+  //   return Obx(() {
+  //     return Tooltip(
+  //       message: 'Press Left Apply Button',
+  //       child: IgnorePointer(
+  //           ignoring: TimeSelectCtrl.to.ableTimeSelect.isFalse,
+  //           child: InkWell(
+  //             child: Icon(
+  //               Icons.arrow_back_ios,
+  //               color: TimeSelectCtrl.to.ableTimeSelect.isFalse
+  //                   ? Colors.grey
+  //                   : Colors.blueGrey,
+  //             ),
+  //             onTap: () {
+  //               Get.find<TimeSelectCtrl>().secondDecrease();
+  //               RightChartCtrl.to.updateRightData(1);
+  //             },
+  //           )),
+  //     );
+  //   });
+  // }
 }

@@ -38,9 +38,13 @@ class RightChartCtrl extends GetxController {
     //list.clear()보다 이게 더 좋음
     rightSeriesData[idx] = List.empty(growable: true);
     for (var b = 1; b < 2049; b++) {
-      final x = FileSelectDropDownCtrl.to.selected[idx].fileData[6][b];
+      int timeRowSize = FileSelectDropDownCtrl.to.selected[idx].fileData
+          .indexWhere((e) => e.contains('Time'));
+      debugPrint('레인지 에러 : $timeRowSize');
+      final x =
+          FileSelectDropDownCtrl.to.selected[idx].fileData[timeRowSize][b];
       final y = FileSelectDropDownCtrl
-          .to.selected[idx].fileData[slectedTimeIdx1 + 7][b];
+          .to.selected[idx].fileData[slectedTimeIdx1 + timeRowSize + 1][b];
       rightSeriesData[idx].add(OESData(x, y));
 
       update();

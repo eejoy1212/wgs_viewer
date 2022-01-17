@@ -1,8 +1,9 @@
 import 'dart:io';
-
+import 'dart:convert' show utf8;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:string_converter/converter.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/file_select_dropdown_ctrl.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
@@ -11,7 +12,7 @@ import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/view/widget/right_chart_widget.dart';
 
 class RightChartPg extends StatelessWidget {
-  const RightChartPg({Key? key}) : super(key: key);
+  RightChartPg({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +56,7 @@ class RightChartPg extends StatelessWidget {
 }
 
 void rightExportCSV(String name, [List<dynamic> data = const []]) async {
+  StringConverter converter = StringConverter();
   String? _path = '';
   _path = await FilePicker.platform.saveFile(
       type: FileType.custom,
@@ -83,19 +85,27 @@ void rightExportCSV(String name, [List<dynamic> data = const []]) async {
       "FileName/Time," +
       FilePickerCtrl.to.xWLs.join(',') +
       '\n' +
-      FileSelectDropDownCtrl.to.selected[0].fileName +
+      converter
+          .toUTF32(FileSelectDropDownCtrl.to.selected[0].fileName)
+          .toUTF8() +
       ' / ' +
       TimeSelectCtrl.to.timeIdxList[TimeSelectCtrl.to.firstTimeIdx.value]
           .toString() +
       ',' +
       firstData +
       '\n' +
-      FileSelectDropDownCtrl.to.selected[1].fileName +
+      converter
+          .toUTF32(FileSelectDropDownCtrl.to.selected[1].fileName)
+          .toUTF8() +
       ' / ' +
       TimeSelectCtrl.to.timeIdxList[TimeSelectCtrl.to.secondTimeIdx.value]
           .toString() +
       ',' +
       secondData +
       '\n';
-  file.writeAsString(all);
+  file.writeAsString(converter.toUTF32(all).toUTF8(), encoding: utf8);
+  var iii = utf8.encode(FileSelectDropDownCtrl.to.selected[1].fileName);
+
+  var test = 'wonhee';
+  debugPrint('utf_8 : ${converter.toUTF32(all).toUTF8()}');
 }

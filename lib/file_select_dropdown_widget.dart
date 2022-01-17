@@ -33,11 +33,6 @@ class FileSelectDropDown extends StatelessWidget {
             items: aaa(),
             onChanged: (val) async {
               FileSelectDropDownCtrl.to.selected[idx] = val!;
-              //FileSelectDropDownCtrl.to.fff(f: val!);
-              // FileSelectDropDownCtrl.to
-              //     .firstTimeFunc(firstList: FilePickerCtrl.to.oesFD);
-
-              // FileSelectDropDownCtrl.to.applySignal.value = true;
 
               if (val != null) {
                 debugPrint('파일 들어온게 null아니니까 apply버튼 활성화상태');

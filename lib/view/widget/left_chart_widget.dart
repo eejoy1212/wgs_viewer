@@ -40,33 +40,33 @@ class LeftChartWidget extends StatelessWidget {
               ? null
               : RangeSliderCtrl.to.verticalPB(),
         ),
-        // onLegendItemRender: (args) {
-        //   // debugPrint('args.text : ${args.text}');
-        //   args.text = (args.seriesIndex! + 1).toString();
-        //   for (var f = 0; f < FilePickerCtrl.to.oesFD.length; f++) {
-        //     debugPrint('filenum : ' + f.toString());
-        //     args.text = (f + 1).toString() +
-        //         '번째 파일 - ' +
-        //         ((args.seriesIndex! + 1) / FilePickerCtrl.to.oesFD.length)
-        //             .toInt()
-        //             .toString();
-        //   }
-        //   debugPrint('ser text : ${args.text}');
-        //   debugPrint('ser idx : ${args.seriesIndex}');
-        //   // for (var w = 0; w < 5; w++) {
-        //   //   ChartCtrl.to.seriesName.add('');
-        //   //   ChartCtrl.to.seriesName.add('W$w');
 
-        //   //   debugPrint('seriesName : ${ChartCtrl.to.seriesName}');
-        //   // }
-        // },
+        onLegendItemRender: (args) {
+          // debugPrint('args.text : ${args.text}');
+          args.text = (args.seriesIndex! + 1).toString();
+          for (var f = 0; f < FilePickerCtrl.to.oesFD.length; f++) {
+            debugPrint('filenum : ' + f.toString());
+            args.text = (f + 1).toString() +
+                '번째 파일 - ' +
+                ((args.seriesIndex! + 1) ~/ FilePickerCtrl.to.oesFD.length)
+                    .toString();
+          }
+          debugPrint('ser text : ${args.text}');
+          debugPrint('ser idx : ${args.seriesIndex}');
+          // for (var w = 0; w < 5; w++) {
+          //   ChartCtrl.to.seriesName.add('');
+          //   ChartCtrl.to.seriesName.add('W$w');
+
+          //   debugPrint('seriesName : ${ChartCtrl.to.seriesName}');
+          // }
+        },
         onZooming: (zoomingArgs) {
           zoomingArgs.currentZoomPosition;
           debugPrint('줌 하는중 : ${zoomingArgs.currentZoomPosition}');
         },
         onZoomReset: (ZoomPanArgs zpArgs) {
-          // zoom(zoomPanArgs);
-          debugPrint(zpArgs.currentZoomPosition.toString());
+          zoomreset(zpArgs);
+          debugPrint('zoom reset : ${zpArgs.currentZoomPosition.toString()}');
         },
 
         zoomPanBehavior: ZoomPanBehavior(
@@ -95,6 +95,8 @@ class LeftChartWidget extends StatelessWidget {
     });
   }
 }
+
+zoomreset(ZoomPanArgs zpArgs) {}
 
 zoomBtn() {
   return ElevatedButton(
