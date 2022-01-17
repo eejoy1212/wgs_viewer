@@ -66,7 +66,10 @@ void rightExportCSV(String name, [List<dynamic> data = const []]) async {
   if (_path != '') {
     print('_path $_path');
   }
-
+  if (_path!.substring(_path.length - 4, _path.length) != '.csv') {
+    _path += '.csv';
+  }
+  debugPrint('_path $_path');
   List header = [];
 
   String firstData = RightChartCtrl.to.rightSeriesData[0]
@@ -103,7 +106,7 @@ void rightExportCSV(String name, [List<dynamic> data = const []]) async {
       ',' +
       secondData +
       '\n';
-  file.writeAsString(converter.toUTF32(all).toUTF8(), encoding: utf8);
+  file.writeAsString(all, encoding: utf8);
   // var iii = utf8.encode(FileSelectDropDownCtrl.to.selected[1].fileName);
 
   // var test = 'wonhee';

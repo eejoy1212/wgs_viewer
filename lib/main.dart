@@ -27,6 +27,7 @@ import 'package:wgs_viewer/view/widget/time_select_widget.dart';
 import 'package:wgs_viewer/view/page/left_chart_pg.dart';
 import 'package:wgs_viewer/view/widget/window_btns_widget.dart';
 
+final navigatorKey = GlobalKey<NavigatorState>();
 void main() {
   Get.put(ctrl());
   Get.put(LeftMenuCtrl());
@@ -77,6 +78,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+        navigatorKey: navigatorKey,
         title: 'viewer',
         theme: Themes.light,
         darkTheme: Themes.dark,
@@ -84,12 +86,11 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           drawerEnableOpenDragGesture:
-              Get.find<LeftMenuCtrl>().activateLeftMenu.value
-          //  true,
-          ,
+              Get.find<LeftMenuCtrl>().activateLeftMenu.value,
           onDrawerChanged: (isOpened) {
             LeftMenuCtrl.to.activateLeftMenu.value = isOpened;
             LeftMenuCtrl.to.chartSize.value = 1;
+
             debugPrint('isOpened? : $isOpened');
           },
           appBar: AppBar(
@@ -191,7 +192,6 @@ class _MyAppState extends State<MyApp> {
                     visible: false,
                     child: ElevatedButton(
                       onPressed: () async {
-                        // TranslatorCtrl.to.input.value = '나는 26살이다.';
                         TranslatorCtrl.to.korToEn();
                       },
                       child: Text('Translator'),
@@ -238,12 +238,16 @@ class _MyAppState extends State<MyApp> {
               controller: drawerScrollCtrl,
               padding: EdgeInsets.zero,
               children: [
-                Row(
-                  children: [
-                    DottedBorder(
-                        color: Colors.blueGrey,
-                        child: const Text('Range Select')),
-                  ],
+                SizedBox(height: 50),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      DottedBorder(
+                          color: Colors.blueGrey,
+                          child: const Text('Range Select')),
+                    ],
+                  ),
                 ),
                 Column(
                   children: RangeSliderCtrl.to.rsList(),
@@ -321,6 +325,7 @@ class _MyAppState extends State<MyApp> {
                               onCancel: () {
                                 FilePickerCtrl.to.oesFD.clear();
                                 ChartCtrl.to.forfields.clear();
+                                RangeSliderCtrl.to.isPbShow.value = false;
                                 // FilePickerCtrl.to.oesFD =
                                 //     RxList.empty(
                                 //         growable: true);
@@ -373,17 +378,15 @@ class _MyAppState extends State<MyApp> {
                     ],
                   ),
                 ),
-                //타임셀렉트 하는 곳
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          color: Colors.blueGrey.withOpacity(0.5), width: 2),
-                    ),
-                    child: const TimeSelectTxtForm(),
-                  ),
+                const Divider(
+                  color: Colors.grey,
                 ),
+                //타임셀렉트 하는 곳
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: TimeSelectTxtForm(),
+                ),
+                const SizedBox(height: 50)
               ],
             ),
           ),
@@ -437,7 +440,7 @@ class _MyAppState extends State<MyApp> {
     ctrl.to.aaa.value = isDarkMode;
   }
 
-  void realDeleteAlert() {
+  void typeAlert() {
     showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -451,12 +454,10 @@ class _MyAppState extends State<MyApp> {
             ),
           ],
         ),
-        content: const Text('Do you want to delete all?'),
+        content: const Text('파일 형식이 다릅니다.'),
         actions: <Widget>[
           TextButton(
             onPressed: () {
-              FilePickerCtrl.to.oesFD.clear();
-
               Navigator.of(context).pop();
             },
             child: const Text('Yes'),

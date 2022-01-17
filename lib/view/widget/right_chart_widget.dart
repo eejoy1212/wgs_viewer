@@ -11,19 +11,7 @@ class RightChartWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      // RxList<LineSeries> rightLineChart() {
-      //   RxList<LineSeries> rt = RxList.empty();
-      //   for (var i = 0; i < 2; i++) {
-      //     rt.add(rightLineSeries(RightChartCtrl.to.rightSeriesData[i]));
-      //   }
-      //   return rt;
-      // }
-
       return SfCartesianChart(
-        // onZoomReset: (v) {
-        //   v.currentZoomPosition;
-        // },
-
         enableAxisAnimation: false,
         zoomPanBehavior: ZoomPanBehavior(
           enableDoubleTapZooming: true,
@@ -32,6 +20,10 @@ class RightChartWidget extends StatelessWidget {
           enablePinching: true,
           enableSelectionZooming: true,
         ),
+        onLegendItemRender: (item) {
+          int seriesNum = item.seriesIndex! + 1;
+          item.text = 'Series $seriesNum';
+        },
         primaryXAxis: CategoryAxis(),
         // Chart title
         title: ChartTitle(text: 'chart 2'),

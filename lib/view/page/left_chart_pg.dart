@@ -12,6 +12,7 @@ import 'package:wgs_viewer/view/widget/left_chart_widget.dart';
 class LeftChartPg extends StatelessWidget {
   LeftChartPg({Key? key}) : super(key: key);
   bool start = false;
+
   @override
   Widget build(BuildContext context) {
     return Padding(

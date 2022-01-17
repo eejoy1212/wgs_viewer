@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:csv/csv_settings_autodetection.dart';
@@ -8,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
+import 'package:wgs_viewer/main.dart';
 import 'package:wgs_viewer/view/widget/left_chart_widget.dart';
 
 class ChartCtrl extends GetxController {
@@ -32,12 +34,14 @@ class ChartCtrl extends GetxController {
   RxDouble minX = 0.0.obs;
   RxDouble maxX = 0.0.obs;
   RxDouble isReset = 0.0.obs;
+  RxBool isTypeError = false.obs;
 
   void init() {}
 
   Future<void> updateLeftData() async {
     if (FilePickerCtrl.to.oesFD.isNotEmpty) {
       forfields.clear();
+      //s는 파일갯수
       for (int s = 0; s < FilePickerCtrl.to.oesFD.length; s++) {
         forfields.add(RxList.empty());
         if (FilePickerCtrl.to.oesFD[s].isChecked.value == false) continue;
@@ -51,6 +55,8 @@ class ChartCtrl extends GetxController {
             .transform(utf8.decoder)
             .transform(CsvToListConverter(csvSettingsDetector: d))
             .toList();
+
+        debugPrint('왼쪽 잘 오픈?? : ${FilePickerCtrl.to.oesFD[s].fileData}');
         int headRowSize = FilePickerCtrl.to.oesFD[s].fileData
                 .indexWhere((element) => element.contains('Time')) +
             1;
@@ -59,7 +65,7 @@ class ChartCtrl extends GetxController {
             a++) {
           Idx.value = a - headRowSize;
           FilePickerCtrl.to.oesFD[s].avg.clear();
-
+//ii는 레인지 갯수
           for (var ii = 0; ii < 5; ii++) {
             forfields[s].add([]);
             int cnt = RangeSliderCtrl.to.rsWGS[ii].rv.value.end.toInt() -
@@ -68,12 +74,23 @@ class ChartCtrl extends GetxController {
             sum.value = 0.0;
             int inc = 0;
             for (int i = 0; i < cnt; i++) {
+              if (FilePickerCtrl.to.oesFD[s].fileData[a].runtimeType ==
+                  String) {}
               if (FilePickerCtrl.to.oesFD[s].fileData[a].length > i) {
-                sum.value += FilePickerCtrl.to.oesFD[s].fileData[a][
-                    RangeSliderCtrl.to.rsWGS[ii].rv.value.start.toInt() +
-                        i +
-                        1];
-                inc++;
+                if (FilePickerCtrl.to.oesFD[s].fileData[0][0] ==
+                        'FileFormat : 1' &&
+                    FilePickerCtrl.to.oesFD[s].fileData[6][0] == 'Time') {
+                  sum.value += FilePickerCtrl.to.oesFD[s].fileData[a][
+                      RangeSliderCtrl.to.rsWGS[ii].rv.value.start.toInt() +
+                          i +
+                          1];
+                  inc++;
+                  debugPrint('잘 읽어옴. 형식이 맞음');
+                  return;
+                } else {
+                  debugPrint('String type은 읽어 올 수 없습니다.');
+                  isTypeError.value = true;
+                }
               }
             }
             // avg.value = sum.value / inc;
@@ -90,6 +107,7 @@ class ChartCtrl extends GetxController {
         }
       }
     } else {}
+    debugPrint('>>파일갯수  :${forfields.length}');
     update();
     for (var ii = 0; ii < FilePickerCtrl.to.oesFD.length; ii++) {
       for (var iii = 0; iii < FilePickerCtrl.to.oesFD[ii].avg.length; iii++) {

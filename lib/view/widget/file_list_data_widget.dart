@@ -15,7 +15,10 @@ class CkbViewWidget extends StatelessWidget {
     return Obx(
       () => CheckboxListTile(
           selected: oesFDModel.isChecked.value,
-          title: Text('${idx + 1}  :   ${oesFDModel.fileName}'),
+          title: Text(
+            '${idx + 1}  :   ${oesFDModel.fileName}',
+            style: TextStyle(fontSize: 12),
+          ),
           value: oesFDModel.isChecked.value,
           onChanged: (val) {
             if (val != null) {
@@ -40,7 +43,7 @@ class FileListData extends StatelessWidget {
                     children: [
                       Row(
                         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
+                        children: const [
                           SizedBox(width: 10),
                           Text('num'),
                           Spacer(),
@@ -54,10 +57,11 @@ class FileListData extends StatelessWidget {
                     ],
                   ),
                   subtitle: SizedBox(
-                    height: 200,
+                    height: 150,
                     width: 500,
                     child: ListView.separated(
                       // reverse: true,
+
                       controller: scrollCtrl,
                       shrinkWrap: true,
                       itemCount: FilePickerCtrl.to.oesFD.length,

@@ -24,13 +24,15 @@ class TimeSelectTxtForm extends StatelessWidget {
                       DottedBorder(
                           color: Colors.blueGrey,
                           child: const Text('First Time : ')),
-                      const SizedBox(width: 20),
+                      const SizedBox(
+                        width: 65,
+                      ),
                       // Container(
                       //   width: 20,
                       //   height: 20,
                       //   color: RightChartCtrl.to.selectedColor.value,
                       // ),
-                      const SizedBox(width: 20),
+
                       Obx(() {
                         return Tooltip(
                           message: 'Press Left Apply Button',
@@ -87,54 +89,20 @@ class TimeSelectTxtForm extends StatelessWidget {
                           ),
                         );
                       }),
-                      const Spacer(),
-                      Row(
-                        children: [
-                          // const RightApplyBtn(
-                          //   idx: 0,
-                          // ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          Visibility(
-                            visible: false,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: const Color(0xffD83737),
-                              ),
-                              onPressed: () {},
-                              child: const Text(
-                                'File Delete',
-                              ),
-                            ),
-                          )
-                        ],
-                      )
+                      // const Spacer(),
                     ],
                   ),
-                  const SizedBox(
-                    height: 30,
-                  ),
+                  SizedBox(height: 10),
                   const FileSelectDropDown(idx: 0),
-                  const SizedBox(
-                    height: 160,
-                  ),
+
                   ///////////second Time
+                  SizedBox(height: 10),
                   Row(
                     children: [
                       DottedBorder(
                           color: Colors.blueGrey,
                           child: const Text('Second Time : ')),
-                      const SizedBox(width: 20),
-                      // Obx(() {
-                      //   return Container(
-                      //     width: 20,
-                      //     height: 20,
-                      //     color: RightChartCtrl.to.selectedColor2.value,
-                      //   );
-                      // }),
-                      const SizedBox(width: 20),
-                      // FirstTimeBtnWidget(),
+                      const Spacer(),
                       Obx(() {
                         return Tooltip(
                           message: 'Press Left Apply Button',
@@ -241,7 +209,7 @@ class TimeSelectTxtForm extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 10,
                   ),
                   const FileSelectDropDown(idx: 1),
                 ],

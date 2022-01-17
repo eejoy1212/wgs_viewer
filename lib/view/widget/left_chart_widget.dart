@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:fs_shim/fs.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
-import 'package:wgs_viewer/controller/file_select_dropdown_ctrl.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
-import 'package:wgs_viewer/controller/right_chart_ctrl.dart';
 
 class LeftChartWidget extends StatelessWidget {
   LeftChartWidget({Key? key}) : super(key: key);
-
-  List<LineSeries> lineChart() {
-    List<LineSeries> rt = [];
+  final leftScroller = ScrollController();
+  List<LineSeries<WGSspot, int>> lineChart() {
+    List<LineSeries<WGSspot, int>> rt = [];
     for (var i = 0; i < ChartCtrl.to.forfields.length; i++) {
       for (var ii = 0; ii < ChartCtrl.to.forfields[i].length; ii++) {
-        if (ChartCtrl.to.forfields[i][ii].isNotEmpty) {
-          rt.add(lineSeries(ChartCtrl.to.forfields[i][ii]));
-          debugPrint('시리즈 갯수 : ${rt.length}');
-        }
+        // if (ChartCtrl.to.forfields[i][ii].isNotEmpty) {
+        rt.add(lineSeries(ChartCtrl.to.forfields[i][ii]));
+        debugPrint('시리즈 갯수 : ${rt.length}');
+        debugPrint('시리즈 rt[0] : ${rt[0].dataSource}');
+        // }
       }
     }
 
@@ -60,46 +58,12 @@ class LeftChartWidget extends StatelessWidget {
         },
 
         onLegendItemRender: (args) {
-          // debugPrint('args.text : ${args.text}');
-          int aa = args.seriesIndex!;
-          for (int i = 0; i < aa; i++) {}
-
-          args.text = (args.seriesIndex! + 1).toString();
-          // for (var f = 0; f < FilePickerCtrl.to.oesFD.length; f++) {
-          //   debugPrint('filenum : ' + f.toString());
-          //   args.text = (f + 1).toString() +
-          //       '번째 파일 - ' +
-          //       ((args.seriesIndex! + 1) ~/ FilePickerCtrl.to.oesFD.length)
-          //           .toString();
-          // }
-          // debugPrint('ser text : ${args.text}');
-          // debugPrint('ser idx : ${args.seriesIndex}');
-          // for (var w = 0; w < 5; w++) {
-          //   ChartCtrl.to.seriesName.add('');
-          //   ChartCtrl.to.seriesName.add('W$w');
-
-          //   debugPrint('seriesName : ${ChartCtrl.to.seriesName}');
-          // }
+          int f = args.seriesIndex! ~/ 5;
+          int w = args.seriesIndex! % 5;
+          args.text = 'F${f + 1}-W${w + 1}';
         },
 
-        // onZoomStart: (ZoomPanArgs args) {
-        //   debugPrint('sdsd : ${args.currentZoomFactor = 0}');
-        //   args.currentZoomFactor = 0;
-        //   zooming(args);
-        // },
-        // onZoomEnd: (zoomingArgs) {
-        //   zoomingArgs.currentZoomPosition = 0;
-        // },
-        // onZoomReset: (ZoomPanArgs zpArgs) {
-        //   zoomreset(zpArgs);
-
-        //   debugPrint(
-        //       'zoom 다되고 난 후 (0) : ${zpArgs.currentZoomPosition.toString()}');
-        // },
-
-        // primaryXAxis: CategoryAxis(),
         selectionType: SelectionType.series,
-        // enableSideBySideSeriesPlacement: true,
         title: ChartTitle(text: 'chart 1'),
         // Enable legend
         legend: Legend(
@@ -152,6 +116,8 @@ LineSeries<WGSspot, int> lineSeries(List<WGSspot> data) {
   return LineSeries<WGSspot, int>(
     dataSource: data,
     animationDuration: 0,
+    // name:,
+    // legendItemText: ,
     xValueMapper: (WGSspot oesData, _) => oesData.xVal.toInt(),
     yValueMapper: (WGSspot oesData, _) => oesData.yVal,
     // selectionBehavior: SelectionBehavior(selectedBorderColor: Colors.amber),
