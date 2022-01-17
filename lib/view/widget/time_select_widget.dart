@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/file_select_dropdown_ctrl.dart';
+import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
 import 'package:wgs_viewer/controller/right_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/file_select_dropdown_widget.dart';
@@ -44,6 +45,7 @@ class TimeSelectTxtForm extends StatelessWidget {
                               ),
                               onTap: () {
                                 Get.find<TimeSelectCtrl>().firstDecrease();
+                                RightChartCtrl.to.updateRightData(0);
                               },
                             ),
                           ),
@@ -79,6 +81,7 @@ class TimeSelectTxtForm extends StatelessWidget {
                               ),
                               onTap: () {
                                 Get.find<TimeSelectCtrl>().firstIncrease();
+                                RightChartCtrl.to.updateRightData(0);
                               },
                             ),
                           ),
@@ -87,9 +90,9 @@ class TimeSelectTxtForm extends StatelessWidget {
                       const Spacer(),
                       Row(
                         children: [
-                          const RightApplyBtn(
-                            idx: 0,
-                          ),
+                          // const RightApplyBtn(
+                          //   idx: 0,
+                          // ),
                           const SizedBox(
                             width: 20,
                           ),
@@ -131,8 +134,28 @@ class TimeSelectTxtForm extends StatelessWidget {
                       //   );
                       // }),
                       const SizedBox(width: 20),
-                      FirstTimeBtnWidget(),
-
+                      // FirstTimeBtnWidget(),
+                      Obx(() {
+                        return Tooltip(
+                          message: 'Press Left Apply Button',
+                          child: IgnorePointer(
+                              ignoring:
+                                  TimeSelectCtrl.to.ableTimeSelect.isFalse,
+                              child: InkWell(
+                                child: Icon(
+                                  Icons.arrow_back_ios,
+                                  color:
+                                      TimeSelectCtrl.to.ableTimeSelect.isFalse
+                                          ? Colors.grey
+                                          : Colors.blueGrey,
+                                ),
+                                onTap: () {
+                                  Get.find<TimeSelectCtrl>().secondDecrease();
+                                  RightChartCtrl.to.updateRightData(1);
+                                },
+                              )),
+                        );
+                      }),
                       GetBuilder<TimeSelectCtrl>(builder: (controller) {
                         if (controller.timeIdxList.isEmpty) {
                           return Text('-');
@@ -166,6 +189,7 @@ class TimeSelectTxtForm extends StatelessWidget {
                               // },
                               onTap: () {
                                 Get.find<TimeSelectCtrl>().secondIncrease();
+                                RightChartCtrl.to.updateRightData(1);
                               },
                               // onDoubleTap: () {
                               //   return null;
@@ -176,53 +200,42 @@ class TimeSelectTxtForm extends StatelessWidget {
                       }),
 
                       const Spacer(),
-                      Row(
-                        children: [
-                          Obx(() {
-                            return IgnorePointer(
-                              ignoring: FilePickerCtrl.to.oesFD.isEmpty ||
-                                  FileSelectDropDownCtrl
-                                      .to.applySignal1.isFalse,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  primary: FilePickerCtrl.to.oesFD.isEmpty ||
-                                          FileSelectDropDownCtrl
-                                              .to.applySignal1.isFalse
-                                      ? Colors.grey
-                                      : Color(0xff5AEDCA),
-                                ),
-                                onPressed: () async {
-                                  //오른쪽 함수 부르는거
-                                  TimeSelectCtrl.to.timeSelected.value = true;
-                                  await RightChartCtrl.to.updateRightData(1);
-                                  // RangeSliderCtrl.to.minMaxFunc();
-                                },
-                                child: const Text(
-                                  'Apply',
-                                  style: TextStyle(
-                                      color: Colors.blueGrey,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            );
-                          }),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          Visibility(
-                            visible: false,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: const Color(0xffD83737),
-                              ),
-                              onPressed: () {},
-                              child: const Text(
-                                'File Delete',
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
+                      // Row(
+                      //   children: [
+                      //     Obx(() {
+                      //       return IgnorePointer(
+                      //         ignoring: FilePickerCtrl.to.oesFD.isEmpty ||
+                      //             FileSelectDropDownCtrl
+                      //                 .to.applySignal1.isFalse,
+                      //         child: ElevatedButton(
+                      //           style: ElevatedButton.styleFrom(
+                      //             primary: FilePickerCtrl.to.oesFD.isEmpty ||
+                      //                     FileSelectDropDownCtrl
+                      //                         .to.applySignal1.isFalse
+                      //                 ? Colors.grey
+                      //                 : Color(0xff5AEDCA),
+                      //           ),
+                      //           onPressed: () async {
+                      //             //오른쪽 함수 부르는거
+                      //             TimeSelectCtrl.to.timeSelected.value = true;
+                      //             await RightChartCtrl.to.updateRightData(1);
+                      //             // RangeSliderCtrl.to.minMaxFunc();
+                      //           },
+                      //           child: const Text(
+                      //             'Apply',
+                      //             style: TextStyle(
+                      //                 color: Colors.blueGrey,
+                      //                 fontWeight: FontWeight.bold),
+                      //           ),
+                      //         ),
+                      //       );
+                      //     }),
+                      //     const SizedBox(
+                      //       width: 20,
+                      //     ),
+
+                      //   ],
+                      // ),
 
                       ///////////second Time
                     ],
@@ -251,6 +264,7 @@ class TimeSelectTxtForm extends StatelessWidget {
               ),
               onTap: () {
                 Get.find<TimeSelectCtrl>().secondDecrease();
+                RightChartCtrl.to.updateRightData(1);
               },
             )),
       );

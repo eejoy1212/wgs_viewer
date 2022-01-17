@@ -63,7 +63,7 @@ class RangeSliderCtrl extends GetxController {
   List<PlotBand>? verticalPB() {
     List<PlotBand>? pb = [];
 //시간축을 x1 x2에 넣는거
-    pbSignal.value = true;
+
     pb.add(PlotBand(
       isRepeatable: true,
       shouldRenderAboveSeries: false,
@@ -105,6 +105,9 @@ class RangeSliderCtrl extends GetxController {
 //
 ////
     update();
+
+    pbSignal.value = true;
+    debugPrint('pb true?' + pbSignal.string);
     return pb;
   }
 
