@@ -1,16 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:csv/csv_settings_autodetection.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
-import 'package:wgs_viewer/main.dart';
 import 'package:wgs_viewer/view/widget/left_chart_widget.dart';
 
 class ChartCtrl extends GetxController {
@@ -35,14 +32,12 @@ class ChartCtrl extends GetxController {
   RxDouble minX = 0.0.obs;
   RxDouble maxX = 0.0.obs;
   RxDouble isReset = 0.0.obs;
-  RxBool isTypeError = false.obs;
 
   void init() {}
 
   Future<void> updateLeftData() async {
     if (FilePickerCtrl.to.oesFD.isNotEmpty) {
       forfields.clear();
-      //s는 파일갯수
       for (int s = 0; s < FilePickerCtrl.to.oesFD.length; s++) {
         forfields.add(RxList.empty());
         if (FilePickerCtrl.to.oesFD[s].isChecked.value == false) continue;
@@ -56,7 +51,6 @@ class ChartCtrl extends GetxController {
             .transform(utf8.decoder)
             .transform(CsvToListConverter(csvSettingsDetector: d))
             .toList();
-
         int headRowSize = FilePickerCtrl.to.oesFD[s].fileData
                 .indexWhere((element) => element.contains('Time')) +
             1;
@@ -65,7 +59,7 @@ class ChartCtrl extends GetxController {
             a++) {
           Idx.value = a - headRowSize;
           FilePickerCtrl.to.oesFD[s].avg.clear();
-//ii는 레인지 갯수
+
           for (var ii = 0; ii < 5; ii++) {
             forfields[s].add([]);
             int cnt = RangeSliderCtrl.to.rsWGS[ii].rv.value.end.toInt() -
@@ -82,29 +76,18 @@ class ChartCtrl extends GetxController {
                 inc++;
               }
             }
+            // avg.value = sum.value / inc;
+            // double avg = 0.0;
+            // avg += sum.value / inc;
             FilePickerCtrl.to.oesFD[s].avg.add(sum.value / inc);
 
             if (TimeSelectCtrl.to.timeIdxList.length > Idx.value) {
               forfields[s][ii].add(WGSspot(
                   TimeSelectCtrl.to.timeIdxList[Idx.value],
-                  FilePickerCtrl.to.oesFD[s].avg[ii]));
+                  FilePickerCtrl.to.oesFD[s].avg[ii].toInt()));
             }
-
-            // for (var ii = 0; ii < FilePickerCtrl.to.oesFD.length; ii++) {
-            //   for (var iii = 0;
-            //       iii < FilePickerCtrl.to.oesFD[ii].avg.length;
-            //       iii++) {
-            //     debugPrint('apply ${FilePickerCtrl.to.oesFD[ii].avg[iii]}');
-            //   }
-            // }
           }
         }
-        // avg.value = sum.value / inc;
-        // double avg = 0.0;
-        // avg += sum.value / inc;
-
-//밑에 타임인덱스가 그냥 인덱스보다 긴지 디버그 찍어보기
-
       }
     } else {}
     update();

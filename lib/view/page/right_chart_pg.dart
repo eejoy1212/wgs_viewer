@@ -3,7 +3,6 @@ import 'dart:convert' show utf8;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:string_converter/converter.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/file_select_dropdown_ctrl.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
@@ -56,7 +55,6 @@ class RightChartPg extends StatelessWidget {
 }
 
 void rightExportCSV(String name, [List<dynamic> data = const []]) async {
-  StringConverter converter = StringConverter();
   String? _path = '';
   _path = await FilePicker.platform.saveFile(
       type: FileType.custom,
@@ -88,18 +86,14 @@ void rightExportCSV(String name, [List<dynamic> data = const []]) async {
       "FileName/Time," +
       FilePickerCtrl.to.xWLs.join(',') +
       '\n' +
-      converter
-          .toUTF32(FileSelectDropDownCtrl.to.selected[0].fileName)
-          .toUTF8() +
+      FileSelectDropDownCtrl.to.selected[0].fileName +
       ' / ' +
       TimeSelectCtrl.to.timeIdxList[TimeSelectCtrl.to.firstTimeIdx.value]
           .toString() +
       ',' +
       firstData +
       '\n' +
-      converter
-          .toUTF32(FileSelectDropDownCtrl.to.selected[1].fileName)
-          .toUTF8() +
+      FileSelectDropDownCtrl.to.selected[1].fileName +
       ' / ' +
       TimeSelectCtrl.to.timeIdxList[TimeSelectCtrl.to.secondTimeIdx.value]
           .toString() +

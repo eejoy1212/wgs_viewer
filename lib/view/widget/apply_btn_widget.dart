@@ -21,8 +21,8 @@ class ApplyBtn extends StatelessWidget {
                     ? Colors.grey
                     : Color(0xff5AEDCA),
               ),
-              onPressed: () async {
-                await ChartCtrl.to.updateLeftData();
+              onPressed: () {
+                ChartCtrl.to.updateLeftData();
                 TimeSelectCtrl.to.ableTimeSelect.value = true;
 
                 if (ChartCtrl.to.isTypeError.isTrue) {

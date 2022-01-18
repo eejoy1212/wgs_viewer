@@ -119,6 +119,8 @@ class FilePickerCtrl extends GetxController {
                     .toDouble()) /
                 1000);
             TimeSelectCtrl.to.timeIdxList = FilePickerCtrl.to.xTimes;
+
+            debugPrint('x축갯수  ${TimeSelectCtrl.to.timeIdxList.length}');
           }
         }
       }
