@@ -26,6 +26,7 @@ class FilePickerCtrl extends GetxController {
   RxList timeIdxList = RxList.empty();
   RxList<String> noFile = ['파일없음'].obs;
   RxInt idx = 0.obs;
+
   Future<void> selectedFileFunc() async {
     try {
       List<PlatformFile>? _paths;
@@ -39,7 +40,6 @@ class FilePickerCtrl extends GetxController {
           ?.files;
       if (_paths != null) {
         bool first = oesFD.isEmpty;
-
         List<String> _fileNames = _paths.map((e) {
           return e.name;
         }).toList();
@@ -62,15 +62,12 @@ class FilePickerCtrl extends GetxController {
         } else {
           for (int i = 0; i < _paths.length; i++) {
             //체크박스에 추가되는 리스트
-            debugPrint('ckb idx : $i');
-
             oesFD.add(OESFileData(
               fileName: _paths[i].name,
               filePath: _paths[i].path,
               isChecked: false.obs,
               avg: [],
             ));
-            debugPrint('ckb add after $oesFD');
             //드롭박스에 추가되는 파일리스트
             dropdownFileName.add(_paths[i].name);
           }
@@ -93,36 +90,34 @@ class FilePickerCtrl extends GetxController {
               fileData[timeRowSize].sublist(1, fileData[timeRowSize].length));
 // RangeSliderCtrl.to.rsWGS.map((element) => element.rv.assign)
 
-          String toConvert = '2022-01-01 ' + fileData[timeRowSize + 1][0];
+          // String toConvert = '2022-01-01 ' + fileData[timeRowSize + 1][0];
+          String toConvert = fileData[timeRowSize + 1][0];
           final DateTime firstTime = DateTime.parse(toConvert);
           for (var i = timeRowSize + 1; i < fileData.length; i++) {
-            String toConvert = '2022-01-01 ' + fileData[i][0];
-
+            // String toConvert = '2022-01-01 ' + fileData[i][0];
+            String toConvert = fileData[i][0];
             final DateTime dateTime = DateTime.parse(toConvert);
-            FilePickerCtrl.to.xTimes.addIf(
-                FilePickerCtrl.to.xWLs.isNotEmpty,
-                // RangeSliderCtrl.to.rsWGS.isNotEmpty,
-                (DateTime(
-                            dateTime.year,
-                            dateTime.month,
-                            dateTime.day,
-                            dateTime.hour,
-                            dateTime.minute,
-                            dateTime.second,
-                            dateTime.millisecond)
-                        .difference(
-                          DateTime(
-                              firstTime.year,
-                              firstTime.month,
-                              firstTime.day,
-                              firstTime.hour,
-                              firstTime.minute,
-                              firstTime.second,
-                              firstTime.millisecond),
-                        )
-                        .inMilliseconds
-                        .toDouble()) /
-                    1000);
+            FilePickerCtrl.to.xTimes.add((DateTime(
+                        dateTime.year,
+                        dateTime.month,
+                        dateTime.day,
+                        dateTime.hour,
+                        dateTime.minute,
+                        dateTime.second,
+                        dateTime.millisecond)
+                    .difference(
+                      DateTime(
+                          firstTime.year,
+                          firstTime.month,
+                          firstTime.day,
+                          firstTime.hour,
+                          firstTime.minute,
+                          firstTime.second,
+                          firstTime.millisecond),
+                    )
+                    .inMilliseconds
+                    .toDouble()) /
+                1000);
             TimeSelectCtrl.to.timeIdxList = FilePickerCtrl.to.xTimes;
           }
         }

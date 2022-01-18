@@ -107,7 +107,6 @@ class RangeSliderCtrl extends GetxController {
     update();
 
     pbSignal.value = true;
-    debugPrint('pb true?' + pbSignal.string);
     return pb;
   }
 

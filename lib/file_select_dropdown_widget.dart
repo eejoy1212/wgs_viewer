@@ -35,7 +35,6 @@ class FileSelectDropDown extends StatelessWidget {
               FileSelectDropDownCtrl.to.selected[idx] = val!;
 
               if (val != null) {
-                debugPrint('파일 들어온게 null아니니까 apply버튼 활성화상태');
                 if (idx == 0) {
                   // FileSelectDropDownCtrl.to.applySignal0.value = true;
                   //오른쪽 차트 파일 선택하자마자 업데이트 되게하기
@@ -48,9 +47,7 @@ class FileSelectDropDown extends StatelessWidget {
                   TimeSelectCtrl.to.timeSelected.value = true;
                   await RightChartCtrl.to.updateRightData(idx);
                 }
-              } else {
-                debugPrint('파일 들어온게 null 이니까 apply버튼 비활성화상태');
-              }
+              } else {}
             },
           ));
     });

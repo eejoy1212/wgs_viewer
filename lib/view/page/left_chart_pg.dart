@@ -74,7 +74,6 @@ class LeftChartPg extends StatelessWidget {
             ',${FilePickerCtrl.to.oesFD[i].fileName} ${RangeSliderCtrl.to.rsWGS[ii].vStart.toStringAsFixed(3)}~${RangeSliderCtrl.to.rsWGS[ii].vEnd.toStringAsFixed(3)}';
       }
     }
-    debugPrint('header $header');
 
     for (var i = 0; i < TimeSelectCtrl.to.timeIdxList.length; i++) {
       fileData.add([]);

@@ -6,6 +6,7 @@ import 'package:csv/csv.dart';
 import 'package:csv/csv_settings_autodetection.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
 import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
@@ -56,7 +57,6 @@ class ChartCtrl extends GetxController {
             .transform(CsvToListConverter(csvSettingsDetector: d))
             .toList();
 
-        debugPrint('왼쪽 잘 오픈?? : ${FilePickerCtrl.to.oesFD[s].fileData}');
         int headRowSize = FilePickerCtrl.to.oesFD[s].fileData
                 .indexWhere((element) => element.contains('Time')) +
             1;
@@ -74,44 +74,40 @@ class ChartCtrl extends GetxController {
             sum.value = 0.0;
             int inc = 0;
             for (int i = 0; i < cnt; i++) {
-              if (FilePickerCtrl.to.oesFD[s].fileData[a].runtimeType ==
-                  String) {}
               if (FilePickerCtrl.to.oesFD[s].fileData[a].length > i) {
-                if (FilePickerCtrl.to.oesFD[s].fileData[0][0] ==
-                        'FileFormat : 1' &&
-                    FilePickerCtrl.to.oesFD[s].fileData[6][0] == 'Time') {
-                  sum.value += FilePickerCtrl.to.oesFD[s].fileData[a][
-                      RangeSliderCtrl.to.rsWGS[ii].rv.value.start.toInt() +
-                          i +
-                          1];
-                  inc++;
-                  debugPrint('잘 읽어옴. 형식이 맞음');
-                  return;
-                } else {
-                  debugPrint('String type은 읽어 올 수 없습니다.');
-                  isTypeError.value = true;
+                //파일형식
+
+                sum.value += FilePickerCtrl.to.oesFD[s].fileData[a][
+                    RangeSliderCtrl.to.rsWGS[ii].rv.value.start.toInt() +
+                        i +
+                        1];
+                inc++;
+
+                FilePickerCtrl.to.oesFD[s].avg.add(sum.value / inc);
+
+                if (TimeSelectCtrl.to.timeIdxList.length > Idx.value) {
+                  forfields[s][ii].add(WGSspot(
+                      TimeSelectCtrl.to.timeIdxList[Idx.value],
+                      FilePickerCtrl.to.oesFD[s].avg[ii]));
                 }
+                update();
+                // for (var ii = 0; ii < FilePickerCtrl.to.oesFD.length; ii++) {
+                //   for (var iii = 0;
+                //       iii < FilePickerCtrl.to.oesFD[ii].avg.length;
+                //       iii++) {
+                //     debugPrint('apply ${FilePickerCtrl.to.oesFD[ii].avg[iii]}');
+                //   }
+                // }
               }
             }
             // avg.value = sum.value / inc;
             // double avg = 0.0;
             // avg += sum.value / inc;
-            FilePickerCtrl.to.oesFD[s].avg.add(sum.value / inc);
 
-            if (TimeSelectCtrl.to.timeIdxList.length > Idx.value) {
-              forfields[s][ii].add(WGSspot(
-                  TimeSelectCtrl.to.timeIdxList[Idx.value],
-                  FilePickerCtrl.to.oesFD[s].avg[ii].toInt()));
-            }
+//밑에 타임인덱스가 그냥 인덱스보다 긴지 디버그 찍어보기
+
           }
         }
-      }
-    } else {}
-    debugPrint('>>파일갯수  :${forfields.length}');
-    update();
-    for (var ii = 0; ii < FilePickerCtrl.to.oesFD.length; ii++) {
-      for (var iii = 0; iii < FilePickerCtrl.to.oesFD[ii].avg.length; iii++) {
-        debugPrint('apply ${FilePickerCtrl.to.oesFD[ii].avg[iii]}');
       }
     }
   }

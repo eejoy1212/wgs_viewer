@@ -37,7 +37,6 @@ class FileSelectDropDownCtrl extends GetxController {
     firstList
         .forEach((el) => FilePickerCtrl.to.dropdownFileName.add(el?.filePath));
     final firstInput = File(FilePickerCtrl.to.dropdownFileName[0]!).openRead();
-    debugPrint('apply버튼 풀리는 시점??');
     var d = const FirstOccurrenceSettingsDetector(
         eols: ['\r\n', '\n'], textDelimiters: ['"', "'"]);
 //파일말고 파일 내용이 담긴 리스트(행,열로 떼어 옴.)

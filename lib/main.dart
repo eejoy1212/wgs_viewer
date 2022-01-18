@@ -34,7 +34,7 @@ void main() {
   Get.put(TimeSelectCtrl());
   Get.put(FilePickerCtrl(), permanent: true);
   Get.put(DarkModeCtrl());
-  Get.put(ChartCtrl());
+  Get.put(ChartCtrl(), permanent: true);
   Get.put(RightChartCtrl());
   Get.put(CheckboxCtrl());
   Get.put(TranslatorCtrl());
@@ -90,8 +90,6 @@ class _MyAppState extends State<MyApp> {
           onDrawerChanged: (isOpened) {
             LeftMenuCtrl.to.activateLeftMenu.value = isOpened;
             LeftMenuCtrl.to.chartSize.value = 1;
-
-            debugPrint('isOpened? : $isOpened');
           },
           appBar: AppBar(
             // toolbarHeight: 60,
@@ -480,8 +478,6 @@ class LeftMenuIcon extends StatelessWidget {
     return InkWell(
       onTap: () {
         Scaffold.of(context).openDrawer();
-        debugPrint(
-            'left menu : ${Get.find<LeftMenuCtrl>().activateLeftMenu.value}');
       },
       child: const Icon(
         Icons.menu,
