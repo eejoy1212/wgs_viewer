@@ -16,7 +16,6 @@ class LeftChartWidget extends StatelessWidget {
         }
       }
     }
-    debugPrint('29개?? :${rt.length}');
     return rt;
   }
 
@@ -56,7 +55,7 @@ class LeftChartWidget extends StatelessWidget {
           toggleSeriesVisibility: true,
         ),
         // Enable tooltip
-        tooltipBehavior: TooltipBehavior(enable: true),
+        tooltipBehavior: TooltipBehavior(enable: true, decimalPlaces: 0),
         series: lineChart(),
       );
     });
@@ -78,15 +77,11 @@ class WGSspot {
 }
 
 LineSeries<WGSspot, dynamic> lineSeries(List<WGSspot> data) {
-  debugPrint('data : ${data.length} && ${data[0].yVal}');
   return LineSeries<WGSspot, dynamic>(
     dataSource: data,
     animationDuration: 0,
-    // name:,
-    // legendItemText: ,
     xValueMapper: (WGSspot oesData, _) => oesData.xVal,
     yValueMapper: (WGSspot oesData, _) => oesData.yVal,
-    // selectionBehavior: SelectionBehavior(selectedBorderColor: Colors.amber),
     legendIconType: LegendIconType.seriesType,
   );
 }

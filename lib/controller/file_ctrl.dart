@@ -5,6 +5,7 @@ import 'package:csv/csv_settings_autodetection.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/model/oes_file_data_model.dart';
@@ -38,8 +39,13 @@ class FilePickerCtrl extends GetxController {
               withReadStream: true,
               dialogTitle: 'File select'))
           ?.files;
+
       if (_paths != null) {
         bool first = oesFD.isEmpty;
+//파일 유효성검사
+
+//파일 유효성검사
+
         List<String> _fileNames = _paths.map((e) {
           return e.name;
         }).toList();
@@ -82,45 +88,56 @@ class FilePickerCtrl extends GetxController {
               .transform(utf8.decoder)
               .transform(CsvToListConverter(csvSettingsDetector: d))
               .toList();
+          debugPrint('파일유효성검사 [0][0] : ${fileData[0][0]}');
+
+          debugPrint('파일유효성검사 [6][0] : ${fileData[6][0]}');
 
           //Time포함되어있는 셀 번호
-          int timeRowSize = fileData.indexWhere((e) => e.contains('Time'));
-          //int timeRowSize = 7;
-          FilePickerCtrl.to.xWLs.assignAll(
-              fileData[timeRowSize].sublist(1, fileData[timeRowSize].length));
+          // int timeRowSize = fileData.indexWhere((e) => e.contains('Time'));
+          // int timeRowSize = 7;
+
+          if (fileData[0][0] != 'FileFormat : 1' || fileData[6][0] != 'Time') {
+            debugPrint('파일형식 다름');
+            ChartCtrl.to.isTypeError.value = true;
+          }
+          if (fileData[0][0] == 'FileFormat : 1' || fileData[6][0] == 'Time') {
+            debugPrint('올바른 파일 형식');
+            FilePickerCtrl.to.xWLs
+                .assignAll(fileData[7].sublist(1, fileData[7].length));
 // RangeSliderCtrl.to.rsWGS.map((element) => element.rv.assign)
 
-          // String toConvert = '2022-01-01 ' + fileData[timeRowSize + 1][0];
-          String toConvert = fileData[timeRowSize + 1][0];
-          final DateTime firstTime = DateTime.parse(toConvert);
-          for (var i = timeRowSize + 1; i < fileData.length; i++) {
-            // String toConvert = '2022-01-01 ' + fileData[i][0];
-            String toConvert = fileData[i][0];
-            final DateTime dateTime = DateTime.parse(toConvert);
-            FilePickerCtrl.to.xTimes.add((DateTime(
-                        dateTime.year,
-                        dateTime.month,
-                        dateTime.day,
-                        dateTime.hour,
-                        dateTime.minute,
-                        dateTime.second,
-                        dateTime.millisecond)
-                    .difference(
-                      DateTime(
-                          firstTime.year,
-                          firstTime.month,
-                          firstTime.day,
-                          firstTime.hour,
-                          firstTime.minute,
-                          firstTime.second,
-                          firstTime.millisecond),
-                    )
-                    .inMilliseconds
-                    .toDouble()) /
-                1000);
-            TimeSelectCtrl.to.timeIdxList = FilePickerCtrl.to.xTimes;
+            // String toConvert = '2022-01-01 ' + fileData[timeRowSize + 1][0];
+            String toConvert = fileData[7][0];
+            final DateTime firstTime = DateTime.parse(toConvert);
+            for (var i = 7; i < fileData.length; i++) {
+              // String toConvert = '2022-01-01 ' + fileData[i][0];
+              String toConvert = fileData[i][0];
+              final DateTime dateTime = DateTime.parse(toConvert);
+              FilePickerCtrl.to.xTimes.add((DateTime(
+                          dateTime.year,
+                          dateTime.month,
+                          dateTime.day,
+                          dateTime.hour,
+                          dateTime.minute,
+                          dateTime.second,
+                          dateTime.millisecond)
+                      .difference(
+                        DateTime(
+                            firstTime.year,
+                            firstTime.month,
+                            firstTime.day,
+                            firstTime.hour,
+                            firstTime.minute,
+                            firstTime.second,
+                            firstTime.millisecond),
+                      )
+                      .inMilliseconds
+                      .toDouble()) /
+                  1000);
+              TimeSelectCtrl.to.timeIdxList = FilePickerCtrl.to.xTimes;
 
-            debugPrint('x축갯수  ${TimeSelectCtrl.to.timeIdxList.length}');
+              debugPrint('x축갯수  ${TimeSelectCtrl.to.timeIdxList.length}');
+            }
           }
         }
       }

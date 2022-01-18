@@ -6,65 +6,80 @@ import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/main.dart';
 
 class ApplyBtn extends StatelessWidget {
-  const ApplyBtn({Key? key}) : super(key: key);
-
+  ApplyBtn({Key? key}) : super(key: key);
+  var lastTimeClicked = 0;
+  bool isHover = false;
   @override
   Widget build(BuildContext context) {
     return Obx(() {
       return IgnorePointer(
           ignoring: FilePickerCtrl.to.oesFD.isEmpty &&
               FilePickerCtrl.to.ableApply.isFalse,
-          child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: FilePickerCtrl.to.oesFD.isEmpty &&
+          child: InkWell(
+            onDoubleTap: () => null,
+            onTap: () {
+              debugPrint('tap');
+              ChartCtrl.to.updateLeftData();
+              TimeSelectCtrl.to.ableTimeSelect.value = true;
+
+              // if (ChartCtrl.to.isTypeError.isTrue) {
+              //   showDialog(
+              //     context: navigatorKey.currentContext!,
+              //     builder: (context) => AlertDialog(
+              //       title: Column(
+              //         children: const [
+              //           Text('All Files Delete'),
+              //           Divider(
+              //             color: Colors.blueGrey,
+              //             indent: 6,
+              //             endIndent: 6,
+              //           ),
+              //         ],
+              //       ),
+              //       content: const Text('파일 형식이 다릅니다.'),
+              //       actions: <Widget>[
+              //         TextButton(
+              //           onPressed: () {
+              //             Navigator.of(context).pop();
+              //           },
+              //           child: const Text('Yes'),
+              //         ),
+              //         TextButton(
+              //           onPressed: () {
+              //             Navigator.of(context).pop();
+              //           },
+              //           child: const Text('No'),
+              //         ),
+              //       ],
+              //     ),
+              //   );
+              // }
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(2),
+                color: FilePickerCtrl.to.oesFD.isEmpty &&
                         FilePickerCtrl.to.ableApply.isFalse
                     ? Colors.grey
-                    : Color(0xff5AEDCA),
+                    : isHover == true
+                        ? Colors.blue
+                        : Color(0xff5AEDCA),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.grey,
+                    blurRadius: 1,
+                    offset: Offset(0, 2),
+                  ),
+                ],
               ),
-              onPressed: () {
-                ChartCtrl.to.updateLeftData();
-                TimeSelectCtrl.to.ableTimeSelect.value = true;
+              width: 60,
+              child: Center(child: Text('Apply')),
+            ),
+          )
 
-                if (ChartCtrl.to.isTypeError.isTrue) {
-                  showDialog(
-                    context: navigatorKey.currentContext!,
-                    builder: (context) => AlertDialog(
-                      title: Column(
-                        children: const [
-                          Text('All Files Delete'),
-                          Divider(
-                            color: Colors.blueGrey,
-                            indent: 6,
-                            endIndent: 6,
-                          ),
-                        ],
-                      ),
-                      content: const Text('파일 형식이 다릅니다.'),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text('Yes'),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text('No'),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-              },
-              child: const Text(
-                'Apply',
-                style: TextStyle(
-                  color: Colors.blueGrey,
-                  fontWeight: FontWeight.bold,
-                ),
-              )));
+          ///////////////
+
+          );
     });
   }
 }

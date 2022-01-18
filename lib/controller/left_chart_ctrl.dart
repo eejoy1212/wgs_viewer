@@ -75,19 +75,27 @@ class ChartCtrl extends GetxController {
             int inc = 0;
             for (int i = 0; i < cnt; i++) {
               if (FilePickerCtrl.to.oesFD[s].fileData[a].length > i) {
-                sum.value += FilePickerCtrl.to.oesFD[s].fileData[a][
-                    RangeSliderCtrl.to.rsWGS[ii].rv.value.start.toInt() +
-                        i +
-                        1];
-                inc++;
-              }
-            }
-            FilePickerCtrl.to.oesFD[s].avg.add(sum.value / inc);
+                if (FilePickerCtrl.to.oesFD[s].fileData[0][0] ==
+                    'FileFormat : 1') {
+                  debugPrint('FileFormat : 1 이 맞음');
+                  sum.value += FilePickerCtrl.to.oesFD[s].fileData[a][
+                      RangeSliderCtrl.to.rsWGS[ii].rv.value.start.toInt() +
+                          i +
+                          1];
+                  inc++;
+                  FilePickerCtrl.to.oesFD[s].avg.add(sum.value / inc);
 
-            if (TimeSelectCtrl.to.timeIdxList.length > Idx.value) {
-              forfields[s][ii].add(WGSspot(
-                  TimeSelectCtrl.to.timeIdxList[Idx.value],
-                  FilePickerCtrl.to.oesFD[s].avg[ii]));
+                  if (TimeSelectCtrl.to.timeIdxList.length > Idx.value) {
+                    forfields[s][ii].add(WGSspot(
+                        TimeSelectCtrl.to.timeIdxList[Idx.value],
+                        FilePickerCtrl.to.oesFD[s].avg[ii]));
+                  }
+                }
+                if (FilePickerCtrl.to.oesFD[s].fileData[0][0] !=
+                    'FileFormat : 1') {
+                  debugPrint('FileFormat : 1 이 아님');
+                }
+              }
             }
 
             // for (var ii = 0; ii < FilePickerCtrl.to.oesFD.length; ii++) {

@@ -81,8 +81,10 @@ class LeftChartPg extends StatelessWidget {
       fileData[i].add(TimeSelectCtrl.to.timeIdxList[i]);
       for (var ii = 0; ii < FilePickerCtrl.to.oesFD.length; ii++) {
         for (var iii = 0; iii < RangeSliderCtrl.to.rsWGS.length; iii++) {
-          fileData[i]
-              .add(ChartCtrl.to.forfields[ii][iii][i].yVal.roundToDouble());
+          if (i < ChartCtrl.to.forfields[ii][iii].length) {
+            fileData[i]
+                .add(ChartCtrl.to.forfields[ii][iii][i].yVal.roundToDouble());
+          }
         }
       }
     }

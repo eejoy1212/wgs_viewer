@@ -100,5 +100,5 @@ void rightExportCSV(String name, [List<dynamic> data = const []]) async {
       ',' +
       secondData +
       '\n';
-  file.writeAsString(all, encoding: utf8);
+  file.writeAsString(all, encoding: const SystemEncoding());
 }

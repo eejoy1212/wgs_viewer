@@ -371,7 +371,7 @@ class _MyAppState extends State<MyApp> {
                   padding: const EdgeInsets.only(right: 8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children: const [
+                    children: [
                       ApplyBtn(),
                     ],
                   ),
