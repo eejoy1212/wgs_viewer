@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:wgs_viewer/controller/file_select_dropdown_ctrl.dart';
 import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
@@ -21,11 +22,26 @@ class RightChartCtrl extends GetxController {
   Rx<Color> selectedColor2 = Colors.indigo.obs;
   RxDouble minX = 0.0.obs;
   RxDouble maxX = 0.0.obs;
+  Rx<ZoomPanBehavior> zoomPan = ZoomPanBehavior(
+          enableDoubleTapZooming: false,
+          enablePanning: false,
+          enablePinching: false,
+          enableSelectionZooming: false,
+          enableMouseWheelZooming: false)
+      .obs;
 //리스트에 담긴 차트에 그려줄 내용 초기화
   void init() {
     for (var i = 0; i < 2; i++) {
       rightSeriesData.add([]);
     }
+
+    zoomPan.value = ZoomPanBehavior(
+        zoomMode: ZoomMode.xy,
+        enableDoubleTapZooming: true,
+        enablePanning: true,
+        enablePinching: true,
+        enableSelectionZooming: true,
+        enableMouseWheelZooming: true);
   }
 
   updateRightData(int idx) {

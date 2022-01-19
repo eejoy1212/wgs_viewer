@@ -36,8 +36,23 @@ class ChartCtrl extends GetxController {
   RxDouble maxX = 0.0.obs;
   RxDouble isReset = 0.0.obs;
   RxBool isTypeError = false.obs;
+  Rx<ZoomPanBehavior> zoomPan = ZoomPanBehavior(
+          enableDoubleTapZooming: false,
+          enablePanning: false,
+          enablePinching: false,
+          enableSelectionZooming: false,
+          enableMouseWheelZooming: false)
+      .obs;
 
-  void init() {}
+  void init() {
+    zoomPan.value = ZoomPanBehavior(
+        zoomMode: ZoomMode.xy,
+        enableDoubleTapZooming: true,
+        enablePanning: true,
+        enablePinching: true,
+        enableSelectionZooming: true,
+        enableMouseWheelZooming: true);
+  }
 
   Future<void> updateLeftData() async {
     if (FilePickerCtrl.to.oesFD.isNotEmpty) {

@@ -5,8 +5,8 @@ import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
 
 class LeftChartWidget extends StatelessWidget {
-  LeftChartWidget({Key? key}) : super(key: key);
   final leftScroller = ScrollController();
+
   List<LineSeries<WGSspot, dynamic>> lineChart() {
     List<LineSeries<WGSspot, dynamic>> rt = [];
     for (var i = 0; i < ChartCtrl.to.forfields.length; i++) {
@@ -28,20 +28,20 @@ class LeftChartWidget extends StatelessWidget {
               ? null
               : RangeSliderCtrl.to.verticalPB(),
         ),
-        zoomPanBehavior: ZoomPanBehavior(
-            zoomMode: ZoomMode.xy,
-            enableDoubleTapZooming: true,
-            enableMouseWheelZooming: true,
-            enablePanning: true,
-            enablePinching: true,
+        zoomPanBehavior: ChartCtrl.to.zoomPan.value,
+        onZoomStart: (z) {
+          // debugPrint('current zoom position : ${z.currentZoomPosition}');
+        },
+        onChartTouchInteractionDown: (tapArgs) {
+          debugPrint('longpressed ?  ${tapArgs.position.distance}');
+          debugPrint(
+              'onChartTouchInteractionDown: (x: ${tapArgs.position.dx.toString()} , y: ${tapArgs.position.dx.toString()})');
+        },
+        // palette: [
+        //   Colors.black,
+        // ],
+        // selectionGesture: ActivationMode.longPress,
 
-            //사각형으로 영역선택하는 것
-            enableSelectionZooming: true,
-            selectionRectBorderColor: Colors.red,
-            selectionRectBorderWidth: 1,
-            selectionRectColor: Colors.grey
-            //사각형으로 영역선택하는 것
-            ),
         onLegendItemRender: (args) {
           int f = args.seriesIndex! ~/ 5;
           int w = args.seriesIndex! % 5;
@@ -60,13 +60,6 @@ class LeftChartWidget extends StatelessWidget {
       );
     });
   }
-}
-
-zoomBtn() {
-  return ElevatedButton(
-    onPressed: () {},
-    child: Text('zoom reset'),
-  );
 }
 
 class WGSspot {

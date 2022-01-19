@@ -1,13 +1,8 @@
-import 'dart:math';
-
 import 'package:bitsdojo_window/bitsdojo_window.dart';
-import 'package:day_night_switcher/day_night_switcher.dart';
-import 'package:desktop_window/desktop_window.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
-import 'package:resizable_widget/resizable_widget.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/check_box_ctrl.dart';
 import 'package:wgs_viewer/controller/dark_mode_ctrl.dart';

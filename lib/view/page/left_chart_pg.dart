@@ -8,6 +8,7 @@ import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/view/widget/left_chart_widget.dart';
+import 'package:wgs_viewer/view/widget/left_zoom_reset_btn.dart';
 
 class LeftChartPg extends StatelessWidget {
   LeftChartPg({Key? key}) : super(key: key);
@@ -30,7 +31,7 @@ class LeftChartPg extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  zoomBtn(),
+                  const LeftZoomResetBtn(),
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(primary: Colors.blueAccent),
                     onPressed: () {

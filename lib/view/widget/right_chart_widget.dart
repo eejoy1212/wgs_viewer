@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
+import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
 import 'package:wgs_viewer/controller/right_chart_ctrl.dart';
 
@@ -13,13 +14,7 @@ class RightChartWidget extends StatelessWidget {
     return Obx(() {
       return SfCartesianChart(
         enableAxisAnimation: false,
-        zoomPanBehavior: ZoomPanBehavior(
-          enableDoubleTapZooming: true,
-          enableMouseWheelZooming: true,
-          enablePanning: true,
-          enablePinching: true,
-          enableSelectionZooming: true,
-        ),
+        zoomPanBehavior: RightChartCtrl.to.zoomPan.value,
         onLegendItemRender: (item) {
           int seriesNum = item.seriesIndex! + 1;
           item.text = 'Series $seriesNum';

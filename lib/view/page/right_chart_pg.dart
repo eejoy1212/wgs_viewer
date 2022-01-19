@@ -9,6 +9,8 @@ import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/right_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/view/widget/right_chart_widget.dart';
+import 'package:wgs_viewer/view/widget/left_zoom_reset_btn.dart';
+import 'package:wgs_viewer/view/widget/right_zoom_reset_btn.dart';
 
 class RightChartPg extends StatelessWidget {
   RightChartPg({Key? key}) : super(key: key);
@@ -28,9 +30,9 @@ class RightChartPg extends StatelessWidget {
           Expanded(
             flex: 1,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Spacer(),
+                const RightZoomResetBtn(),
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(primary: Colors.blueAccent),
                   onPressed: () {
