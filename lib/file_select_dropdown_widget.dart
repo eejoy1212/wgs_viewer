@@ -10,7 +10,6 @@ import 'package:wgs_viewer/model/oes_file_data_model.dart';
 class FileSelectDropDown extends StatelessWidget {
   const FileSelectDropDown({Key? key, required this.idx}) : super(key: key);
   final int idx;
-
   List<OESFileData> aaa() {
     List<OESFileData> rt = [];
     for (var i = 0; i < FilePickerCtrl.to.oesFD.length; i++) {
@@ -25,7 +24,8 @@ class FileSelectDropDown extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       return IgnorePointer(
-          ignoring: TimeSelectCtrl.to.ableTimeSelect.value == false,
+          ignoring: FilePickerCtrl.to.oesFD.isEmpty ||
+              TimeSelectCtrl.to.ableTimeSelect.value == false,
           child: DropdownSearch<OESFileData>(
             mode: Mode.MENU,
             showSearchBox: true,

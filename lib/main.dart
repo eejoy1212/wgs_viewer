@@ -1,8 +1,13 @@
+import 'dart:math';
+
 import 'package:bitsdojo_window/bitsdojo_window.dart';
+import 'package:day_night_switcher/day_night_switcher.dart';
+import 'package:desktop_window/desktop_window.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
+import 'package:resizable_widget/resizable_widget.dart';
 import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
 import 'package:wgs_viewer/controller/check_box_ctrl.dart';
 import 'package:wgs_viewer/controller/dark_mode_ctrl.dart';
@@ -263,81 +268,8 @@ class _MyAppState extends State<MyApp> {
                   ),
                 ),
 
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const FileSelectBtn(),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      SizedBox(
-                        width: 80,
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                primary: const Color(0xffD83737)),
-                            onPressed: () {
-                              FilePickerCtrl.to.oesFD
-                                  .removeWhere((e) => e.isChecked.isTrue);
-                            },
-                            child: const Text(
-                              'Selected Delete',
-                              style: TextStyle(fontSize: 12),
-                            )),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              primary: const Color(0xffD83737)),
-                          onPressed: () {
-                            Get.defaultDialog(
-                              title: 'All Delete',
-                              content: Column(
-                                children: const [
-                                  Divider(
-                                    indent: 6,
-                                    endIndent: 6,
-                                    color: Colors.blueGrey,
-                                  ),
-                                  Text(
-                                    'Do you want to delete all?',
-                                    style: TextStyle(
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              textConfirm: 'No',
-                              confirmTextColor: Colors.white,
-                              textCancel: 'Yes',
-                              cancelTextColor: Colors.red,
-                              buttonColor: Colors.blueGrey,
-                              onCancel: () {
-                                FilePickerCtrl.to.oesFD.clear();
-                                ChartCtrl.to.forfields.clear();
-                                RangeSliderCtrl.to.isPbShow.value = false;
-                                // FilePickerCtrl.to.oesFD =
-                                //     RxList.empty(
-                                //         growable: true);
-                              },
-                              onConfirm: () {
-                                Navigator.of(context).pop();
-                              },
-                            );
-                          },
-                          child: const Text(
-                            'All Delete',
-                            style: TextStyle(fontSize: 12),
-                          )),
-                    ],
-                  ),
-                )
-
                 //파일 리스트뷰
-                ,
+
                 Obx(() {
                   return FilePickerCtrl.to.oesFD.isEmpty
                       ? Padding(
@@ -353,20 +285,112 @@ class _MyAppState extends State<MyApp> {
                         )
                       : FileListData();
                 }),
-                Obx(
-                  () => Text(
-                    FilePickerCtrl.to.fileMaxAlertMsg.string,
-                    style: const TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+
                 Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      const FileSelectBtn(),
+                      // SizedBox(
+                      //   width: 80,
+                      //   child: Visibility(
+                      //     visible: false,
+                      //     child: ElevatedButton(
+                      //         style: ElevatedButton.styleFrom(
+                      //             primary: const Color(0xffD83737)),
+                      //         onPressed: () {
+                      //           FilePickerCtrl.to.oesFD
+                      //               .removeWhere((e) => e.isChecked.isTrue);
+                      //         },
+                      //         child: const Text(
+                      //           'Selected Delete',
+                      //           style: TextStyle(fontSize: 12),
+                      //         )),
+                      //   ),
+                      // ),
+                      const SizedBox(
+                        width: 16,
+                      ),
+                      SizedBox(
+                        height: 20,
+                        width: 70,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                primary: const Color(0xffD83737)),
+                            onPressed: () {
+                              // Get.defaultDialog(
+                              //   title: 'Delete',
+                              //   content: Column(
+                              //     children: const [
+                              //       Divider(
+                              //         indent: 6,
+                              //         endIndent: 6,
+                              //         color: Colors.blueGrey,
+                              //       ),
+                              //       Text(
+                              //         'Do you want to delete all?',
+                              //         style: TextStyle(
+                              //           color: Colors.red,
+                              //         ),
+                              //       ),
+                              //     ],
+                              //   ),
+                              //   textConfirm: 'No',
+                              //   confirmTextColor: Colors.white,
+                              //   textCancel: 'Yes',
+                              //   cancelTextColor: Colors.red,
+                              //   buttonColor: Colors.blueGrey,
+                              //   onCancel: () {
+                              //     FilePickerCtrl.to.oesFD.clear();
+                              //     ChartCtrl.to.forfields.clear();
+                              //     //RangeSliderCtrl.to.rsWGS.clear();
+                              //     FilePickerCtrl.to.xWLs.clear();
+                              //     FilePickerCtrl.to.oesFD = RxList.empty();
+                              //     ChartCtrl.to.forfields = RxList.empty();
+                              //     //RangeSliderCtrl.to.rsWGS = RxList.empty();
+                              //     RangeSliderCtrl.to.rsWGS.forEach((e) {
+                              //       e.wls.clear();
+                              //     });
+
+                              //     FilePickerCtrl.to.xWLs = RxList.empty();
+
+                              //     RangeSliderCtrl.to.isPbShow.value = false;
+                              //     // FilePickerCtrl.to.oesFD =
+                              //     //     RxList.empty(
+                              //     //         growable: true);
+                              //   },
+                              //   onConfirm: () {
+                              //     Navigator.of(context).pop();
+                              //   },
+                              // );
+
+                              FilePickerCtrl.to.oesFD.clear();
+                              ChartCtrl.to.forfields.clear();
+                              //RangeSliderCtrl.to.rsWGS.clear();
+                              FilePickerCtrl.to.xWLs.clear();
+                              FilePickerCtrl.to.oesFD = RxList.empty();
+                              ChartCtrl.to.forfields = RxList.empty();
+                              //RangeSliderCtrl.to.rsWGS = RxList.empty();
+                              RangeSliderCtrl.to.rsWGS.forEach((e) {
+                                e.wls.clear();
+                              });
+
+                              FilePickerCtrl.to.xWLs = RxList.empty();
+                              FilePickerCtrl.to.xTimes.clear();
+                              RangeSliderCtrl.to.isPbShow.value = false;
+                              // FilePickerCtrl.to.oesFD =
+                              //     RxList.empty(
+                              //         growable: true);
+                            },
+                            child: const Text(
+                              'Delete',
+                              style: TextStyle(fontSize: 12),
+                            )),
+                      ),
+                      const Spacer(),
                       ApplyBtn(),
                     ],
                   ),

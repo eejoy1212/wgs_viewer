@@ -55,7 +55,9 @@ class LeftChartWidget extends StatelessWidget {
           toggleSeriesVisibility: true,
         ),
         // Enable tooltip
-        tooltipBehavior: TooltipBehavior(enable: true, decimalPlaces: 0),
+        tooltipBehavior: TooltipBehavior(
+          enable: true,
+        ),
         series: lineChart(),
       );
     });

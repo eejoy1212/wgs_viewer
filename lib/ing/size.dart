@@ -22,7 +22,7 @@ void main() {
   });
 }
 
-const borderColor = Color(0xFF805306);
+const borderColor = Colors.red;
 
 class MyApp extends StatelessWidget {
   @override
@@ -33,11 +33,15 @@ class MyApp extends StatelessWidget {
             body: WindowBorder(
                 color: borderColor,
                 width: 1,
-                child: Row(children: [LeftSide()]))));
+                child: Column(children: [
+                  Container(
+                    color: Colors.red,
+                  )
+                ]))));
   }
 }
 
-const sidebarColor = Color(0xFFF6A00C);
+const sidebarColor = Colors.blue;
 
 class LeftSide extends StatelessWidget {
   @override
@@ -58,31 +62,27 @@ class LeftSide extends StatelessWidget {
 const backgroundStartColor = Color(0xFFFFD500);
 const backgroundEndColor = Color(0xFFF6A00C);
 
-// class RightSide extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Expanded(
-//         child: Container(
-//             decoration: BoxDecoration(
-//               gradient: LinearGradient(
-//                   begin: Alignment.topCenter,
-//                   end: Alignment.bottomCenter,
-//                   colors: [backgroundStartColor, backgroundEndColor],
-//                   stops: [0.0, 1.0]),
-//             ),
-//             // child:
-
-//             // Column(children: [
-//             //   WindowTitleBarBox(
-//             //       child: Row(children: [
-//             //     Expanded(child: MoveWindow()),
-//             //     WindowButtons()
-//             //   ])),
-//             // ]))
-
-//             );
-//   }
-// }
+class RightSide extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+        child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [backgroundStartColor, backgroundEndColor],
+                  stops: [0.0, 1.0]),
+            ),
+            child: Column(children: [
+              WindowTitleBarBox(
+                  child: Row(children: [
+                Expanded(child: MoveWindow()),
+                WindowButtons()
+              ])),
+            ])));
+  }
+}
 
 final buttonColors = WindowButtonColors(
     iconNormal: Color(0xFF805306),

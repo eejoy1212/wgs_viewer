@@ -66,8 +66,11 @@ class LeftChartPg extends StatelessWidget {
     if (_path == null) {
       print('_path null : $_path');
     }
+    if (_path!.substring(_path.length - 4, _path.length) != '.csv') {
+      _path += '.csv';
+    }
     final List<List<double>> fileData = [];
-    List<List> rgHeader = [];
+
     String header = '';
     for (var i = 0; i < FilePickerCtrl.to.oesFD.length; i++) {
       for (var ii = 0; ii < RangeSliderCtrl.to.rsWGS.length; ii++) {
@@ -80,11 +83,15 @@ class LeftChartPg extends StatelessWidget {
       fileData.add([]);
 
       fileData[i].add(TimeSelectCtrl.to.timeIdxList[i]);
-      for (var ii = 0; ii < FilePickerCtrl.to.oesFD.length; ii++) {
-        for (var iii = 0; iii < RangeSliderCtrl.to.rsWGS.length; iii++) {
-          if (i < ChartCtrl.to.forfields[ii][iii].length) {
-            fileData[i]
-                .add(ChartCtrl.to.forfields[ii][iii][i].yVal.roundToDouble());
+      if (FilePickerCtrl.to.oesFD.isNotEmpty) {
+        for (var ii = 0; ii < FilePickerCtrl.to.oesFD.length; ii++) {
+          for (var iii = 0; iii < RangeSliderCtrl.to.rsWGS.length; iii++) {
+            if (FilePickerCtrl.to.oesFD[ii].isChecked.value != false) {
+              if (i < ChartCtrl.to.forfields[ii][iii].length) {
+                fileData[i].add(
+                    ChartCtrl.to.forfields[ii][iii][i].yVal.roundToDouble());
+              }
+            }
           }
         }
       }

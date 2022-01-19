@@ -8,7 +8,7 @@ import 'package:wgs_viewer/main.dart';
 class ApplyBtn extends StatelessWidget {
   ApplyBtn({Key? key}) : super(key: key);
   var lastTimeClicked = 0;
-  bool isHover = false;
+  RxBool isHover = false.obs;
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -16,44 +16,14 @@ class ApplyBtn extends StatelessWidget {
           ignoring: FilePickerCtrl.to.oesFD.isEmpty &&
               FilePickerCtrl.to.ableApply.isFalse,
           child: InkWell(
+            onHover: (value) {
+              isHover.value = value;
+            },
             onDoubleTap: () => null,
-            onTap: () {
+            onTap: () async {
               debugPrint('tap');
-              ChartCtrl.to.updateLeftData();
+              await ChartCtrl.to.updateLeftData();
               TimeSelectCtrl.to.ableTimeSelect.value = true;
-
-              // if (ChartCtrl.to.isTypeError.isTrue) {
-              //   showDialog(
-              //     context: navigatorKey.currentContext!,
-              //     builder: (context) => AlertDialog(
-              //       title: Column(
-              //         children: const [
-              //           Text('All Files Delete'),
-              //           Divider(
-              //             color: Colors.blueGrey,
-              //             indent: 6,
-              //             endIndent: 6,
-              //           ),
-              //         ],
-              //       ),
-              //       content: const Text('파일 형식이 다릅니다.'),
-              //       actions: <Widget>[
-              //         TextButton(
-              //           onPressed: () {
-              //             Navigator.of(context).pop();
-              //           },
-              //           child: const Text('Yes'),
-              //         ),
-              //         TextButton(
-              //           onPressed: () {
-              //             Navigator.of(context).pop();
-              //           },
-              //           child: const Text('No'),
-              //         ),
-              //       ],
-              //     ),
-              //   );
-              // }
             },
             child: Container(
               decoration: BoxDecoration(
@@ -62,7 +32,7 @@ class ApplyBtn extends StatelessWidget {
                         FilePickerCtrl.to.ableApply.isFalse
                     ? Colors.grey
                     : isHover == true
-                        ? Colors.blue
+                        ? Color(0xff5AEDCA).withOpacity(0.9)
                         : Color(0xff5AEDCA),
                 boxShadow: const [
                   BoxShadow(
@@ -73,7 +43,7 @@ class ApplyBtn extends StatelessWidget {
                 ],
               ),
               width: 60,
-              child: Center(child: Text('Apply')),
+              child: const Center(child: Text('Apply')),
             ),
           )
 
