@@ -12,21 +12,24 @@ import 'package:wgs_viewer/view/widget/range_slider_widget.dart';
 class RangeSliderCtrl extends GetxController {
   static RangeSliderCtrl get to => Get.find();
   RxList<RangeValues> currentRv = RxList.empty();
-  RxList<WGSrangeSlider> rsWGS = RxList.empty();
+  RxList<RangeSliderModel> rsModel = RxList.empty();
   RxBool pbSignal = false.obs;
   Rx<Color> pbColor1 = Colors.blue.obs;
   Rx<Color> pbColor2 = Colors.deepOrange.obs;
   RxBool isPbShow = false.obs;
+
   void init() {
     for (var i = 0; i < 5; i++) {
       // RangeSliderCtrl.to.currentRv.add(RangeValues(0, 0));
       // RangeSliderCtrl.to.vStart.add(0.0);
       // RangeSliderCtrl.to.vEnd.add(0.0);
-      rsWGS.add(WGSrangeSlider(
+      rsModel.add(RangeSliderModel(
         rv: const RangeValues(0, 0).obs,
         wls: [],
         vStart: 0.0.obs,
         vEnd: 0.0.obs,
+        isChecked: false.obs,
+        index: 0.obs,
       ));
     }
   }
@@ -140,7 +143,10 @@ class RangeSliderCtrl extends GetxController {
   List<WGSRangeSlidersWidget> rsList() {
     List<WGSRangeSlidersWidget> rs = [];
     for (var i = 0; i < 5; i++) {
-      rs.add(WGSRangeSlidersWidget(idx: i));
+      rs.add(WGSRangeSlidersWidget(
+        idx: i,
+        rsModel: rsModel[i],
+      ));
     }
     return rs;
   }

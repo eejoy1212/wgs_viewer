@@ -100,27 +100,28 @@ class ChartCtrl extends GetxController {
 //ii는 레인지 갯수
             for (var ii = 0; ii < 5; ii++) {
               forfields[s].add([]);
-              int cnt = RangeSliderCtrl.to.rsWGS[ii].rv.value.end.toInt() -
-                  RangeSliderCtrl.to.rsWGS[ii].rv.value.start.toInt() +
+              int cnt = RangeSliderCtrl.to.rsModel[ii].rv.value.end.toInt() -
+                  RangeSliderCtrl.to.rsModel[ii].rv.value.start.toInt() +
                   1;
               sum.value = 0.0;
               int inc = 0;
               for (int i = 0; i < cnt; i++) {
                 if (FilePickerCtrl.to.oesFD[s].fileData[a].length > i) {
                   // final value = FilePickerCtrl.to.oesFD[s].fileData[a][
-                  //     RangeSliderCtrl.to.rsWGS[ii].rv.value.start.toInt() +
+                  //     RangeSliderCtrl.to.rsModel[ii].rv.value.start.toInt() +
                   //         i +
                   //         1];
                   // if (value is num) {
                   // debugPrint('num : $value');
-                  if (FilePickerCtrl.to.oesFD[s].fileData[a][
-                          RangeSliderCtrl.to.rsWGS[ii].rv.value.start.toInt() +
-                              i +
-                              1] !=
+                  if (FilePickerCtrl.to.oesFD[s].fileData[a][RangeSliderCtrl
+                              .to.rsModel[ii].rv.value.start
+                              .toInt() +
+                          i +
+                          1] !=
                       "") {
                     debugPrint('여러번 도는거 같은데');
                     sum.value += FilePickerCtrl.to.oesFD[s].fileData[a][
-                        RangeSliderCtrl.to.rsWGS[ii].rv.value.start.toInt() +
+                        RangeSliderCtrl.to.rsModel[ii].rv.value.start.toInt() +
                             i +
                             1];
                     inc++;

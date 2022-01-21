@@ -371,14 +371,20 @@ class _MyAppState extends State<MyApp> {
                               ChartCtrl.to.forfields.clear();
                               //RangeSliderCtrl.to.rsWGS.clear();
                               FilePickerCtrl.to.xWLs.clear();
+                              // RangeSliderCtrl.to.rsModel.forEach((element) {
+                              //   element.wls.clear();
+                              // });
                               FilePickerCtrl.to.oesFD = RxList.empty();
                               ChartCtrl.to.forfields = RxList.empty();
                               //RangeSliderCtrl.to.rsWGS = RxList.empty();
-                              RangeSliderCtrl.to.rsWGS.forEach((e) {
-                                e.wls.clear();
-                              });
+                              // RangeSliderCtrl.to.rsWGS.forEach((e) {
+                              //   e.wls.clear();
+                              // });
 
                               FilePickerCtrl.to.xWLs = RxList.empty();
+                              // RangeSliderCtrl.to.rsModel.forEach((element) {
+                              //   element.wls = List.empty();
+                              // });
                               FilePickerCtrl.to.xTimes.clear();
                               RangeSliderCtrl.to.isPbShow.value = false;
                               // FilePickerCtrl.to.oesFD =

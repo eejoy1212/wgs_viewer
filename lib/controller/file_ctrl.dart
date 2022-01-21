@@ -36,7 +36,86 @@ class FilePickerCtrl extends GetxController {
   */
   RxInt isError = 0.obs;
 
-  Future<void> selectedFileFunc() async {
+  Future<List<List<dynamic>>> readFirstFile(String path) async {
+    return await compute(computeReadFirstFile, path);
+  }
+
+  static Future<List<List<dynamic>>> computeReadFirstFile(String path) async {
+    final input = await File(path).openRead();
+    var d = const FirstOccurrenceSettingsDetector(
+        eols: ['\r\n', '\n'], textDelimiters: ['"', "'"]);
+    List<List<dynamic>> _fileData = [];
+    _fileData = await input
+        .transform(utf8.decoder)
+        .transform(CsvToListConverter(csvSettingsDetector: d))
+        .toList();
+
+    //Time포함되어있는 셀 번호
+    int fileFormatRowSize =
+        _fileData.indexWhere((e) => e.contains('FileFormat : 1'));
+    int timeRowSize = _fileData.indexWhere((e) => e.contains('Time'));
+    List<dynamic> rtXWLs = [];
+    List<dynamic> rtXTimes = [];
+    if (fileFormatRowSize == 0 && timeRowSize == 6) {
+      debugPrint('파일형식 맞음, 시간축 떼어오기 성공');
+
+      rtXWLs.assignAll(
+          _fileData[timeRowSize].sublist(1, _fileData[timeRowSize].length));
+      // int a = DateTime.now().year;
+      // int b = DateTime.now().month;
+      // int c = DateTime.now().day;
+      // int d =
+      // DateTime.now().hour;
+
+      String dtFormat = DateFormat('yyyy-MM-dd ').format(DateTime.now());
+      debugPrint('시간 : $dtFormat ');
+      String toConvert = dtFormat + _fileData[7][0];
+      final DateTime firstTime = DateTime.parse(toConvert);
+
+      for (var i = 7; i < _fileData.length; i++) {
+        String toConvert = dtFormat + _fileData[i][0];
+        debugPrint('toConvert : $toConvert');
+        final DateTime dateTime = DateTime.parse(toConvert);
+
+        rtXTimes.add((DateTime(
+                    dateTime.year,
+                    dateTime.month,
+                    dateTime.day,
+                    dateTime.hour,
+                    dateTime.minute,
+                    dateTime.second,
+                    dateTime.millisecond)
+                .difference(
+                  DateTime(
+                      firstTime.year,
+                      firstTime.month,
+                      firstTime.day,
+                      firstTime.hour,
+                      firstTime.minute,
+                      firstTime.second,
+                      firstTime.millisecond),
+                )
+                .inMilliseconds
+                .toDouble()) /
+            1000);
+        // debugPrint('x축갯수  ${TimeSelectCtrl.to.timeIdxList.length}');
+      }
+    }
+    return [rtXTimes, rtXWLs];
+  }
+
+  Future<bool> test(bool errorFlag) async {
+    try {
+      await Future.delayed(const Duration(milliseconds: 2000));
+      if (errorFlag) throw Exception('test error');
+      return true;
+    } catch (e) {
+      debugPrint('selectedFileFunc error $e');
+      return false;
+    }
+  }
+
+  Future<bool> selectedFileFunc() async {
     try {
       List<PlatformFile>? paths;
       paths = (await FilePicker.platform.pickFiles(
@@ -103,74 +182,93 @@ class FilePickerCtrl extends GetxController {
         }
 
         if (first) {
+          // argument file path
+          // return xtimes, xWLs
           var filePath = oesFD.map((el) => el.filePath).toList();
-          final input = await File(filePath.first!).openRead();
-          var d = const FirstOccurrenceSettingsDetector(
-              eols: ['\r\n', '\n'], textDelimiters: ['"', "'"]);
+          //[FilePickerCtrl.to.xTimes, FilePickerCtrl.to.xWLs] =
+          List<List<dynamic>> rt = [];
+          rt.addAll(await readFirstFile(filePath.first!));
+          FilePickerCtrl.to.xTimes.value = rt[0];
 
-          fileData = await input
-              .transform(utf8.decoder)
-              .transform(CsvToListConverter(csvSettingsDetector: d))
-              .toList();
+          FilePickerCtrl.to.xWLs.value = rt[1];
+          // RangeSliderCtrl.to.rsModel.map((element) => element.wls = rt[1]);
+          // FilePickerCtrl.to.xTimes.assignAll(rt[0]);
+          // FilePickerCtrl.to.xWLs.assignAll(rt[1]);
+          TimeSelectCtrl.to.timeIdxList = FilePickerCtrl.to.xTimes;
 
-          //Time포함되어있는 셀 번호
-          int fileFormatRowSize =
-              fileData.indexWhere((e) => e.contains('FileFormat : 1'));
-          int timeRowSize = fileData.indexWhere((e) => e.contains('Time'));
-          if (fileFormatRowSize == 0 && timeRowSize == 6) {
-            debugPrint('파일형식 맞음, 시간축 떼어오기 성공');
-            FilePickerCtrl.to.xWLs.assignAll(
-                fileData[timeRowSize].sublist(1, fileData[timeRowSize].length));
-            // int a = DateTime.now().year;
-            // int b = DateTime.now().month;
-            // int c = DateTime.now().day;
-            // int d =
-            // DateTime.now().hour;
+          //var filePath = oesFD.map((el) => el.filePath).toList();
+          // final input = await File(filePath.first!).openRead();
+          // var d = const FirstOccurrenceSettingsDetector(
+          //     eols: ['\r\n', '\n'], textDelimiters: ['"', "'"]);
 
-            String dtFormat = DateFormat('yyyy-MM-dd ').format(DateTime.now());
-            debugPrint('시간 : $dtFormat ');
-            String toConvert = dtFormat + fileData[7][0];
-            final DateTime firstTime = DateTime.parse(toConvert);
-            for (var i = 7; i < fileData.length; i++) {
-              String toConvert = dtFormat + fileData[i][0];
-              debugPrint('toConvert : $toConvert');
-              final DateTime dateTime = DateTime.parse(toConvert);
+          // fileData = await input
+          //     .transform(utf8.decoder)
+          //     .transform(CsvToListConverter(csvSettingsDetector: d))
+          //     .toList();
 
-              FilePickerCtrl.to.xTimes.add((DateTime(
-                          dateTime.year,
-                          dateTime.month,
-                          dateTime.day,
-                          dateTime.hour,
-                          dateTime.minute,
-                          dateTime.second,
-                          dateTime.millisecond)
-                      .difference(
-                        DateTime(
-                            firstTime.year,
-                            firstTime.month,
-                            firstTime.day,
-                            firstTime.hour,
-                            firstTime.minute,
-                            firstTime.second,
-                            firstTime.millisecond),
-                      )
-                      .inMilliseconds
-                      .toDouble()) /
-                  1000);
-              TimeSelectCtrl.to.timeIdxList = FilePickerCtrl.to.xTimes;
+          // //Time포함되어있는 셀 번호
+          // int fileFormatRowSize =
+          //     fileData.indexWhere((e) => e.contains('FileFormat : 1'));
+          // int timeRowSize = fileData.indexWhere((e) => e.contains('Time'));
+          // if (fileFormatRowSize == 0 && timeRowSize == 6) {
+          //   debugPrint('파일형식 맞음, 시간축 떼어오기 성공');
+          //   FilePickerCtrl.to.xWLs.assignAll(
+          //       fileData[timeRowSize].sublist(1, fileData[timeRowSize].length));
+          //   // int a = DateTime.now().year;
+          //   // int b = DateTime.now().month;
+          //   // int c = DateTime.now().day;
+          //   // int d =
+          //   // DateTime.now().hour;
 
-              // debugPrint('x축갯수  ${TimeSelectCtrl.to.timeIdxList.length}');
-            }
-          }
-          if (fileFormatRowSize != 0 || timeRowSize != 6) {
-            debugPrint('파일형식 다름, 시간축 떼어오기 실패');
+          //   String dtFormat = DateFormat('yyyy-MM-dd ').format(DateTime.now());
+          //   debugPrint('시간 : $dtFormat ');
+          //   String toConvert = dtFormat + fileData[7][0];
+          //   final DateTime firstTime = DateTime.parse(toConvert);
+          //   for (var i = 7; i < fileData.length; i++) {
+          //     String toConvert = dtFormat + fileData[i][0];
+          //     debugPrint('toConvert : $toConvert');
+          //     final DateTime dateTime = DateTime.parse(toConvert);
 
-            isError.value = 1;
-            errorDialog();
-            oesFD.clear();
-          }
+          //     FilePickerCtrl.to.xTimes.add((DateTime(
+          //                 dateTime.year,
+          //                 dateTime.month,
+          //                 dateTime.day,
+          //                 dateTime.hour,
+          //                 dateTime.minute,
+          //                 dateTime.second,
+          //                 dateTime.millisecond)
+          //             .difference(
+          //               DateTime(
+          //                   firstTime.year,
+          //                   firstTime.month,
+          //                   firstTime.day,
+          //                   firstTime.hour,
+          //                   firstTime.minute,
+          //                   firstTime.second,
+          //                   firstTime.millisecond),
+          //             )
+          //             .inMilliseconds
+          //             .toDouble()) /
+          //         1000);
+          //     TimeSelectCtrl.to.timeIdxList = FilePickerCtrl.to.xTimes;
+
+          //     // debugPrint('x축갯수  ${TimeSelectCtrl.to.timeIdxList.length}');
+          //   }
+          // }
+
+          //처리해줘요
+          // if (fileFormatRowSize != 0 || timeRowSize != 6) {
+          //   debugPrint('파일형식 다름, 시간축 떼어오기 실패');
+
+          //   isError.value = 1;
+          //   errorDialog();
+          //   oesFD.clear();
+          // }
         }
       }
-    } catch (e) {}
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wgs_viewer/controller/file_ctrl.dart';
@@ -33,48 +34,43 @@ class FileListData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (context, constraints) => Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(children: [
-                ListTile(
-                  title: Column(
-                    children: [
-                      Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          SizedBox(width: 10),
-                          Text('num'),
-                          Spacer(),
-                          Text('file name'),
-                          Spacer(),
-                          Text('check'),
-                          SizedBox(width: 10),
-                        ],
-                      ),
-                      Divider(),
-                    ],
-                  ),
-                  subtitle: SizedBox(
-                    height: 150,
-                    width: 500,
-                    child: ListView.separated(
-                      // reverse: true,
-
-                      controller: scrollCtrl,
-                      shrinkWrap: true,
-                      itemCount: FilePickerCtrl.to.oesFD.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return CkbViewWidget(
-                            oesFDModel: FilePickerCtrl.to.oesFD[index],
-                            idx: index);
-                      },
-                      separatorBuilder: (BuildContext context, int index) =>
-                          Divider(height: 1),
-                    ),
-                  ),
-                )
-              ]),
-            ));
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Column(children: [
+        ListTile(
+          title: Column(
+            children: [
+              Row(
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: const [
+                  SizedBox(width: 10),
+                  Text('num'),
+                  Spacer(),
+                  Text('file name'),
+                  Spacer(),
+                  Text('check'),
+                  SizedBox(width: 10),
+                ],
+              ),
+              const Divider(),
+            ],
+          ),
+          subtitle: SizedBox(
+              height: 150,
+              width: 500,
+              child: ListView.separated(
+                controller: scrollCtrl,
+                shrinkWrap: true,
+                itemCount: FilePickerCtrl.to.oesFD.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return CkbViewWidget(
+                      oesFDModel: FilePickerCtrl.to.oesFD[index], idx: index);
+                },
+                separatorBuilder: (BuildContext context, int index) =>
+                    const Divider(height: 1),
+              )),
+        )
+      ]),
+    );
   }
 }
