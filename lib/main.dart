@@ -330,7 +330,7 @@ class _MyAppState extends State<MyApp> {
                         // const Spacer(),
                         ElevatedButton(
                             onPressed: () async {
-                              await ChartCtrl.to.originupdateLeftData();
+                              await ChartCtrl.to.originupdateLeftDataTest();
                               if (ChartCtrl.to.testTime1.value != '') {
                                 showDialog(
                                   context: navigatorKey.currentContext!,
