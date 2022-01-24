@@ -35,7 +35,7 @@ void main() {
   Get.put(TimeSelectCtrl());
   Get.put(FilePickerCtrl(), permanent: true);
   Get.put(DarkModeCtrl());
-  Get.put(ChartCtrl(), permanent: true);
+  Get.lazyPut(() => ChartCtrl());
   Get.put(RightChartCtrl());
   Get.put(CheckboxCtrl());
   Get.put(TranslatorCtrl());
@@ -327,7 +327,45 @@ class _MyAppState extends State<MyApp> {
                                 style: TextStyle(fontSize: 12),
                               )),
                         ),
-                        const Spacer(),
+                        // const Spacer(),
+                        ElevatedButton(
+                            onPressed: () async {
+                              await ChartCtrl.to.originupdateLeftData();
+                              if (ChartCtrl.to.testTime1.value != '') {
+                                showDialog(
+                                  context: navigatorKey.currentContext!,
+                                  builder: (context) => AlertDialog(
+                                    title: Column(
+                                      children: const [
+                                        Text('origin time'),
+                                        Divider(
+                                          color: Colors.blueGrey,
+                                          indent: 6,
+                                          endIndent: 6,
+                                        ),
+                                      ],
+                                    ),
+                                    content: Text(
+                                        '${ChartCtrl.to.testTime1.value} 초 걸림'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text('Yes'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text('No'),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+                            },
+                            child: Text('origin ')),
                         ApplyBtn(),
                       ],
                     ),

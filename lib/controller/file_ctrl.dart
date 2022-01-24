@@ -65,7 +65,9 @@ class FilePickerCtrl extends GetxController {
     return fileFormatPaths;
   }
 
+  // List<PlatformFile> _paths = [];
   Future readFileFormat(List<PlatformFile> paths) async {
+    // _paths=
     return await compute(computeReadFileFormat, paths);
   }
 

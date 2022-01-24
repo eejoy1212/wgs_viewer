@@ -23,6 +23,38 @@ class ApplyBtn extends StatelessWidget {
             onTap: () async {
               debugPrint('tap');
               await ChartCtrl.to.updateLeftData();
+              if (ChartCtrl.to.testTime2.value != '') {
+                showDialog(
+                  context: navigatorKey.currentContext!,
+                  builder: (context) => AlertDialog(
+                    title: Column(
+                      children: const [
+                        Text('compute time'),
+                        Divider(
+                          color: Colors.blueGrey,
+                          indent: 6,
+                          endIndent: 6,
+                        ),
+                      ],
+                    ),
+                    content: Text('${ChartCtrl.to.testTime2.value} 초 걸림'),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Yes'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('No'),
+                      ),
+                    ],
+                  ),
+                );
+              }
               TimeSelectCtrl.to.ableTimeSelect.value = true;
             },
             child: Container(
