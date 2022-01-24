@@ -172,14 +172,14 @@ class _MyAppState extends State<MyApp> {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16, left: 5),
-                    child: ElevatedButton(
-                        onPressed: () {
-                          MenuCtrl.to.isBottomMenu.value = true;
-                        },
-                        child: Text('bottom menu')),
-                  )
+                  // Padding(
+                  //   padding: const EdgeInsets.only(top: 16, left: 5),
+                  //   child: ElevatedButton(
+                  //       onPressed: () {
+                  //         MenuCtrl.to.isBottomMenu.value = true;
+                  //       },
+                  //       child: Text('bottom menu')),
+                  // )
                   // const SizedBox(
                   //   width: 220,
                   // ),
