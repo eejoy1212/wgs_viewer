@@ -53,6 +53,7 @@ class ChartCtrl extends GetxController {
   }
 
   Future<void> updateLeftData() async {
+    int seriesCnt = 0;
     if (FilePickerCtrl.to.oesFD.isNotEmpty) {
       int chkCnt = 0;
       for (var item in FilePickerCtrl.to.oesFD) {
@@ -65,6 +66,12 @@ class ChartCtrl extends GetxController {
         FilePickerCtrl.to.isError.value = 2;
         errorDialog();
         return;
+      }
+      for (var item in RangeSliderCtrl.to.rsModel) {
+        if (item.isChecked.value) {
+          seriesCnt++;
+        }
+        debugPrint('series count : $seriesCnt');
       }
 
       forfields.clear();
@@ -98,8 +105,12 @@ class ChartCtrl extends GetxController {
             Idx.value = a - headRowSize + -1; //7 - 6 + 1
             FilePickerCtrl.to.oesFD[s].avg.clear();
 //ii는 레인지 갯수
-            for (var ii = 0; ii < 5; ii++) {
+            for (var ii = 0; ii < seriesCnt; ii++) {
               forfields[s].add([]);
+
+              // if (FilePickerCtrl.to.oesFD[s].isChecked.value == false) continue;
+              // if (RangeSliderCtrl.to.rsModel[ii].isChecked.value == false)
+              // continue;
               int cnt = RangeSliderCtrl.to.rsModel[ii].rv.value.end.toInt() -
                   RangeSliderCtrl.to.rsModel[ii].rv.value.start.toInt() +
                   1;
@@ -151,6 +162,7 @@ class ChartCtrl extends GetxController {
               //     debugPrint('apply ${FilePickerCtrl.to.oesFD[ii].avg[iii]}');
               //   }
               // }
+              debugPrint('for문 안의 series count : ${forfields[s][ii].length}');
             }
           }
         }
