@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:csv/csv.dart';
@@ -18,8 +19,8 @@ class FilePickerCtrl extends GetxController {
   RxString fileMaxAlertMsg = ''.obs;
   RxList<dynamic> xTimes = RxList.empty();
   RxList<dynamic> xWLs = RxList.empty();
-  RxString path = ''.obs;
-  List<List<dynamic>> fileData = RxList.empty(growable: true);
+  // RxString path = ''.obs;
+  // List<List<dynamic>> fileData = RxList.empty(growable: true);
   //oesModel 선언
   RxList<OESFileData> oesFD = RxList.empty();
 
@@ -35,6 +36,38 @@ class FilePickerCtrl extends GetxController {
   1. isError==2->파일타입에러
   */
   RxInt isError = 0.obs;
+  static Future<List<dynamic>> computeReadFileFormat(
+      List<PlatformFile> paths) async {
+    List<PlatformFile>? fileFormatPaths = [];
+    if (paths != null) {
+      List<String> _fileNames = paths.map((e) {
+        return e.name;
+      }).toList();
+
+      for (var path in paths) {
+        final input = File(path.name).openRead();
+        var d = const FirstOccurrenceSettingsDetector(
+            eols: ['\r\n', '\n'], textDelimiters: ['"', "'"]);
+        List<List<dynamic>> fileData = [];
+        fileData = await input
+            .transform(utf8.decoder)
+            .transform(CsvToListConverter(csvSettingsDetector: d))
+            .toList();
+        if (fileData.length > 7) {
+          if ((fileData[6][0] == 'Time') &&
+              (fileData[0][0] == 'FileFormat : 1')) {
+            fileFormatPaths.add(path);
+          }
+        }
+      }
+    }
+
+    return fileFormatPaths;
+  }
+
+  Future readFileFormat(List<PlatformFile> paths) async {
+    return await compute(computeReadFileFormat, paths);
+  }
 
   Future<List<List<dynamic>>> readFirstFile(String path) async {
     return await compute(computeReadFirstFile, path);
@@ -61,12 +94,6 @@ class FilePickerCtrl extends GetxController {
 
       rtXWLs.assignAll(
           _fileData[timeRowSize].sublist(1, _fileData[timeRowSize].length));
-      // int a = DateTime.now().year;
-      // int b = DateTime.now().month;
-      // int c = DateTime.now().day;
-      // int d =
-      // DateTime.now().hour;
-
       String dtFormat = DateFormat('yyyy-MM-dd ').format(DateTime.now());
       debugPrint('시간 : $dtFormat ');
       String toConvert = dtFormat + _fileData[7][0];
@@ -104,17 +131,6 @@ class FilePickerCtrl extends GetxController {
     return [rtXTimes, rtXWLs];
   }
 
-  Future<bool> test(bool errorFlag) async {
-    try {
-      await Future.delayed(const Duration(milliseconds: 2000));
-      if (errorFlag) throw Exception('test error');
-      return true;
-    } catch (e) {
-      debugPrint('selectedFileFunc error $e');
-      return false;
-    }
-  }
-
   Future<bool> selectedFileFunc() async {
     try {
       List<PlatformFile>? paths;
@@ -130,27 +146,10 @@ class FilePickerCtrl extends GetxController {
       if (paths != null) {
         bool first = oesFD.isEmpty;
 //파일 유효성검사
+//compute로 리턴해야 할 값==fileData[6][0]&&fileData[0][0]
 
 //파일 유효성검사
-        List<String> _fileNames = paths.map((e) {
-          return e.name;
-        }).toList();
-        List<PlatformFile> _paths = [];
-        for (var path in paths) {
-          final input = File(path.name).openRead();
-          var d = const FirstOccurrenceSettingsDetector(
-              eols: ['\r\n', '\n'], textDelimiters: ['"', "'"]);
-
-          fileData = await input
-              .transform(utf8.decoder)
-              .transform(CsvToListConverter(csvSettingsDetector: d))
-              .toList();
-          if (fileData.length > 7) {
-            if ((fileData[6][0] == 'Time') &&
-                (fileData[0][0] == 'FileFormat : 1')) _paths.add(path);
-          }
-        }
-
+        List<PlatformFile> _paths = await readFileFormat(paths);
         List<String?> _fileUrls = _paths.map((e) => e.path).toList();
         if (oesFD.length + _fileUrls.length > 100) {
           var ableAddCnt = 100 - oesFD.length;
@@ -182,88 +181,12 @@ class FilePickerCtrl extends GetxController {
         }
 
         if (first) {
-          // argument file path
-          // return xtimes, xWLs
           var filePath = oesFD.map((el) => el.filePath).toList();
-          //[FilePickerCtrl.to.xTimes, FilePickerCtrl.to.xWLs] =
           List<List<dynamic>> rt = [];
           rt.addAll(await readFirstFile(filePath.first!));
           FilePickerCtrl.to.xTimes.value = rt[0];
-
           FilePickerCtrl.to.xWLs.value = rt[1];
-          // RangeSliderCtrl.to.rsModel.map((element) => element.wls = rt[1]);
-          // FilePickerCtrl.to.xTimes.assignAll(rt[0]);
-          // FilePickerCtrl.to.xWLs.assignAll(rt[1]);
           TimeSelectCtrl.to.timeIdxList = FilePickerCtrl.to.xTimes;
-
-          //var filePath = oesFD.map((el) => el.filePath).toList();
-          // final input = await File(filePath.first!).openRead();
-          // var d = const FirstOccurrenceSettingsDetector(
-          //     eols: ['\r\n', '\n'], textDelimiters: ['"', "'"]);
-
-          // fileData = await input
-          //     .transform(utf8.decoder)
-          //     .transform(CsvToListConverter(csvSettingsDetector: d))
-          //     .toList();
-
-          // //Time포함되어있는 셀 번호
-          // int fileFormatRowSize =
-          //     fileData.indexWhere((e) => e.contains('FileFormat : 1'));
-          // int timeRowSize = fileData.indexWhere((e) => e.contains('Time'));
-          // if (fileFormatRowSize == 0 && timeRowSize == 6) {
-          //   debugPrint('파일형식 맞음, 시간축 떼어오기 성공');
-          //   FilePickerCtrl.to.xWLs.assignAll(
-          //       fileData[timeRowSize].sublist(1, fileData[timeRowSize].length));
-          //   // int a = DateTime.now().year;
-          //   // int b = DateTime.now().month;
-          //   // int c = DateTime.now().day;
-          //   // int d =
-          //   // DateTime.now().hour;
-
-          //   String dtFormat = DateFormat('yyyy-MM-dd ').format(DateTime.now());
-          //   debugPrint('시간 : $dtFormat ');
-          //   String toConvert = dtFormat + fileData[7][0];
-          //   final DateTime firstTime = DateTime.parse(toConvert);
-          //   for (var i = 7; i < fileData.length; i++) {
-          //     String toConvert = dtFormat + fileData[i][0];
-          //     debugPrint('toConvert : $toConvert');
-          //     final DateTime dateTime = DateTime.parse(toConvert);
-
-          //     FilePickerCtrl.to.xTimes.add((DateTime(
-          //                 dateTime.year,
-          //                 dateTime.month,
-          //                 dateTime.day,
-          //                 dateTime.hour,
-          //                 dateTime.minute,
-          //                 dateTime.second,
-          //                 dateTime.millisecond)
-          //             .difference(
-          //               DateTime(
-          //                   firstTime.year,
-          //                   firstTime.month,
-          //                   firstTime.day,
-          //                   firstTime.hour,
-          //                   firstTime.minute,
-          //                   firstTime.second,
-          //                   firstTime.millisecond),
-          //             )
-          //             .inMilliseconds
-          //             .toDouble()) /
-          //         1000);
-          //     TimeSelectCtrl.to.timeIdxList = FilePickerCtrl.to.xTimes;
-
-          //     // debugPrint('x축갯수  ${TimeSelectCtrl.to.timeIdxList.length}');
-          //   }
-          // }
-
-          //처리해줘요
-          // if (fileFormatRowSize != 0 || timeRowSize != 6) {
-          //   debugPrint('파일형식 다름, 시간축 떼어오기 실패');
-
-          //   isError.value = 1;
-          //   errorDialog();
-          //   oesFD.clear();
-          // }
         }
       }
       return true;

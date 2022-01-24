@@ -20,6 +20,7 @@ import 'package:wgs_viewer/controller/time_select_ctrl.dart';
 import 'package:wgs_viewer/controller/translator_ctrl.dart';
 import 'package:wgs_viewer/mode.dart';
 import 'package:wgs_viewer/view/widget/apply_btn_widget.dart';
+import 'package:wgs_viewer/view/widget/body.dart';
 import 'package:wgs_viewer/view/widget/file_list_data_widget.dart';
 import 'package:wgs_viewer/view/widget/file_select_btn_widget.dart';
 import 'package:wgs_viewer/view/page/right_chart_pg.dart';
@@ -30,7 +31,7 @@ import 'package:wgs_viewer/view/widget/window_btns_widget.dart';
 final navigatorKey = GlobalKey<NavigatorState>();
 void main() {
   Get.put(ctrl());
-  Get.put(LeftMenuCtrl());
+  Get.put(MenuCtrl());
   Get.put(TimeSelectCtrl());
   Get.put(FilePickerCtrl(), permanent: true);
   Get.put(DarkModeCtrl());
@@ -74,6 +75,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool isDarkMode = false;
+  bool isOpen = false;
   final ScrollController drawerScrollCtrl = ScrollController();
   @override
   Widget build(BuildContext context) {
@@ -85,375 +87,266 @@ class _MyAppState extends State<MyApp> {
         themeMode: ctrl.to.aaa.value ? ThemeMode.dark : ThemeMode.light,
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          drawerEnableOpenDragGesture:
-              Get.find<LeftMenuCtrl>().activateLeftMenu.value,
-          onDrawerChanged: (isOpened) {
-            LeftMenuCtrl.to.activateLeftMenu.value = isOpened;
-            LeftMenuCtrl.to.chartSize.value = 1;
-          },
-          appBar: AppBar(
-            // toolbarHeight: 60,
-            leadingWidth: 600,
-            leading: Row(
-              children: [
-                const SizedBox(
-                  width: 20,
-                ),
-
-                Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: LeftMenuIcon(),
-                ),
-
-                // Drawer(),
-                const SizedBox(
-                  width: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 16),
-                  child: Image.asset(
-                    'assets/images/CI_nobg.png',
-                    fit: BoxFit.fitHeight,
-                    width: 100,
-                  ),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: Row(
-                    children: [
-                      const Text(
-                        'Chart Show Mode :  ',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      Tooltip(
-                        message: 'Show only left chart',
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              primary: const Color(0xFF15202B)),
-                          onPressed: () {
-                            Get.find<ChartCtrl>().visibleMode.value = 0;
-                          },
-                          child: const Text('left'),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Tooltip(
-                        message: 'Show only right chart',
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              primary: const Color(0xFF15202B)),
-                          onPressed: () {
-                            Get.find<ChartCtrl>().visibleMode.value = 1;
-                          },
-                          child: const Text('Right'),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Tooltip(
-                        message: 'Show all chart',
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              primary: const Color(0xFF15202B)),
-                          onPressed: () {
-                            Get.find<ChartCtrl>().visibleMode.value = 2;
-                          },
-                          child: const Text('All'),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-
-                // const SizedBox(
-                //   width: 220,
-                // ),
-              ],
-            ),
-            actions: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            drawerEnableOpenDragGesture:
+                Get.find<MenuCtrl>().activateLeftMenu.value,
+            onDrawerChanged: (isOpened) {
+              MenuCtrl.to.activateLeftMenu.value = isOpened;
+              MenuCtrl.to.chartSize.value = 1;
+            },
+            appBar: AppBar(
+              // toolbarHeight: 60,
+              leadingWidth: 700,
+              leading: Row(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 15),
-                    child: Row(
-                      children: [],
-                    ),
+                  const SizedBox(
+                    width: 20,
                   ),
-                  Visibility(
-                    visible: false,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        TranslatorCtrl.to.korToEn();
-                      },
-                      child: Text('Translator'),
-                    ),
+
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: LeftMenuIcon(),
+                  ),
+
+                  // Drawer(),
+                  const SizedBox(
+                    width: 20,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 15),
+                    padding: const EdgeInsets.only(top: 16),
+                    child: Image.asset(
+                      'assets/images/CI_nobg.png',
+                      fit: BoxFit.fitHeight,
+                      width: 100,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
                     child: Row(
                       children: [
+                        const Text(
+                          'Chart Show Mode :  ',
+                          style: TextStyle(color: Colors.white),
+                        ),
                         Tooltip(
-                          height: 30,
-                          message: ''
-                                  'Dark mode is ' +
-                              (isDarkMode ? 'enabled' : 'disabled') +
-                              '.',
-                          child: SizedBox(
-                            width: 60,
-                            height: 60,
-                            child: FlutterSwitch(
-                                width: 60,
-                                height: 20,
-                                toggleSize: 10,
-                                activeColor: Color(0xFF15202B),
-                                activeToggleColor: Color(0xffd7b787),
-                                inactiveColor: Colors.blue,
-                                inactiveToggleColor: Color(0xfffcce97),
-                                value: isDarkMode,
-                                onToggle: onStateChanged),
+                          message: 'Show only left chart',
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                primary: const Color(0xFF15202B)),
+                            onPressed: () {
+                              Get.find<ChartCtrl>().visibleMode.value = 0;
+                            },
+                            child: const Text('left'),
                           ),
                         ),
                         const SizedBox(
-                          width: 50,
+                          width: 10,
                         ),
-                        WindowBtns(),
+                        Tooltip(
+                          message: 'Show only right chart',
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                primary: const Color(0xFF15202B)),
+                            onPressed: () {
+                              Get.find<ChartCtrl>().visibleMode.value = 1;
+                            },
+                            child: const Text('Right'),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Tooltip(
+                          message: 'Show all chart',
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                primary: const Color(0xFF15202B)),
+                            onPressed: () {
+                              Get.find<ChartCtrl>().visibleMode.value = 2;
+                            },
+                            child: const Text('All'),
+                          ),
+                        ),
                       ],
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16, left: 5),
+                    child: ElevatedButton(
+                        onPressed: () {
+                          MenuCtrl.to.isBottomMenu.value = true;
+                        },
+                        child: Text('bottom menu')),
+                  )
+                  // const SizedBox(
+                  //   width: 220,
+                  // ),
                 ],
               ),
-            ],
-          ),
-          drawer: Drawer(
-            child: ListView(
-              controller: drawerScrollCtrl,
-              padding: EdgeInsets.zero,
-              children: [
-                SizedBox(height: 50),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      DottedBorder(
-                          color: Colors.blueGrey,
-                          child: const Text('Range Select')),
-                    ],
-                  ),
-                ),
-                Column(
-                  children: RangeSliderCtrl.to.rsList(),
-                ),
-
-                const Divider(),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      DottedBorder(
-                          color: Colors.blueGrey,
-                          child: const Text('File List')),
-                      Spacer(),
-                      Obx(
-                        () => Text(
-                            'File num : ${FilePickerCtrl.to.oesFD.length}'),
+              actions: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15),
+                      child: Row(
+                        children: [],
                       ),
-                    ],
-                  ),
-                ),
-
-                //파일 리스트뷰
-
-                Obx(() {
-                  return FilePickerCtrl.to.oesFD.isEmpty
-                      ? Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            height: 100,
-                            width: 100,
-                            color: Colors.grey,
-                            child: const Center(
-                              child: Text('No Files'),
+                    ),
+                    Visibility(
+                      visible: false,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          TranslatorCtrl.to.korToEn();
+                        },
+                        child: const Text('Translator'),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15),
+                      child: Row(
+                        children: [
+                          Tooltip(
+                            height: 30,
+                            message: ''
+                                    'Dark mode is ' +
+                                (isDarkMode ? 'enabled' : 'disabled') +
+                                '.',
+                            child: SizedBox(
+                              width: 60,
+                              height: 60,
+                              child: FlutterSwitch(
+                                  width: 60,
+                                  height: 20,
+                                  toggleSize: 10,
+                                  activeColor: Color(0xFF15202B),
+                                  activeToggleColor: Color(0xffd7b787),
+                                  inactiveColor: Colors.blue,
+                                  inactiveToggleColor: Color(0xfffcce97),
+                                  value: isDarkMode,
+                                  onToggle: onStateChanged),
                             ),
                           ),
-                        )
-                      : FileListData();
-                }),
-
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: Row(
-                    children: [
-                      const SizedBox(
-                        width: 10,
+                          const SizedBox(
+                            width: 50,
+                          ),
+                          WindowBtns(),
+                        ],
                       ),
-                      const FileSelectBtn(),
-                      // SizedBox(
-                      //   width: 80,
-                      //   child: Visibility(
-                      //     visible: false,
-                      //     child: ElevatedButton(
-                      //         style: ElevatedButton.styleFrom(
-                      //             primary: const Color(0xffD83737)),
-                      //         onPressed: () {
-                      //           FilePickerCtrl.to.oesFD
-                      //               .removeWhere((e) => e.isChecked.isTrue);
-                      //         },
-                      //         child: const Text(
-                      //           'Selected Delete',
-                      //           style: TextStyle(fontSize: 12),
-                      //         )),
-                      //   ),
-                      // ),
-                      const SizedBox(
-                        width: 16,
-                      ),
-                      SizedBox(
-                        height: 20,
-                        width: 70,
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                primary: const Color(0xffD83737)),
-                            onPressed: () {
-                              // Get.defaultDialog(
-                              //   title: 'Delete',
-                              //   content: Column(
-                              //     children: const [
-                              //       Divider(
-                              //         indent: 6,
-                              //         endIndent: 6,
-                              //         color: Colors.blueGrey,
-                              //       ),
-                              //       Text(
-                              //         'Do you want to delete all?',
-                              //         style: TextStyle(
-                              //           color: Colors.red,
-                              //         ),
-                              //       ),
-                              //     ],
-                              //   ),
-                              //   textConfirm: 'No',
-                              //   confirmTextColor: Colors.white,
-                              //   textCancel: 'Yes',
-                              //   cancelTextColor: Colors.red,
-                              //   buttonColor: Colors.blueGrey,
-                              //   onCancel: () {
-                              //     FilePickerCtrl.to.oesFD.clear();
-                              //     ChartCtrl.to.forfields.clear();
-                              //     //RangeSliderCtrl.to.rsWGS.clear();
-                              //     FilePickerCtrl.to.xWLs.clear();
-                              //     FilePickerCtrl.to.oesFD = RxList.empty();
-                              //     ChartCtrl.to.forfields = RxList.empty();
-                              //     //RangeSliderCtrl.to.rsWGS = RxList.empty();
-                              //     RangeSliderCtrl.to.rsWGS.forEach((e) {
-                              //       e.wls.clear();
-                              //     });
-
-                              //     FilePickerCtrl.to.xWLs = RxList.empty();
-
-                              //     RangeSliderCtrl.to.isPbShow.value = false;
-                              //     // FilePickerCtrl.to.oesFD =
-                              //     //     RxList.empty(
-                              //     //         growable: true);
-                              //   },
-                              //   onConfirm: () {
-                              //     Navigator.of(context).pop();
-                              //   },
-                              // );
-
-                              FilePickerCtrl.to.oesFD.clear();
-                              ChartCtrl.to.forfields.clear();
-                              //RangeSliderCtrl.to.rsWGS.clear();
-                              FilePickerCtrl.to.xWLs.clear();
-                              // RangeSliderCtrl.to.rsModel.forEach((element) {
-                              //   element.wls.clear();
-                              // });
-                              FilePickerCtrl.to.oesFD = RxList.empty();
-                              ChartCtrl.to.forfields = RxList.empty();
-                              //RangeSliderCtrl.to.rsWGS = RxList.empty();
-                              // RangeSliderCtrl.to.rsWGS.forEach((e) {
-                              //   e.wls.clear();
-                              // });
-
-                              FilePickerCtrl.to.xWLs = RxList.empty();
-                              // RangeSliderCtrl.to.rsModel.forEach((element) {
-                              //   element.wls = List.empty();
-                              // });
-                              FilePickerCtrl.to.xTimes.clear();
-                              RangeSliderCtrl.to.isPbShow.value = false;
-                              // FilePickerCtrl.to.oesFD =
-                              //     RxList.empty(
-                              //         growable: true);
-                            },
-                            child: const Text(
-                              'Delete',
-                              style: TextStyle(fontSize: 12),
-                            )),
-                      ),
-                      const Spacer(),
-                      ApplyBtn(),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                const Divider(
-                  color: Colors.grey,
-                ),
-                //타임셀렉트 하는 곳
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: TimeSelectTxtForm(),
-                ),
-                const SizedBox(height: 50)
               ],
             ),
-          ),
-          body:
-
-              //드래그 드롭 && 타임셀렉트 하는 부분 공간 줄이는 라인
-
-              Center(
-            child: Row(
-              children: [
-                Obx(() => LeftMenuCtrl.to.chartSize.value == 0
-                    ? SizedBox()
-                    : Visibility(
-                        visible: LeftMenuCtrl.to.activateLeftMenu.value,
-                        child: SizedBox(
-                          width: 300,
-                        ),
-                      )),
-                Obx(
-                  () => Visibility(
-                    visible: Get.find<ChartCtrl>().visibleMode.value == 0 ||
-                            Get.find<ChartCtrl>().visibleMode.value == 2
-                        ? true
-                        : false,
-                    child: Expanded(
-                      flex: 1,
-                      child: LeftChartPg(),
+            drawer: Drawer(
+              child: ListView(
+                controller: drawerScrollCtrl,
+                padding: EdgeInsets.zero,
+                children: [
+                  SizedBox(height: 50),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        DottedBorder(
+                            color: Colors.blueGrey,
+                            child: const Text('Range Select')),
+                      ],
                     ),
                   ),
-                ),
-                Obx(() => Visibility(
-                      visible: Get.find<ChartCtrl>().visibleMode.value == 1 ||
-                              Get.find<ChartCtrl>().visibleMode.value == 2
-                          ? true
-                          : false,
-                      child: Expanded(
-                        flex: 1,
-                        child: RightChartPg(),
-                      ),
-                    ))
-              ],
+                  Column(
+                    children: RangeSliderCtrl.to.rsList(),
+                  ),
+
+                  const Divider(),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        DottedBorder(
+                            color: Colors.blueGrey,
+                            child: const Text('File List')),
+                        Spacer(),
+                        Obx(
+                          () => Text(
+                              'File num : ${FilePickerCtrl.to.oesFD.length}'),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  //파일 리스트뷰
+
+                  Obx(() {
+                    return FilePickerCtrl.to.oesFD.isEmpty
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              height: 100,
+                              width: 100,
+                              color: Colors.grey,
+                              child: const Center(
+                                child: Text('No Files'),
+                              ),
+                            ),
+                          )
+                        : FileListData();
+                  }),
+
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Row(
+                      children: [
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        const FileSelectBtn(),
+                        const SizedBox(
+                          width: 16,
+                        ),
+                        SizedBox(
+                          height: 20,
+                          width: 70,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  primary: const Color(0xffD83737)),
+                              onPressed: () {
+                                FilePickerCtrl.to.oesFD.clear();
+                                ChartCtrl.to.forfields.clear();
+                                FilePickerCtrl.to.xWLs.clear();
+                                FilePickerCtrl.to.oesFD = RxList.empty();
+                                ChartCtrl.to.forfields = RxList.empty();
+                                FilePickerCtrl.to.xWLs = RxList.empty();
+                                FilePickerCtrl.to.xTimes.clear();
+                                RangeSliderCtrl.to.isPbShow.value = false;
+                              },
+                              child: const Text(
+                                'Delete',
+                                style: TextStyle(fontSize: 12),
+                              )),
+                        ),
+                        const Spacer(),
+                        ApplyBtn(),
+                      ],
+                    ),
+                  ),
+                  const Divider(
+                    color: Colors.grey,
+                  ),
+                  //타임셀렉트 하는 곳
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: TimeSelectTxtForm(),
+                  ),
+                  const SizedBox(height: 50)
+                ],
+              ),
             ),
-          ),
-        ));
+            body: Body()));
+
+    //드래그 드롭 && 타임셀렉트 하는 부분 공간 줄이는 라인
   }
 
   void onStateChanged(bool isDarkMode) {
