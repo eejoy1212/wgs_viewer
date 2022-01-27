@@ -43,6 +43,9 @@ class LeftChartWidget extends StatelessWidget {
         // selectionGesture: ActivationMode.longPress,
 
         onLegendItemRender: (args) {
+          debugPrint(
+              'arg?? :${args.seriesIndex}   ${ChartCtrl.to.seriesCount.value}');
+
           int f = args.seriesIndex! ~/ 5;
           int w = args.seriesIndex! % 5;
           args.text = 'F${f + 1}-W${w + 1}';

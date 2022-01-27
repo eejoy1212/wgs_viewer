@@ -7,7 +7,7 @@ import 'package:wgs_viewer/main.dart';
 
 class ApplyBtn extends StatelessWidget {
   ApplyBtn({Key? key}) : super(key: key);
-  var lastTimeClicked = 0;
+  // var lastTimeClicked = 0;
   RxBool isHover = false.obs;
   @override
   Widget build(BuildContext context) {

@@ -21,7 +21,7 @@ class ChartCtrl extends GetxController {
   RxInt visibleMode = 2.obs;
   RxBool leftDataMode = false.obs;
   RxList<RxList<List<WGSspot>>> forfields = RxList.empty();
-  RxList<String> seriesName = RxList.empty();
+  // RxList<String> seriesName = RxList.empty();
   RxBool enableApply = false.obs;
   RxDouble value = 0.0.obs;
   RxDouble sum = 0.0.obs;
@@ -30,7 +30,7 @@ class ChartCtrl extends GetxController {
   //레인지 슬라이더 변수
   RxList xVal = RxList.empty();
   RxString fileName = ''.obs;
-
+  RxInt seriesCount = 0.obs;
   RxDouble minX = 0.0.obs;
   RxDouble maxX = 0.0.obs;
 
@@ -67,11 +67,18 @@ class ChartCtrl extends GetxController {
         errorDialog();
         return;
       }
+      //////////레인지 체크에 따라 시리즈 갯수 나오는 것
       for (var item in RangeSliderCtrl.to.rsModel) {
         if (item.isChecked.value) {
           seriesCnt++;
         }
+
         debugPrint('series count : $seriesCnt');
+      }
+      if (seriesCnt < 1) {
+        debugPrint('>>>>>>>>>>>>>>>series count : $seriesCnt');
+        FilePickerCtrl.to.isError.value = 3;
+        errorDialog();
       }
 
       forfields.clear();
@@ -154,15 +161,6 @@ class ChartCtrl extends GetxController {
                     TimeSelectCtrl.to.timeIdxList[Idx.value],
                     FilePickerCtrl.to.oesFD[s].avg[ii].round()));
               }
-              // FilePickerCtrl.to.oesFD[s].avg.clear();
-              // for (var ii = 0; ii < FilePickerCtrl.to.oesFD.length; ii++) {
-              //   for (var iii = 0;
-              //       iii < FilePickerCtrl.to.oesFD[ii].avg.length;
-              //       iii++) {
-              //     debugPrint('apply ${FilePickerCtrl.to.oesFD[ii].avg[iii]}');
-              //   }
-              // }
-              debugPrint('for문 안의 series count : ${forfields[s][ii].length}');
             }
           }
         }

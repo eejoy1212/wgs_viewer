@@ -7,12 +7,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:wgs_viewer/controller/left_chart_ctrl.dart';
-import 'package:wgs_viewer/controller/range_slider_ctrl.dart';
 import 'package:wgs_viewer/controller/time_select_ctrl.dart';
-import 'package:wgs_viewer/main.dart';
 import 'package:wgs_viewer/model/oes_file_data_model.dart';
-import 'package:wgs_viewer/view/widget/error_dialog_widget.dart';
 
 class FilePickerCtrl extends GetxController {
   static FilePickerCtrl get to => Get.find();

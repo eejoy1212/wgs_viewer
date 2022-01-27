@@ -69,4 +69,37 @@ errorDialog() {
       ),
     );
   }
+  if (FilePickerCtrl.to.isError.value == 3) {
+    return showDialog(
+      context: navigatorKey.currentContext!,
+      builder: (context) => AlertDialog(
+        title: Column(
+          children: const [
+            Text('Error'),
+            Divider(
+              color: Colors.blueGrey,
+              indent: 6,
+              endIndent: 6,
+            ),
+          ],
+        ),
+        content: const Text('Select WaveLength'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Yes'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('No'),
+          ),
+        ],
+      ),
+    );
+  }
+  return null;
 }

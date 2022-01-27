@@ -140,6 +140,16 @@ class RangeSliderCtrl extends GetxController {
 
   //레인지 슬라이더 위젯 여러개 만드는 것
 
+  // List<WGSRangeSlidersWidget> rsList() {
+  //   List<WGSRangeSlidersWidget> rs = [];
+  //   for (var i = 0; i < 5; i++) {
+  //     rs.add(WGSRangeSlidersWidget(
+  //       idx: i,
+  //       rsModel: rsModel[i],
+  //     ));
+  //   }
+  //   return rs;
+  // }
   List<WGSRangeSlidersWidget> rsList() {
     List<WGSRangeSlidersWidget> rs = [];
     for (var i = 0; i < 5; i++) {
